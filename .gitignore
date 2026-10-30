@@ -10,3 +10,5 @@ studio/assets/uploads.json
 .DS_Store
 tools/subjectmatte
 tools/facetrack
+__pycache__/
+remotion/package-lock.json
