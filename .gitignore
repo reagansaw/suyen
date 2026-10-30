@@ -1,0 +1,12 @@
+node_modules/
+remotion/out/
+remotion/public/suyenh/
+remotion/public/suyen/
+remotion/public/ivyga/fonts/*.ttf
+raw/
+*.wav
+.env
+studio/assets/uploads.json
+.DS_Store
+tools/subjectmatte
+tools/facetrack
