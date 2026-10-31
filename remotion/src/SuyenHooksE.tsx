@@ -10,7 +10,6 @@ import { depth } from './JyText';
 import FC_P1 from './suyenh-face-p1.json';
 import FC_I2 from './suyenh-face-i2.json';
 import FC_P6 from './suyenh-face-p6.json';
-const FACE: Partial<Record<HookId, { x: number[]; y: number[] }>> = { p1: FC_P1 as any, i2: FC_I2 as any, p6: FC_P6 as any };
 const DIR = 'suyenh';
 import TK_P1 from './suyenh-track-p1.json';
 import TK_I2 from './suyenh-track-i2.json';
@@ -23,6 +22,7 @@ const W = 1920, H = 1080, FPS = 30;
 const f = (s: number) => Math.round(s * FPS);
 const clamp = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
 type HookId = 's4' | 'p1' | 'i2' | 'p6' | 'ep1' | `ep${number}`;
+const FACE: Partial<Record<HookId, { x: number[]; y: number[] }>> = { p1: FC_P1 as any, i2: FC_I2 as any, p6: FC_P6 as any };
 const M = { ...(META as unknown as Record<HookId, { dur: number }>), ep1: { dur: (EP1 as any).dur } } as Record<HookId, { dur: number }>;
 // 广告集数不加尾巴：多出来的 0.6 秒影片已经放完、会定格（Reagan 10-31：「0:55 有点 lagging」）→ 收尾用原片自己的画面
 export const suyenEFrames = (id: HookId) => f(M[id].dur + (id.startsWith('ep') ? 0 : 0.6));
