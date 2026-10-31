@@ -12,3 +12,4 @@ tools/subjectmatte
 tools/facetrack
 __pycache__/
 remotion/package-lock.json
+prep.log

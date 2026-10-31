@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 """广告第 2–14 集 · 总规划（一个档案管 13 集）。
 - 每集的剪段 PIECES、大字、B-roll、CTA 选哪个，都写在 EPS 里
-- 跑 `python3 pipeline/eps_plan.py` → 产生 pipeline/epN/prep_epN.py（剪片用，照 ep1 的写法）和 pipeline/epN/第N集-脚本.md（给 Reagan 看的脚本 + 时间表）
-- ⚠ 现在的切点是 whisper 分段时间（tx/），不是逐字时间。在 Mac 上要照 HANDOFF 4.1 先逐字转写，把每一刀挪到字和字的空隙里，再改这里重跑
+- 跑 `python3 pipeline/eps_plan.py` → 产生 pipeline/epN/prep_epN.py（剪片用）和 pipeline/epN/第N集-脚本.md（给 Reagan 看的脚本 + 时间表）
+- script 里写的是「要哪一段」的时间窗，窗里的字照 pipeline/wt/ 逐字转写（Mac 上 mlx-whisper --word-timestamps）自动选出来，
+  再算出每一刀最早 / 最晚能挪到哪里（不碰到前后不要的字）。真正的切点在 prep_epN.py 剪片时量原片静音来吸附：
+  起点 = 第一个字前 0.08 秒，止点 = 最后一个字后 0.25 秒，句间 >0.45 秒的停顿剪短（HANDOFF 4.1、第 1 节）
+- 时间表的秒数是用逐字时间估的，剪完以 pieces.json 为准
 只用 C0001–C0048。名字一律「林舒苑」。"""
 import json, os, re
 
 H = os.path.dirname(os.path.abspath(__file__))
 TX = os.path.join(H, '..', 'transcripts')
+WT = os.path.join(H, 'wt')
 SPEED = 1.1
 LIMIT_RAW = 66.0   # 原片接起来 ≤66 秒，加速后才 ≤60 秒
+CTA1_MAX = 64.5    # 估的时长要留余地：估出来 ≤64.5 秒才用 CTA-1，否则 CTA-2
+GAP = 0.45         # 句间停顿超过这个就剪短
+PRE, POST = 0.08, 0.25
 
 # ---------- 共用零件（HANDOFF 第 1 节） ----------
 INTRO = [('C0037', 3.65, 16.00, '大家好，我是林舒苑……来自于世界各地'),
@@ -18,9 +25,9 @@ CTA1 = [('C0048', 4.30, 7.40, '我为大家准备了三天完全'),
         ('C0048', 7.70, 11.85, '免费的 2027 年奇门战略大会'),
         ('C0048', 13.57, 23.10, '你在 2027 年那么混乱的赤马红羊年的年代，依然抓准趋势，落实你想要的结果'),
         ('C0048', 27.10, 30.95, '那么马上报名，我们到时见')]
-CTA2 = [('C0039', 0.00, 1.95, '三天完全免费的战略大会'),
-        ('C0039', 4.90, 14.25, '如果你想要看清 2027 年趋势……马上报名，我们到时见')]   # 中间「呃，有我的」剪掉
-CTA4 = [('C0021', 61.36, 73.00, '那么生肖牛和老鼠的人，你们还怕吗？来参加舒苑老师的奇门遁甲战略大会，来获得先机')]
+CTA2 = [('C0039', 0.00, 2.06, '三天完全免费的战略大会', 0.00, 2.90),          # 手册的 1.95 会切掉半个「会」（逐字：会 1.86–2.06）
+        ('C0039', 5.16, 14.14, '如果你想要看清 2027 年趋势……马上报名，我们到时见', 4.60, 14.60)]   # 中间「呃，嗯，嗯」剪掉
+CTA4 = [('C0021', 61.74, 72.96, '那么生肖牛和老鼠的人，你们还怕吗？来参加舒苑老师的奇门遁甲战略大会，来获得先机', 61.30, 73.50)]   # 前一个字「来」61.28 才讲完
 
 # whisper 听错的字 → 她讲的原话（字幕照这个打）
 FIX = [('林苏妍', '林舒苑'), ('隋老师', '舒苑老师'), ('苏妍老师', '舒苑老师'), ('顿甲', '遁甲'), ('盾甲', '遁甲'), ('遁角', '遁甲'), ('启门', '奇门'),
@@ -28,7 +35,8 @@ FIX = [('林苏妍', '林舒苑'), ('隋老师', '舒苑老师'), ('苏妍老师
        ('代你', '带你'), ('压错', '押错'), ('高回仇', '高回酬'), ('哪去', '拿去'), ('局仪式', '局意是⚠'), ('有声门腾舌', '生门腾蛇⚠'),
        ('聚踪', '聚焦'), ('创越', '创业'), ('痕迹', '力气⚠'), ('压种住', '押重注'), ('加门费', '加盟费'), ('门的还没开', '门店还没开'),
        ('破胎碎害胎', '破太岁、害太岁'), ('大号', '大耗'), ('小号', '小耗'), ('齐前', '提前'), ('动荡的', '动的'), ('整盘级', '整盘棋'),
-       ('局余事', '局势⚠'), ('营业而', '营业额'), ('首业', '守业'), ('穩', '稳'), ('正能量', ''), ('累计', '累积'), ('一下下一步', '下一步')]
+       ('局余事', '局势⚠'), ('营业而', '营业额'), ('首业', '守业'), ('穩', '稳'), ('正能量', ''), ('累计', '累积'), ('一下下一步', '下一步'), ('随便老师', '舒苑老师⚠'), ('省事', '审视'), ('省视', '审视'),
+       ('整盘奇', '整盘棋'), ('押中住', '押重注'), ('胎税', '太岁'), ('慢的稳', '慢得稳'), ('局余式', '局势⚠'), ('藤舌', '腾蛇⚠')]
 
 # ---------- 共用画面 ----------
 INTRO_VIS = {
@@ -60,10 +68,9 @@ REUSE = {'ep1_horse_goat_h': '火马火羊横版', 'goat_positive': '彩虹吉�
 # ---------- 13 集 ----------
 # script: (原片, 起, 止, 内容)；vis: {(原片, 原片秒): 画面}；broll: 新场景 id（studio 画布里建）；hook_done: 已经定稿的钩子
 EPS = {
- 2: dict(code='P2', title='翻身变赔钱', cta='CTA2',
-    script=[('C0006', 0.00, 34.18, '以为抓到翻身的机会……先布局，再投入')],
-    notes=['开头有「3、2、1」倒数（tx2 听到），逐字转写后把起点挪到「以为」前 0.08 秒', '原片是一整段，逐字转写后把句间 >0.4 秒的停顿剪掉',
-           '脚本 34 秒，配 CTA-1 会超过 66 秒，所以用 CTA-2'],
+ 2: dict(code='P2', title='翻身变赔钱', cta='auto',
+    script=[('C0006', 3.0, 34.5, '以为抓到翻身的机会……先布局，再投入')],
+    notes=['开头「3、2、1」倒数不要，从「以为」开始', '句间超过 0.45 秒的停顿，剪片时量静音自动剪短'],
     vis={('C0006', 0.0): '第 0 秒就是她本人 · 开场音效：一滴水滴声（只放一个）· 人后层大字「翻身？」缩小II',
          ('C0006', 5.58): '胸口以下立体数字「赔掉 6 位数 · 7 位数」（呐喊声波，前景）· 音效：咚咚重音心头震',
          ('C0006', 8.84): '整画面切到 B-roll【p2_loss】老板深夜看着一片红的跌势屏幕，抱头（演员，不是 Suyen）+ 右下圆框 · 音效：回忆-刷一下',
@@ -73,10 +80,10 @@ EPS = {
          ('C0006', 23.42): '整画面切到年盘 B-roll（`ep1_yearchart`，已有）+ 圆框 · 左边一条一条出：机会 · 风险 → 看全局 → 定进退',
          ('C0006', 30.84): '接数字人 Suyen（`ep1_dh_point`，已有，`cont`）· 「先布局 · 再投入」 · 音效：木鱼敲击回响音效'},
     broll=['p2_loss', 'p2_fork']),
- 3: dict(code='P3', title='赚到的钱押错', cta='CTA2',
-    script=[('C0011', 2.42, 30.52, '企业家们，你今年赚到的钱……带你审视高回酬背后的代价'),
-            ('C0011', 32.72, 41.62, '提前规划进攻与防守，守住你的成绩，再争下一个高峰')],
-    notes=['「提前进化」口误（30.5–32.7）剪掉', '脚本 37 秒，用 CTA-2'],
+ 3: dict(code='P3', title='赚到的钱押错', cta='auto',
+    script=[('C0011', 3.0, 30.65, '企业家们，你今年赚到的钱……带你审视高回酬背后的代价'),
+            ('C0011', 32.7, 41.8, '提前规划进攻与防守，守住你的成绩，再争下一个高峰')],
+    notes=['「提前进化」口误（30.7–32.7）剪掉，接重讲的「提前规划」', '尾巴「正能量、OK 好」不要'],
     vis={('C0011', 2.42): '第 0 秒就是她本人 · 开场音效：咚 · 人后层大字「企业家们」缩小II',
          ('C0011', 6.00): '「扩张？」「产品？」「人才？」三个立体字依她讲的字逐个跳（人后层，脸两边）· 音效：咚 ×3',
          ('C0011', 11.58): '整画面切到 B-roll【p3_bet】老板把一整叠金币推上赌桌的一格，金币塔垮掉（演员）+ 圆框 · 「押错」朱砂印 · 音效：咚咚重音心头震',
@@ -84,10 +91,10 @@ EPS = {
          ('C0011', 22.56): '整画面切到 B-roll【p3_scale】数字人 Suyen 在天平一边放金砝码、一边放玉盾（正能量）+ 圆框 · 左边一条一条出：机会 · 风险 → 高回酬的代价 → 进攻 · 防守',
          ('C0011', 36.84): '回到她本人 · 「守住成绩 · 再争高峰」（前景胸口以下，呐喊声波）· 音效：正确'},
     broll=['p3_bet', 'p3_scale']),
- 4: dict(code='P4', title='现金被烧光', cta='CTA2',
-    script=[('C0014', 2.42, 12.98, '2027 年从奇门角度……薪水租金已经追到门口'),
-            ('C0014', 16.46, 37.74, '下一笔钱还能不能扎……现金已经被烧光')],
-    notes=['「那下一笔钱，你还能不——等一下」（13.0–16.5）整句剪掉，从重讲的「下一笔钱还能不能扎」接上', '用 CTA-2'],
+ 4: dict(code='P4', title='现金被烧光', cta='auto', say={('C0014', 29.2): '带你重新审视', ('C0014', 30.0): '投入的次序'},
+    script=[('C0014', 2.6, 12.95, '2027 年从奇门角度……薪水租金已经追到门口'),
+            ('C0014', 18.0, 37.6, '下一笔钱还能不能扎……现金已经被烧光')],
+    notes=['「那下一笔钱，你还能不……等下，我继续啊」（13.3–17.9）整句剪掉，从重讲的「下一笔钱还能不能扎」接上', '「带你重新审视投入的次序」whisper 逐字听成乱码（29.2–32.3），成片要再听一次确认没少字'],
     vis={('C0014', 2.42): '第 0 秒就是她本人 · 开场音效：一滴水滴声 · 「2027」飞出（人后层）',
          ('C0014', 5.34): '人后层大字「攻？」「还是守？」左右各一（缩小II）· 音效：咚',
          ('C0014', 8.26): '整画面切到 B-roll【p4_bills】小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）+ 圆框 · 左边出「薪水 · 租金 · 追到门口」 · 音效：诡异的滴水声',
@@ -96,9 +103,9 @@ EPS = {
          ('C0014', 25.58): '整画面切到年盘 B-roll（`ep1_yearchart`，已有）+ 圆框 · 左边：年度趋势 → 投入的次序（洛书九宫一格一格亮）',
          ('C0014', 32.34): '整画面切到 B-roll【p4_burn】金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）+ 圆框（`cont`）· 「别让现金先被烧光」 · 音效：旋风'},
     broll=['p4_bills', 'p4_burn']),
- 5: dict(code='P5', title='拿公司钱救人', cta='CTA2',
-    script=[('C0027', 2.82, 36.18, '2027 年年度局势……再决定出手')],
-    notes=['原片一整段，逐字转写后剪句间停顿', '用 CTA-2'],
+ 5: dict(code='P5', title='拿公司钱救人', cta='auto',
+    script=[('C0027', 2.8, 36.3, '2027 年年度局势……再决定出手')],
+    notes=['开头「来，3、2、1」不要', '尾巴「正能量」不要'],
     vis={('C0027', 2.82): '第 0 秒就是她本人 · 开场音效：咚 · 「2027」飞出（人后层）',
          ('C0027', 5.70): '「真 · 假 · 混」三个立体字逐个盖印（人后层）· 音效：木鱼敲击回响音效',
          ('C0027', 11.12): '整画面切到 B-roll【p5_plea】昏暗走廊，一个男人抓住老板的手臂求救，老板手里握着公司支票簿犹豫（演员）+ 圆框 · 「别人求救」→「拿公司的钱？」 · 音效：猛然一惊',
@@ -107,20 +114,18 @@ EPS = {
          ('C0027', 23.42): '「奇门战略大会」金色立体字从身后飞出 · 音效：咚',
          ('C0027', 26.26): '整画面切到 B-roll【p5_line】数字人 Suyen 用金笔在桌上划一道金线，把棋子分成两边（正能量）+ 圆框 · 左边：先看代价 → 划清界限 → 再决定出手'},
     broll=['p5_plea', 'p5_line']),
- 6: dict(code='P6', title='全家的退路', cta='CTA1', hook_done='SuyenEP6',
-    script=[('C0029', 2.18, 30.12, '2027 年你的奇门战略布局……带你提前思考进退')],
-    notes=['钩子已定稿：`SuyenEP6`（v9），behind / front / sfx / subs 照抄，时间全部 ÷1.1', '脚本 28 秒，可以配 CTA-1（总长约 64 秒原片 → 58 秒）'],
+ 6: dict(code='P6', title='全家的退路', cta='auto', hook_done='SuyenEP6',
+    script=[('C0029', 2.3, 30.2, '2027 年你的奇门战略布局……带你提前思考进退')],
+    notes=['钩子已定稿：`SuyenEP6`（v9），behind / front / sfx / subs 照抄，时间全部 ÷1.1'],
     vis={('C0029', 2.18): '钩子照 `SuyenEP6` v9 定稿（时间 ÷1.1）',
          ('C0029', 9.94): '整画面切到 `p6_points`（已有：学费 / 医院账单 / 存款崩盘）+ 圆框 · 「孩子学费」「父母养老」「十年储蓄」跟她讲的字逐个跳',
          ('C0029', 18.52): '回到她本人 · 「奇门战略大会」金色立体字从身后飞出 · 音效：咚',
          ('C0029', 21.26): '整画面切到 B-roll【p6_family】三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）+ 圆框 · 左边：真假混的趋势 → 提前思考进退'},
     broll=['p6_family']),
- 7: dict(code='P7', title='对手不是人（AI）', cta='CTA2',
-    script=[('C0007', 16.64, 45.32, '在事业上你的竞争对手快你 5 倍、10 倍……我会用年度的年盘来为你拆解局势'),
-            ('C0007', 53.00, 61.00, '把力气压在关键的一步，争取突破，稳住全局')],
-    notes=['前面 0–16 秒是调提词机的对话，不用', '「把力气压在关键的第一步」（49.4–53.0）跟后面重讲重复，剪掉前一次',
-           '为了 ≤60 秒，删掉「让你思考哪里出力、哪里用力」（45.3–49.4）', '尾巴「正能量」不要，止点约 61.0，逐字转写后对准「全局」结束后 0.25 秒',
-           '「局势」⚠ whisper 听成「局余事」，要回听'],
+ 7: dict(code='P7', title='对手不是人（AI）', cta='auto',
+    script=[('C0007', 16.4, 45.2, '在事业上你的竞争对手快你 5 倍、10 倍……我会用年度的年盘来为你拆解局势'),
+            ('C0007', 53.5, 60.6, '把力气压在关键的一步，争取突破，稳住全局')],
+    notes=['前面 0–16 秒是调提词机的对话，不用', '「把力气压在关键的第一步」（49.5–52.7）跟后面重讲重复，剪掉前一次', '为了 ≤60 秒，删掉「让你思考哪里出力、哪里用力」（45.5–49.3）', '尾巴「正能量」不要', '「局势」⚠ whisper 两次都听成「局余事 / 局余式」，要回听'],
     vis={('C0007', 16.64): '第 0 秒就是她本人 · 开场音效：咚 · 人后层大字「竞争对手」缩小II',
          ('C0007', 19.72): '胸口以下立体字「快你 5 倍」→「10 倍」（呐喊声波）· 音效：复古胶片滚动',
          ('C0007', 22.28): '整画面切到 B-roll【p7_ai】老板在办公桌前被一排屏幕淹没，旁边一只机械手臂极速打字（演员 + 机器）+ 圆框 · 「越追越急」→「整盘棋都乱了」 · 音效：旋风',
@@ -129,9 +134,9 @@ EPS = {
          ('C0007', 38.14): '「奇门遁甲战略大会」金色立体字从身后飞出 · 音效：咚',
          ('C0007', 39.94): '整画面切到 B-roll【p7_chess】数字人 Suyen 在棋盘上只推一颗金棋子，周围的棋子安静不动（正能量）+ 圆框 · 左边：拆解局势 → 关键的一步 → 争取突破 · 稳住全局'},
     broll=['p7_ai', 'p7_chess']),
- 8: dict(code='P8', title='贵人还是拖你下水', cta='CTA2',
-    script=[('C0009', 5.84, 43.42, '定位要换，渠道要换，新伙伴要换……让你心里有底')],
-    notes=['3.6–5.8 是第一次讲（没讲完），用 5.84 开始的第二次', '5.84–9.62 那一段有停顿，逐字转写后起点对准「定位」前 0.08 秒', '「深耕」⚠ 要回听', '用 CTA-2'],
+ 8: dict(code='P8', title='贵人还是拖你下水', cta='auto', say={('C0009', 5.9): '定位要换，渠道要换，新伙伴要换'},
+    script=[('C0009', 6.0, 43.5, '定位要换，渠道要换，新伙伴要换……让你心里有底')],
+    notes=['4.2–5.8 是第一次讲（只讲到「渠道要换」），用后面重讲的整句。whisper 把第二次的「定位要换、渠道要换」黏进「新」字里（5.94–11.08），所以起点靠剪片时量静音来找', '「深耕」⚠ whisper 两次都听成「升更」，要回听'],
     vis={('C0009', 5.84): '第 0 秒就是她本人 · 开场音效：一滴水滴声 · 「定位要换」「渠道要换」「新伙伴要换」三个立体字逐个跳（人后层）',
          ('C0009', 11.88): '「要小心哦」朱砂印 · 音效：木鱼敲击回响音效',
          ('C0009', 13.90): '整画面切到 B-roll【p8_sink】西装老板在深色水里往下沉，一只暗影的手抓住他的脚踝（演员）+ 圆框 · 左边：「贵人？」→「还是拖你下水的人？」 · 音效：诡异的滴水声',
@@ -139,11 +144,11 @@ EPS = {
          ('C0009', 23.16): '回到她本人 · 「2027」→「奇门战略大会」金色立体字 · 音效：综艺咚咚两声鼓点',
          ('C0009', 26.00): '整画面切到 B-roll【p8_map】数字人 Suyen 在发光的金色罗盘地图上指出三个方向（正能量）+ 圆框 · 左边：全局观 → 深耕 · 转向 · 攻守 → 心里有底'},
     broll=['p8_sink', 'p8_map']),
- 9: dict(code='P9', title='AI 是赚钱还是花钱', cta='CTA2',
-    script=[('C0022', 3.72, 18.18, '2027 年三大关键词……系统买了，课程上了'),
-            ('C0022', 19.30, 24.12, '营业额却没有动静，这一次的奇门战略大会'),
-            ('C0022', 26.04, 38.22, '我会从年盘来谈年度方向……到底值不值得')],
-    notes=['「营业」卡了一下（18.2–19.3）剪掉', '「我会从年盘度」重讲（24.1–26.0）剪掉，只留第二次', '用 CTA-2'],
+ 9: dict(code='P9', title='AI 是赚钱还是花钱', cta='auto',
+    script=[('C0022', 4.5, 18.3, '2027 年三大关键词……系统买了，课程上了'),
+            ('C0022', 19.4, 24.2, '营业额却没有动静，这一次的奇门战略大会'),
+            ('C0022', 26.5, 38.2, '我会从年盘来谈年度方向……到底值不值得')],
+    notes=['「营业。」卡了一下（18.7–19.3）剪掉', '「我会从年盘度」重讲（24.3–26.0）剪掉，只留第二次', '「从奇门角度来看」后面多一个「不知」（10.5–10.9）⚠ 要回听，是口误就再切一刀'],
     vis={('C0022', 3.72): '第 0 秒就是她本人 · 开场音效：咚 · 「2027 三大关键词」（人后层）',
          ('C0022', 7.42): '「真 · 假 · 混」逐个盖印 · 音效：木鱼敲击回响音效',
          ('C0022', 10.94): '人后层大字「AI 帮你赚钱？」→「还是花钱？」左右各一 · 音效：咚',
@@ -152,10 +157,9 @@ EPS = {
          ('C0022', 26.04): '整画面切到年盘 B-roll（`ep1_yearchart`，已有）+ 圆框 · 左边：年度方向 → 事业重点',
          ('C0022', 32.94): '接 B-roll【p9_focus】数字人 Suyen 在金色天平上称一颗发光的芯片（正能量，`cont`）· 「下一笔投入 · 值不值得？」'},
     broll=['p9_spend', 'p9_focus']),
- 10: dict(code='I1', title='做了 20 年的老板', cta='CTA2',
-    script=[('C0018', 8.28, 40.92, '企业家们你要注意啦……用来争取下一步的突破')],
-    notes=['开头「2027 年奇门遁甲年盘的局意是生门腾蛇」⚠ 听不清（doc 也标 ⚠），照文案建议从「企业家们」开始',
-           '「用来争取一下下一步」的「一下」逐字转写后看能不能剪掉', '脚本 33 秒，用 CTA-2'],
+ 10: dict(code='I1', title='做了 20 年的老板', cta='auto',
+    script=[('C0018', 8.4, 40.95, '企业家们你要注意啦……用来争取下一步的突破')],
+    notes=['开头「2027 年奇门遁甲年盘的局意是生门腾蛇」⚠ 听不清（whisper 逐字听成「局仪式，有声门藤舌」），照文案建议从「企业家们」开始', '「争取一下下一步」的「一下」跟下一个字黏在一起，不硬切'],
     vis={('C0018', 8.28): '第 0 秒就是她本人 · 开场音效：咚 · 人后层大字「企业家们」缩小II',
          ('C0018', 10.82): '「做了 20 年生意的你」立体字（「20」放大）· 音效：综艺咚',
          ('C0018', 16.52): '整画面切到 B-roll【i1_shop】六十岁老板在老字号店里，店里冷清，他看着门外空荡的街（演员）+ 圆框 · 左边：老顾客越来越少 → 利润越来越薄 · 音效：无奈',
@@ -163,20 +167,19 @@ EPS = {
          ('C0018', 23.72): '「奇门遁甲战略大会」金色立体字从身后飞出 · 音效：咚',
          ('C0018', 27.08): '整画面切到 B-roll【i1_roots】老榕树的树根亮起金光，一根新枝在日出里往上长（没有人，正能量）+ 圆框 · 左边：趋势预测 → 转型方向 → 20 年的根基 → 下一步的突破 · 音效：亮一下'},
     broll=['i1_shop', 'i1_roots']),
- 11: dict(code='I2', title='做领导的你', cta='CTA2', hook_done='SuyenEI2',
-    script=[('C0019', 2.56, 29.50, '奇门讲究布局破局……真假混的局势'),
-            ('C0019', 31.56, 39.10, '带你领先审视方向，再聚焦团队的火力。你想要吗？')],
-    notes=['钩子已定稿：`SuyenEI2`（v9），时间全部 ÷1.1', '「那带你呢，首先」（29.5–31.6）卡住，剪掉', '用 CTA-2'],
+ 11: dict(code='I2', title='做领导的你', cta='auto', hook_done='SuyenEI2',
+    script=[('C0019', 2.7, 29.6, '奇门讲究布局破局……真假混的局势'),
+            ('C0019', 31.4, 39.0, '带你领先审视方向，再聚焦团队的火力。你想要吗？')],
+    notes=['钩子已定稿：`SuyenEI2`（v9），时间全部 ÷1.1', '「那带你呢，首先」（29.7–31.3）卡住，剪掉'],
     vis={('C0019', 2.56): '钩子照 `SuyenEI2` v9 定稿（时间 ÷1.1，含 `i2_team` B-roll）',
          ('C0019', 21.84): '回到她本人 · 「奇门遁甲战略大会」金色立体字从身后飞出 · 音效：咚',
          ('C0019', 24.86): '整画面切到年盘 B-roll（`ep1_yearchart`，已有）+ 圆框 · 左边：真假混的局势',
          ('C0019', 31.56): '接 B-roll【i2_lead】数字人 Suyen 站在团队前面，指向远方一道金光，团队转向同一个方向（正能量，团队是背影）（`cont`）· 左边：审视方向 → 聚焦火力',
          ('C0019', 37.54): '回到她本人 · 「你想要吗？」（前景胸口以下，呐喊声波）· 音效：叮'},
     broll=['i2_lead']),
- 12: dict(code='I3', title='创业的女性', cta='CTA2',
-    script=[('C0020', 11.30, 45.86, '从 2027 年奇门战略来看……集中在最关键的一步')],
-    notes=['前面「我重新来过」是 NG。起点 11.30 是估的：要对准第二次「从 2027 年」前 0.08 秒（HANDOFF 写 12.8 会切掉「从 2027 年」，要回听决定）',
-           '「把证明自己的力气」⚠ whisper 听成「痕迹」，要回听', '止点在「最关键的一步」后 0.25 秒，后面「OK 来」不要', '用 CTA-2'],
+ 12: dict(code='I3', title='创业的女性', cta='auto',
+    script=[('C0020', 8.0, 45.95, '从 2027 年奇门战略来看……集中在最关键的一步')],
+    notes=['前面「从 2027 年，我重新来过，那个第一句话不美」是 NG，用 11.2 秒开始的第二次（逐字确认「从 2027 年」是完整的，所以不照 HANDOFF 的 12.8）', '「把证明自己的力气」⚠ whisper 两次都听成「痕迹」，要回听'],
     vis={('C0020', 11.30): '第 0 秒就是她本人 · 开场音效：一滴水滴声 · 「2027」飞出（人后层）',
          ('C0020', 14.34): '人后层大字「创业的女性」缩小II · 音效：咚',
          ('C0020', 17.48): '整画面切到 B-roll【i3_late】三十多岁的女老板深夜一个人在小工作室，趴在笔电旁，旁边几个空咖啡杯（演员，不是 Suyen）+ 圆框 · 左边：储备金 · 时间 · 退路 → 全压进去 · 音效：诡异的滴水声',
@@ -185,13 +188,11 @@ EPS = {
          ('C0020', 33.68): '整画面切到 B-roll【i3_step】女老板站在河中一块发光的踏脚石上，日出金光，前面只有一块下一步的石头亮着（演员，正能量）+ 圆框 · 左边：年度趋势 → 看准进退 → 最关键的一步 · 音效：亮一下'},
     broll=['i3_late', 'i3_step']),
  13: dict(code='I4', title='生肖牛、鼠 · 第一次创业', cta='CTA4', short_intro=True,
-    script=[('C0021', 3.94, 25.50, '八字中有牛和老鼠的人……几十万已经出了'),
-            ('C0021', 30.46, 38.78, '从奇门遁甲的角度，你不仅仅有破太岁、害太岁，大耗还有小耗凶星'),
-            ('C0021', 39.82, 43.20, '那来到老师的战略大会里呢'),
-            ('C0021', 47.30, 55.06, '我会从奇门年盘来解读年度趋势，带你思考起步节奏')],
-    notes=['43–47 重讲剪掉（只留 47.3 开始的第二次）', '38.8–39.8「零升」不要',
-           '这集太长，为了 ≤60 秒删了两句：「那么如果刚好你是老师所说的那两个生肖」（25.5–30.5）、「把基础和退路都排好，再争取把生意做上来」（55.1–61.4）',
-           '介绍段只用前半（C0037 3.65–16.00），省掉「从上市公司大家族到小家庭」3 秒；照片墙的最后一张也跟着拿掉', 'CTA 用它自己的 C0021 61.4–73（CTA-4）'],
+    script=[('C0021', 3.8, 25.6, '八字中有牛和老鼠的人……几十万已经出了'),
+            ('C0021', 30.5, 38.8, '从奇门遁甲的角度，你不仅仅有破太岁、害太岁，大耗还有小耗凶星'),
+            ('C0021', 40.1, 43.0, '那来到老师的战略大会里呢'),
+            ('C0021', 47.4, 55.1, '我会从奇门年盘来解读年度趋势，带你思考起步节奏')],
+    notes=['开头「够力了」不要', '43.1–47.3 第一次讲「我会从奇门年盘解读的」没讲完，剪掉，只留第二次', '38.8–39.8「零升」不要', '这集太长，为了 ≤60 秒删了两句：「那么如果刚好你是老师所说的那两个生肖」（26.1–30.4）、「把基础和退路都排好，再争取把生意做上来」（55.4–61.3）', '介绍段只用前半（C0037 3.65–16.00），省掉「从上市公司大家族到小家庭」；照片墙最后一张也跟着拿掉', 'CTA 用它自己的 C0021 61.7–73.0（CTA-4）。她讲的是「随便老师」⚠（应该是「舒苑老师」），字幕打「舒苑老师」，要回听'],
     vis={('C0021', 3.94): '第 0 秒就是她本人 · 开场音效：咚 · 人后层大字「八字有 牛 · 鼠」缩小II（不用 emoji，用金线生肖剪影）',
          ('C0021', 6.90): '「2027」飞出（人后层）· 音效：综艺咚咚两声鼓点',
          ('C0021', 11.34): '「第一次创业」→「先试水？」「押重注？」左右各一 · 音效：咚',
@@ -200,9 +201,9 @@ EPS = {
          ('C0021', 39.82): '回到她本人 · 「奇门遁甲战略大会」金色立体字从身后飞出 · 音效：咚',
          ('C0021', 47.30): '人后层：洛书九宫一格一格亮 · 左边「年度趋势」→「起步节奏」'},
     broll=['i4_reno', 'i4_oxrat']),
- 14: dict(code='I5', title='35 岁以后', cta='CTA2',
-    script=[('C0025', 2.30, 34.18, '2027 奇门年度布局：35 岁以后……先准备第二条路')],
-    notes=['尾巴「很假」（34.2 以后）剪掉', '脚本 32 秒，配 CTA-1 会超过 66 秒，所以用 CTA-2'],
+ 14: dict(code='I5', title='35 岁以后', cta='auto',
+    script=[('C0025', 2.45, 34.3, '2027 奇门年度布局：35 岁以后……先准备第二条路')],
+    notes=['开头「来啊，3、2、1」不要', '尾巴「很假」（38.2 以后）剪掉'],
     vis={('C0025', 2.30): '第 0 秒就是她本人 · 开场音效：一滴水滴声 · 「2027」飞出（人后层）',
          ('C0025', 5.26): '人后层大字「35 岁以后」缩小II · 音效：咚',
          ('C0025', 7.04): '「守业？」「转型？」左右各一 · 音效：咚',
@@ -212,65 +213,172 @@ EPS = {
     broll=['i5_box', 'i5_road']),
 }
 
-def segs(src):
-    return json.load(open(f'{TX}/{src}.json'))['segments']
+
+def words(src):
+    return [w for s in json.load(open(f'{WT}/{src}.json'))['segments'] for w in s.get('words', [])]
 
 def fix(t):
     for a, b in FIX: t = t.replace(a, b)
     return t
 
+def resolve(src, t0, t1):
+    """时间窗 → (要的字, 起点提示, 止点提示, 最早起点, 最晚止点)"""
+    ws = words(src)
+    k = [i for i, w in enumerate(ws) if t0 <= (w['start'] + w['end']) / 2 <= t1]
+    assert k, (src, t0, t1)
+    a, b = k[0], k[-1]
+    amin = ws[a - 1]['end'] + 0.02 if a > 0 else 0.0
+    bmax = ws[b + 1]['start'] - 0.05 if b + 1 < len(ws) else ws[b]['end'] + 1.0
+    return ws[a:b + 1], ws[a]['start'], ws[b]['end'], round(amin, 2), round(bmax, 2)
+
+def est_split(ws, amin, bmax):
+    """用逐字时间估：句间 >GAP 的停顿剪短 → [(起, 止, 字)]（剪片时 prep 会用真的静音再算一次）"""
+    groups, cur = [], [ws[0]]
+    for w in ws[1:]:
+        if w['start'] - cur[-1]['end'] > GAP: groups.append(cur); cur = [w]
+        else: cur.append(w)
+    groups.append(cur)
+    out = []
+    for gi, g in enumerate(groups):
+        a = max(g[0]['start'] - PRE, amin if gi == 0 else g[0]['start'] - PRE)
+        b = min(g[-1]['end'] + POST, bmax if gi == len(groups) - 1 else groups[gi + 1][0]['start'] - PRE)
+        out.append((round(a, 2), round(b, 2), g))
+    return out
+
+def fixed_words(src, a, b):
+    return [w for w in words(src) if a <= (w['start'] + w['end']) / 2 <= b]
+
 def plan(n):
     e = EPS[n]
     intro = INTRO[:1] if e.get('short_intro') else INTRO
-    cta = {'CTA1': CTA1, 'CTA2': CTA2, 'CTA4': CTA4}[e['cta']]
-    parts = [('① 钩子 + 痛点 + 教方法', e['script'], e['vis']), ('② 我们是谁', intro, INTRO_VIS),
-             ('③ 报名 ' + e['cta'].replace('CTA', 'CTA-'), cta, {'CTA1': CTA1_VIS, 'CTA2': CTA2_VIS, 'CTA4': CTA4_VIS}[e['cta']])]
-    if e['cta'] == 'CTA4':   # 第 13 集：CTA-4 本身就在 C0021，放在介绍后面
-        pass
-    t, pieces, rows = 0.0, [], []
-    for sec, ps, vis in parts:
-        rows.append(('sec', sec))
-        for (src, a, b, txt) in ps:
-            d = (b - a) / SPEED
-            pieces.append({'src': src, 'a': a, 'b': b, 'start': round(t, 3), 'end': round(t + d, 3), 'text': txt})
-            for s in segs(src):
-                if s['end'] <= a + 0.15 or s['start'] >= b - 0.15: continue
-                st = max(s['start'], a)
-                v = [vv for (vs, vt), vv in vis.items() if vs == src and max(s["start"], a) - 0.01 <= vt < min(s["end"], b) - 0.01]
-                if not v and st == a: v = [vv for (vs, vt), vv in vis.items() if vs == src and abs(vt - a) < 0.01]
-                txt2 = fix(s['text']).strip()
-                if txt2 or v: rows.append(('row', round(t + (st - a) / SPEED, 1), f'{src} {st:.1f}', txt2, '<br>'.join(v)))
-            t += d
-    return e, pieces, rows, t
+    # 估脚本长度（停顿剪短后）→ 决定 CTA
+    spans = [(src, t0, t1, txt, resolve(src, t0, t1)) for (src, t0, t1, txt) in e['script']]
+    script_raw = sum(b - a for *_, (ws, ah, bh, amin, bmax) in spans for a, b, _ in est_split(ws, amin, bmax))
+    intro_raw = sum(p[2] - p[1] for p in intro)
+    cta = e['cta']
+    if cta == 'auto':
+        cta = 'CTA1' if script_raw + intro_raw + sum(p[2] - p[1] for p in CTA1) <= CTA1_MAX else 'CTA2'
+    ctap = {'CTA1': CTA1, 'CTA2': CTA2, 'CTA4': CTA4}[cta]
+    ctav = {'CTA1': CTA1_VIS, 'CTA2': CTA2_VIS, 'CTA4': CTA4_VIS}[cta]
+    # PIECES：(原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
+    pieces = [(src, round(ah, 2), round(bh, 2), amin, bmax, True, txt) for (src, t0, t1, txt, (ws, ah, bh, amin, bmax)) in spans]
+    # 介绍段、CTA-1：第 1 集校准过的切法，不动；CTA-2、CTA-4 带了最早 / 最晚的界线，剪片时也量静音吸附
+    pieces += [(p[0], p[1], p[2], p[4], p[5], True, p[3]) if len(p) == 6 else (p[0], p[1], p[2], p[1], p[2], False, p[3]) for p in intro + ctap]
+    # 估成片时间轴 + 时间表
+    sections = [('① 钩子 + 痛点 + 教方法', len(spans), e['vis']), ('② 我们是谁', len(intro), INTRO_VIS),
+                ('③ 报名 ' + cta.replace('CTA', 'CTA-'), len(ctap), ctav)]
+    t, rows, k, est = 0.0, [], 0, []
+    for sec, cnt, vis in sections:
+        rows.append(('sec', sec)); used = set()
+        for p in pieces[k:k + cnt]:
+            src, ah, bh, amin, bmax, auto, _ = p
+            subs = est_split(fixed_words(src, ah, bh), amin, bmax) if auto else [(ah, bh, fixed_words(src, ah, bh))]
+            phrase, pt = '', None
+            def flush():
+                nonlocal phrase, pt
+                txt = fix(phrase).strip(' ，,。、')
+                if pt: txt = e.get('say', {}).get((src, round(pt[1], 1)), txt)
+                if txt:
+                    raw = pt[1]
+                    v = [vv for key, vv in vis.items() if key not in used and key[0] == src and key[1] <= raw_end[0] - 0.01]
+                    for key in [key for key in vis if key not in used and key[0] == src and key[1] <= raw_end[0] - 0.01]: used.add(key)
+                    rows.append(('row', round(pt[0], 1), f'{src} {raw:.1f}', txt, '<br>'.join(v)))
+                phrase, pt = '', None
+            raw_end = [0]
+            for a, b, ws in subs:
+                for w in ws:
+                    ot = t + (max(w['start'], a) - a) / SPEED
+                    if pt is None: pt = (ot, w['start'])
+                    phrase += w['word'].strip(); raw_end[0] = w['end']
+                    if re.search(r'[，,。？?！!、]$', w['word'].strip()): flush()
+                t += (b - a) / SPEED
+                est.append((src, a, b))
+            flush()
+        k += cnt
+    return e, cta, pieces, rows, t, est
 
-PREP = '''#!/usr/bin/env python3
+PREP = """#!/usr/bin/env python3
 # 广告第{n}集（{code} · {title}）：原片剪段 → 接起来 → 整支 1.1 倍速。由 pipeline/eps_plan.py 产生，要改切点就改 eps_plan.py 再重跑
-# ⚠ 切点现在是 whisper 分段时间，在 Mac 上逐字转写后要挪到字和字的空隙里（HANDOFF 4.1）
-# 只用 C0001–C0048。输出 remotion/public/suyenh/ep{n}.mp4 + ep{n}/pieces.json
-import json, os, subprocess, sys
+# 切点：起点提示 / 止点提示来自逐字转写，这里量原片的真实静音再吸附（起点 = 字前 0.08 秒、止点 = 字后 0.25 秒），句间 >0.45 秒的停顿剪短；
+# 介绍段和 CTA 用第 1 集已经校准过的切法（不吸附）。只用 C0001–C0048。输出 remotion/public/suyenh/ep{n}.mp4 + ep{n}/pieces.json
+import json, os, re, subprocess, sys
 H = os.path.dirname(os.path.abspath(__file__))
-RAW = os.environ.get('SUYEN_RAW', os.path.expanduser('~/Claude Code/suyen-ads/raw'))   # 原片 C0001–C0048 的资料夹
+RAW = os.environ.get('SUYEN_RAW', os.path.expanduser('~/Downloads/raw'))   # 原片 C0001–C0048 的资料夹
 OUT = os.path.join(H, '..', '..', 'remotion', 'public', 'suyenh', 'ep{n}.mp4')
-SPEED = 1.1
-PIECES = [  # (原片, 起, 止, 内容)
+SPEED, GAP, PRE, POST = 1.1, 0.45, 0.08, 0.25
+NOISE = os.environ.get('NOISE', '-35dB')   # 静音门槛：吸附不到（印出 0 段静音）就改 -30dB 再跑
+PIECES = [  # (原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
 {pieces}
 ]
-'''
+def run(cmd):
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode: print(r.stderr[-1500:]); sys.exit(1)
+    return r
+_sil = {{}}
+def silences(src):
+    if src not in _sil:
+        r = run(['nice', '-n', '10', 'ffmpeg', '-v', 'info', '-threads', '2', '-i', f'{{RAW}}/{{src}}.MP4', '-vn', '-af', f'silencedetect=noise={{NOISE}}:d=0.12', '-f', 'null', '-'])
+        st = [float(x) for x in re.findall(r'silence_start: ([\\d.]+)', r.stderr)]
+        en = [float(x) for x in re.findall(r'silence_end: ([\\d.]+)', r.stderr)]
+        _sil[src] = list(zip(st, en))
+        print(f'{{src}}: {{len(_sil[src])}} 段静音（{{NOISE}}）')
+    return _sil[src]
+def snap(src, a, b, amin, bmax):
+    sil = silences(src)
+    # 起点：落在静音里、或静音刚结束 → 静音结束前 0.08 秒
+    c = [e for s, e in sil if s - 0.02 <= a <= e + 0.3 and e <= a + 0.3 or s <= a <= e]
+    a2 = (min(c, key=lambda e: abs(e - a)) if c else a) - PRE
+    # 止点：最后一个字后面开始的静音 → 静音开始后 0.25 秒（不超过静音结束）
+    c = [(s, e) for s, e in sil if b - 0.3 <= s <= b + 0.4]
+    b2 = min(c[0][0] + POST, c[0][1] - 0.02) if c else b + POST
+    a2, b2 = max(a2, amin), min(b2, bmax)
+    # 段内 >GAP 的停顿剪短
+    out, cur = [], a2
+    for s, e in sil:
+        if s > cur + 0.15 and e < b2 - 0.15 and e - s > GAP:
+            out.append((cur, s + POST)); cur = e - PRE
+    out.append((cur, b2))
+    return [(round(x, 3), round(y, 3)) for x, y in out]
+cuts = []
+for (src, a, b, amin, bmax, auto, txt) in PIECES:
+    for x, y in (snap(src, a, b, amin, bmax) if auto else [(a, b)]):
+        cuts.append((src, x, y, txt))
+raw = sum(y - x for _, x, y, _ in cuts)
+print(f'原片接起来 {{raw:.2f}} 秒 → 成片 {{raw / SPEED:.2f}} 秒（{{len(cuts)}} 刀）')
+if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA2，或删一句'); sys.exit(1)
+tmp = []
+for i, (src, a, b, _) in enumerate(cuts):
+    p = f'{{H}}/_p{{i}}.mov'
+    run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-ss', f'{{a}}', '-to', f'{{b}}', '-i', f'{{RAW}}/{{src}}.MP4',
+         '-vf', 'scale=1920:1080:flags=lanczos,fps=30,setsar=1', '-af', f'afade=t=in:d=0.006,afade=t=out:st={{b - a - 0.008:.3f}}:d=0.006,aresample=48000,loudnorm=I=-16:TP=-1.5',
+         '-c:v', 'libx264', '-crf', '15', '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'pcm_s16le', '-ar', '48000', '-ac', '1', p])
+    tmp.append(p)
+lst = f'{{H}}/_list.txt'; open(lst, 'w').write(''.join(f"file '{{p}}'\\n" for p in tmp))
+os.makedirs(os.path.dirname(OUT), exist_ok=True)
+run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-f', 'concat', '-safe', '0', '-i', lst,
+     '-vf', f'setpts=PTS/{{SPEED}},fps=30', '-af', f'atempo={{SPEED}},loudnorm=I=-16:TP=-1.5', '-c:v', 'libx264', '-crf', '16', '-preset', 'fast', '-pix_fmt', 'yuv420p',
+     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', OUT])
+for p in tmp + [lst]: os.remove(p)
+t, meta = 0.0, []
+for (src, a, b, txt) in cuts:
+    d = (b - a) / SPEED; meta.append({{'src': src, 'a': a, 'b': b, 'start': round(t, 3), 'end': round(t + d, 3), 'text': txt}}); t += d
+json.dump({{'speed': SPEED, 'dur': round(t, 3), 'pieces': meta}}, open(f'{{H}}/pieces.json', 'w'), ensure_ascii=False, indent=1)
+print(f'ep{n} {{t:.2f}}s')
+"""
 
 def main():
-    tail = open(f'{H}/ep1/prep_ep1.py').read()
-    tail = tail[tail.index('def run(cmd):'):].replace("print(f'ep1 {t:.2f}s')", "print(f'ep{N} {t:.2f}s')")
     summary = []
-    for n, e in EPS.items():
-        e, pieces, rows, dur = plan(n)
-        raw = sum(p['b'] - p['a'] for p in pieces)
+    for n in EPS:
+        e, cta, pieces, rows, dur, est = plan(n)
+        raw = sum(b - a for _, a, b in est)
         d = f'{H}/ep{n}'; os.makedirs(d, exist_ok=True)
-        pl = '\n'.join(f"    ('{p['src']}', {p['a']:.2f}, {p['b']:.2f}, '{p['text']}')," for p in pieces)
-        open(f'{d}/prep_ep{n}.py', 'w').write(PREP.format(n=n, code=e['code'], title=e['title'], pieces=pl) + tail.replace('{N}', str(n)))
-        cut = sum(p['b'] - p['a'] for p in pieces if (p['src'], p['a']) in {(s, a) for s, a, _, _ in e['script']})
+        pl = '\n'.join(f"    ('{p[0]}', {p[1]:.2f}, {p[2]:.2f}, {p[3]:.2f}, {p[4]:.2f}, {p[5]}, '{p[6]}')," for p in pieces)
+        open(f'{d}/prep_ep{n}.py', 'w').write(PREP.format(n=n, code=e['code'], title=e['title'], pieces=pl))
+        cutn = len([1 for p in est if p[0] == e['script'][0][0]])
         md = [f"# Suyen 2027 奇门战略大会 · 广告第{n}集（{e['code']} · {e['title']}）· 16:9 横版\n",
-              f"**总长约 {dur:.1f} 秒**（原片接起来 {raw:.1f} 秒 ÷ 1.1）。剪掉句间停顿后还会再短 1–3 秒，渲染前再量准。\n",
-              f"**结构**：钩子 + 痛点 + 教方法（{e['script'][0][0]}，{cut:.1f} 秒原片）→ 我们是谁（C0037）→ 报名 {e['cta'].replace('CTA', 'CTA-')}\n",
+              f"**总长约 {dur:.1f} 秒**（原片接起来约 {raw:.1f} 秒 ÷ 1.1，句间停顿已剪短）。这是用逐字时间估的，剪完以 `pieces.json` 为准。\n",
+              f"**结构**：钩子 + 痛点 + 教方法（{e['script'][0][0]}）→ 我们是谁（C0037）→ 报名 {cta.replace('CTA', 'CTA-')}"
+              + ('（脚本短，放得下 CTA-1）' if cta == 'CTA1' else '（CTA-1 放不下 60 秒，用 CTA-2）' if cta == 'CTA2' else '') + '\n',
               '**素材**：只用 C0001–C0048。字幕照她讲的原话打，名字一律「林舒苑」。⚠ = 要回听确认的字。\n']
         if e.get('hook_done'): md.append(f"**钩子已经定稿**：照 `{e['hook_done']}`（v9），时间全部 ÷1.1。\n")
         md.append('## 剪法备注\n' + '\n'.join(f'- {x}' for x in e['notes']) + '\n')
@@ -278,17 +386,17 @@ def main():
         for r in rows:
             if r[0] == 'sec': md.append(f'\n### {r[1]}\n\n| 时间 | 原片 | 她讲什么 | 画面 |\n|---|---|---|---|')
             else: md.append(f'| {int(r[1] // 60)}:{r[1] % 60:04.1f} | {r[2]} | {r[3]} | {r[4]} |')
-        new = [b for b in e['broll']]
-        reuse = sorted({k for k in REUSE if any(k in v for v in list(e['vis'].values()) + list((CTA1_VIS if e['cta'] == 'CTA1' else CTA2_VIS).values()))})
+        allvis = list(e['vis'].values()) + list({'CTA1': CTA1_VIS, 'CTA2': CTA2_VIS, 'CTA4': CTA4_VIS}[cta].values())
+        reuse = sorted({k for k in REUSE if any(k in v for v in allvis)})
         md.append('\n## B-roll\n')
-        md.append('- **要在 studio 新跑的**（画布已搭好，不按 Run）：' + '、'.join(f'`{b}`' for b in new))
+        md.append('- **要在 studio 新跑的**（画布已搭好，不按 Run）：' + '、'.join(f'`{b}`' for b in e['broll']))
         if reuse: md.append('- **直接重复用的**（`remotion/public/suyenbr/`）：' + '、'.join(f'`{k}`（{REUSE[k]}）' for k in reuse))
         md.append('- 照片墙用 `remotion/public/suyenph/` 的真照片')
         md.append('\n## 规则（照 Reagan 定的）\n- 第 0 秒就看到人；开场只放一个音效（水滴声或咚）\n- 大字放人后层 + 护脸层 `FaceGuard`；前景只放胸口以下、画面边缘的东西\n'
                   '- 大字兰亭黑特粗、斜 3D 立体、靠厚度显示，入场多用缩小II；脸附近用呐喊声波\n- B-roll 大约 15 秒换一次；负面用演员，正面才用数字人 Suyen\n'
                   '- 讲 points 时整画面切 B-roll，她缩进右下金框圆框（facetrack 脸中心往下 150 px，平滑 7 格）\n- 字幕：兰亭黑 50px 奶油色，y=958，一行\n- 音效只用剪映 2-2 包；BGM 诸神降临 0.3 循环\n')
         open(f'{d}/第{n}集-脚本.md', 'w').write('\n'.join(md))
-        summary.append((n, e['code'], e['title'], e['cta'], round(raw, 1), round(dur, 1)))
+        summary.append((n, e['code'], e['title'], cta, round(raw, 1), round(dur, 1)))
         assert raw <= LIMIT_RAW + 0.01, (n, raw)
     for s in summary: print('ep%-2d %-3s %-16s %s 原片 %5.1fs → 成片 %5.1fs' % s)
 
