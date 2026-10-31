@@ -31,11 +31,14 @@ fi
 mkdir -p pipeline/wt
 PROMPT='以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。'
 command -v uvx >/dev/null || { echo '没有 uvx：先跑 brew install uv'; exit 1; }
-for c in $(python3 -c "
+CLIPS=$(python3 -c "
 import sys; sys.path.insert(0,'pipeline'); import eps_plan as e
 s=set()
-for n in [int(x) for x in '$EPS'.split()]: s|={p[0] for p in e.plan(n)[1]}
-print(' '.join(sorted(s)))"); do
+for n in [int(x) for x in '$EPS'.split()]: s|={p['src'] for p in e.plan(n)[1]}
+print(' '.join(sorted(s)))")
+[ -n "$CLIPS" ] || { echo '列不出要转写的原片'; exit 1; }
+echo "要转写：$CLIPS"
+for c in $CLIPS; do
   [ -f pipeline/wt/$c.json ] && continue
   echo "转写 $c …"
   nice -n 19 uvx --from mlx-whisper mlx_whisper "$SUYEN_RAW/$c.MP4" --model mlx-community/whisper-large-v3-turbo \
