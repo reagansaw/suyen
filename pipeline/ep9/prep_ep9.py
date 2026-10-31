@@ -6,16 +6,14 @@ import json, os, re, subprocess, sys
 H = os.path.dirname(os.path.abspath(__file__))
 RAW = os.environ.get('SUYEN_RAW', os.path.expanduser('~/Downloads/raw'))   # 原片 C0001–C0048 的资料夹
 OUT = os.path.join(H, '..', '..', 'remotion', 'public', 'suyenh', 'ep9.mp4')
-SPEED, GAP, PRE, POST = 1.1, 0.45, 0.08, 0.25
+SPEED, GAP, PRE, POST = 1.2, 0.45, 0.08, 0.25
+IC2 = os.path.join(RAW, 'IC2.MOV')   # 新 intro + CTA 成片：照原样接在最后，不加速
 NOISE = os.environ.get('NOISE', '-35dB')   # 静音门槛：吸附不到（印出 0 段静音）就改 -30dB 再跑
 PIECES = [  # (原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
-    ('C0022', 5.02, 18.04, 1.98, 18.63, True, '2027 年三大关键词……系统买了，课程上了'),
+    ('C0022', 11.12, 18.04, 10.88, 18.63, True, '你追的 AI 到底是在帮你赚钱，还是在帮你花钱。系统买了，课程上了'),
     ('C0022', 19.66, 24.10, 19.30, 24.29, True, '营业额却没有动静，这一次的奇门战略大会'),
-    ('C0022', 26.90, 38.08, 26.02, 40.27, True, '我会从年盘来谈年度方向……到底值不值得'),
-    ('C0037', 3.65, 16.00, 3.65, 16.00, False, '大家好，我是林舒苑……来自于世界各地'),
-    ('C0037', 16.22, 19.32, 16.22, 19.32, False, '从上市公司大家族到小家庭'),
-    ('C0048', 4.30, 11.85, 4.30, 11.85, False, '我为大家准备了三天完全免费的 2027 年奇门战略大会'),
-    ('C0048', 27.10, 33.85, 27.10, 33.85, False, '那么马上报名，我们到时见（+ 讲完挥手笑到 33.85，再后面有杂音）'),
+    ('C0022', 33.28, 38.08, 32.90, 40.27, True, '再决定下一笔的技术投入，到底值不值得'),
+    ('IC2', 0.00, 44.23, 0.00, 44.23, False, '新 intro + CTA 成片（照原样）'),
 ]
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -49,13 +47,14 @@ def snap(src, a, b, amin, bmax):
             out.append((cur, s + POST)); cur = e - PRE
     out.append((cur, b2))
     return [(round(x, 3), round(y, 3)) for x, y in out]
-cuts = []
-for (src, a, b, amin, bmax, auto, txt) in PIECES:
+cuts, tail = [], [p for p in PIECES if p[0] == 'IC2']
+for (src, a, b, amin, bmax, auto, txt) in [p for p in PIECES if p[0] != 'IC2']:
     for x, y in (snap(src, a, b, amin, bmax) if auto else [(a, b)]):
         cuts.append((src, x, y, txt))
 raw = sum(y - x for _, x, y, _ in cuts)
-print(f'原片接起来 {raw:.2f} 秒 → 成片 {raw / SPEED:.2f} 秒（{len(cuts)} 刀）')
-if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
+tl = sum(p[2] - p[1] for p in tail)
+print(f'原片接起来 {raw:.2f} 秒 → 成片 {raw / SPEED + tl:.2f} 秒（{len(cuts)} 刀{"，加新 intro+CTA %.2f 秒" % tl if tl else ""}）')
+if raw / SPEED + tl > 60.0: print('⚠ 成片超过 60 秒：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
 tmp = []
 for i, (src, a, b, _) in enumerate(cuts):
     p = f'{H}/_p{i}.mov'
@@ -65,12 +64,21 @@ for i, (src, a, b, _) in enumerate(cuts):
     tmp.append(p)
 lst = f'{H}/_list.txt'; open(lst, 'w').write(''.join(f"file '{p}'\n" for p in tmp))
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
+HOOK = f'{H}/_hook.mp4' if tail else OUT
 run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-f', 'concat', '-safe', '0', '-i', lst,
      '-vf', f'setpts=PTS/{SPEED},fps=30', '-af', f'atempo={SPEED},loudnorm=I=-16:TP=-1.5', '-c:v', 'libx264', '-crf', '16', '-preset', 'fast', '-pix_fmt', 'yuv420p',
-     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', OUT])
+     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', HOOK])
+if tail:
+    # 钩子（已加速）+ 新成片（照原样，只统一成 1920×1080 30fps、响度对齐）
+    run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-i', HOOK, '-ss', f'{tail[0][1]}', '-to', f'{tail[0][2]}', '-i', IC2, '-filter_complex',
+         '[1:v]scale=1920:1080:flags=lanczos,fps=30,setsar=1[v1];[1:a]aresample=48000,loudnorm=I=-16:TP=-1.5[a1];[0:v][0:a][v1][a1]concat=n=2:v=1:a=1[v][a]',
+         '-map', '[v]', '-map', '[a]', '-c:v', 'libx264', '-crf', '16', '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', OUT])
+    tmp.append(HOOK)
 for p in tmp + [lst]: os.remove(p)
 t, meta = 0.0, []
 for (src, a, b, txt) in cuts:
     d = (b - a) / SPEED; meta.append({'src': src, 'a': a, 'b': b, 'start': round(t, 3), 'end': round(t + d, 3), 'text': txt}); t += d
+for (src, a, b, _, _, _, txt) in tail:
+    meta.append({'src': src, 'a': a, 'b': b, 'start': round(t, 3), 'end': round(t + b - a, 3), 'text': txt, 'asis': True}); t += b - a
 json.dump({'speed': SPEED, 'dur': round(t, 3), 'pieces': meta}, open(f'{H}/pieces.json', 'w'), ensure_ascii=False, indent=1)
 print(f'ep9 {t:.2f}s')
