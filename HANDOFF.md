@@ -289,6 +289,7 @@ nice -n 19 ffmpeg -threads 2 -i <上一个> -c:v libx264 -preset slow -crf 25 -m
 - 不要 commit `.env`、字体、原片、`node_modules`、`public/suyenh`
 
 ## 7. 其他档案
+- **竖版内容片（C0049–C0060，玫红模板）**：全部做法在 `skills/suyen-content-rose/SKILL.md`。代码 `remotion/src/SuyenContent.tsx`，剪片工具 `content/`
 - `docs/AIDA-分类表.md`：27 个钩子（P1–P9、R1–R6、I1–I8、S1–S4）、介绍、4 个 CTA、证明素材
 - `docs/文案-各组.md`：每一组的完整文案。⚠ 标的是听不清、要再确认的字
 - `pipeline/prep_hooks.py`：钩子单独剪的版本，做 15–20 秒钩子探针时用（`MODE=h` 是横版）

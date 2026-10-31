@@ -14,3 +14,10 @@ __pycache__/
 remotion/package-lock.json
 prep.log
 cut.log
+# 内容片：剪好的片和抠像是大档，用 content/ 重新产生
+remotion/public/suyenc/*.mp4
+remotion/public/suyenc/pf/
+!remotion/public/suyenc/ev/*.mp4
+!remotion/public/suyenc/cta_vo.wav
+content/_*
+content/*_v1.json
