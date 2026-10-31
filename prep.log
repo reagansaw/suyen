@@ -1,0 +1,40 @@
++ set -euo pipefail
+++ dirname pipeline/mac_prep_eps.sh
++ cd pipeline/..
+++ pwd
++ R=/Users/apple/suyen
++ : ''
++ '[' '!' -f /C0001.MP4 ']'
+++ find /Users/apple/Downloads /Users/apple/Desktop /Users/apple/Movies -maxdepth 4 -iname C0001.MP4
+++ head -1
+++ xargs '-I{}' dirname '{}'
++ SUYEN_RAW=/Users/apple/Downloads/raw
++ '[' -f /Users/apple/Downloads/raw/C0001.MP4 ']'
++ export SUYEN_RAW
++ echo $'å\216\237ç\211\207èµ\204æ\226\231å¤¹ï¼\232/Users/apple/Downloads/raw'
+åŸç‰‡èµ„æ–™å¤¹ï¼š/Users/apple/Downloads/raw
++ EPS='2 3 4 5 6 7 8 9 10 11 12 13 14'
++ '[' -d remotion/node_modules ']'
++ '[' '!' -f remotion/public/ivyga/fonts/LantingheiSC-Heavy.ttf ']'
++ '[' -s remotion/public/ivyga/fonts/LantingheiSC-Heavy.ttf ']'
++ '[' -x tools/subjectmatte ']'
++ '[' -x tools/facetrack ']'
++ mkdir -p pipeline/wt
++ PROMPT=$'ä»¥ä¸\213æ\230¯ç®\200ä½\223ä¸\255æ\226\207ç\232\204å\217¥å\255\220ã\200\202æ\236\227è\210\222è\213\221ï¼\214å¥\207é\227¨é\201\201ç\224²æ\210\230ç\225¥å¤§ä¼\232ï¼\214å¹´ç\233\230ï¼\214å®«ä½\215ï¼\214èµ¤é©¬çº¢ç¾\212å¹´ï¼\2142027å¹´ã\200\202'
++ command -v uvx
+++ python3 -c '
+import sys; sys.path.insert(0,'\''pipeline'\''); import eps_plan as e
+s=set()
+for n in [int(x) for x in '\''2 3 4 5 6 7 8 9 10 11 12 13 14'\''.split()]: s|={p['\''src'\''] for p in e.plan(n)[1]}
+print('\'' '\''.join(sorted(s)))'
++ CLIPS='C0006 C0007 C0009 C0011 C0014 C0018 C0019 C0020 C0021 C0022 C0025 C0027 C0029 C0037 C0039 C0048'
++ '[' -n 'C0006 C0007 C0009 C0011 C0014 C0018 C0019 C0020 C0021 C0022 C0025 C0027 C0029 C0037 C0039 C0048' ']'
++ echo 'è¦è½¬å†™ï¼šC0006 C0007 C0009 C0011 C0014 C0018 C0019 C0020 C0021 C0022 C0025 C0027 C0029 C0037 C0039 C0048'
+è¦è½¬å†™ï¼šC0006 C0007 C0009 C0011 C0014 C0018 C0019 C0020 C0021 C0022 C0025 C0027 C0029 C0037 C0039 C0048
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0006.json ']'
++ echo 'è½¬å†™ C0006 â€¦'
+è½¬å†™ C0006 â€¦
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0006.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'ä»¥ä¸\213æ\230¯ç®\200ä½\223ä¸\255æ\226\207ç\232\204å\217¥å\255\220ã\200\202æ\236\227è\210\222è\213\221ï¼\214å¥\207é\227¨é\201\201ç\224²æ\210\230ç\225¥å¤§ä¼\232ï¼\214å¹´ç\233\230ï¼\214å®«ä½\215ï¼\214èµ¤é©¬çº¢ç¾\212å¹´ï¼\2142027å¹´ã\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0006.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': 'ä»¥ä¸‹æ˜¯ç®€ä½“ä¸­æ–‡çš„å¥å­ã€‚æ—èˆ’è‹‘ï¼Œå¥‡é—¨éç”²æˆ˜ç•¥å¤§ä¼šï¼Œå¹´ç›˜ï¼Œå®«ä½ï¼Œèµ¤é©¬çº¢ç¾Šå¹´ï¼Œ2027å¹´ã€‚', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'â€œÂ¿([{-', 'append_punctuations': '"\'.ã€‚,ï¼Œ!ï¼?ï¼Ÿ:ï¼šâ€)]}ã€', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
