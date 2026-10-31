@@ -3,6 +3,7 @@ import { Composition } from 'remotion';
 import { SuyenES4, SuyenEP1, SuyenEI2, SuyenEP6, SuyenEp1, suyenEFrames, withIntroV2 } from './SuyenHooksE';
 import * as EPS from './SuyenEps';
 import { SuyenEVS4, suyenEVFrames } from './SuyenHooksEV';
+import { SuyenC55, SuyenC57, SuyenC57S1, suyenCFrames } from './SuyenContent';
 
 // 横版 16:9：钩子 P1 / I2 / P6 + 广告第一集；竖版 S4（C0057，广告不用，只留着参考）
 export const Root: React.FC = () => (
@@ -22,5 +23,9 @@ export const Root: React.FC = () => (
     <Composition id="SuyenEp5" component={EPS.SuyenEp5} durationInFrames={suyenEFrames('ep5')} fps={30} width={1920} height={1080} />
     <Composition id="SuyenEp6" component={EPS.SuyenEp6} durationInFrames={suyenEFrames('ep6')} fps={30} width={1920} height={1080} />
     {/* eps:end */}
+    {/* 内容片（竖版玫红模板，skills/suyen-content-rose）*/}
+    <Composition id="SuyenC55" component={SuyenC55} durationInFrames={suyenCFrames('c55')} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC57" component={SuyenC57} durationInFrames={suyenCFrames('c57')} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC57S1" component={SuyenC57S1} durationInFrames={suyenCFrames('c57')} fps={30} width={1080} height={1920} />
   </>
 );
