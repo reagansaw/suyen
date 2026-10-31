@@ -927,8 +927,8 @@ export const SuyenEp1: React.FC = () => {
         <InkBrush at={6.67} dur={0.51} />
         <Flare at={0.78} k={0.35} /><Flare at={1.56} k={0.4} /><Flare at={6.93} /><Flare at={11.45} k={0.45} /><Flare at={11.89} k={0.7} />
       
-        <Cutaway id="ep1" src="ep1_yearchart" from={16.38} to={20.091} focus={[990, 430]} last={false} />
-        <Cutaway id="ep1" src="ep1_dh_point" from={20.091} to={26.855} focus={[990, 430]} cont />
+        {/* 数字人 Suyen 不用了（Reagan 10-31：AI 生成的有点老，用原本的她）→ 年盘一路到介绍段，圆框里是她本人 */}
+        <Cutaway id="ep1" src="ep1_yearchart" from={16.38} to={26.855} focus={[990, 430]} />
         <Hero text="趋势" {...T(18.48, 19.63)} x={380} y={560} size={130} anim="呐喊声波" />
         <Hero text="格局" {...T(19.63, 20.091)} x={380} y={560} size={130} anim="呐喊声波" />
         <Hero text="宫位 · 方向 · 时间点" {...T(21.18, 22.982)} x={1400} y={210} size={78} anim="呐喊声波" />
