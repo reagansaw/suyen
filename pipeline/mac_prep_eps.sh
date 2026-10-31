@@ -18,11 +18,13 @@ if [ ! -f remotion/public/ivyga/fonts/LantingheiSC-Heavy.ttf ]; then
   F=$(find /System/Library/AssetsV2 -name 'Lantinghei.ttc' 2>/dev/null | head -1 || true)
   [ -n "$F" ] || { echo '找不到 Lantinghei.ttc：先在「字体册」下载「兰亭黑-简」'; exit 1; }
   command -v uvx >/dev/null || { echo '没有 uvx：先跑 brew install uv'; exit 1; }
+  mkdir -p remotion/public/ivyga/fonts
   (cd remotion && uvx --from fonttools python -c "
 from fontTools.ttLib import TTCollection
 c=TTCollection('$F')
 [f.save('public/ivyga/fonts/LantingheiSC-Heavy.ttf') for f in c.fonts if f['name'].getDebugName(4)=='Lantinghei SC Heavy']")
 fi
+[ -s remotion/public/ivyga/fonts/LantingheiSC-Heavy.ttf ] || { echo '字体没导出成功'; exit 1; }
 [ -x tools/subjectmatte ] || (cd tools && swiftc -O subjectmatte.swift -o subjectmatte)
 [ -x tools/facetrack ] || (cd tools && swiftc -O facetrack.swift -o facetrack)
 # 2. 每集要用的原片 → 逐字转写（pipeline/wt/C00xx.json），切点要照这个对到字和字的空隙
