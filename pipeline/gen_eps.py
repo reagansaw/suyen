@@ -22,7 +22,10 @@ def r(x): return round(x, 2)
 # B-roll：有档案就用影片，没有就占位卡（label 写这段要什么，Reagan 看图就知道）
 def bg(src, label):
     return '' if os.path.exists(f'{BR}/{src}.mp4') else f' bg={{<Ph label="{src}：{label}" />}}'
+# 新 B-roll 还没生成、又要先出片时：拿已有的同调性片顶着（负面配负面、演员配演员），真的片下载后重跑就会换回来
+STANDIN = {'p2_loss': 'p1_tired', 'p2_fork': 'i2_team'} if os.environ.get('STANDIN') else {}
 def cut(n, src, a, b, label, **kw):
+    if not os.path.exists(f'{BR}/{src}.mp4') and src in STANDIN: src = STANDIN[src]
     extra = ''.join(f' {k}' if v is True else f' {k}={{{str(v).lower()}}}' for k, v in kw.items())
     return f'<Cutaway id="ep{n}" src="{src}" from={{{r(a)}}} to={{{r(b)}}} focus={{[990, 430]}}{bg(src, label)}{extra} />'
 def shot(src, a, b, label, **kw):
@@ -88,9 +91,24 @@ def cta1(n):
             ('依然抓准趋势', T(18.75), T(21.10)), ('落实你想要的结果', T(21.10), P9S), ('那么马上报名', P9S, T(29.40)), ('我们到时见！', T(29.40), E)]
     return behind, front, fx, subs, [SAN, MS]
 
+# ---------- 共用：CTA-1 短版（C0048 黄椅子，她本人讲）：三天免费 → 2027 奇门战略大会 → 马上报名 → 讲完挥手笑 2 秒收尾 ----------
+# 代替 CTA-2（C0039 是别人的声音，Reagan 10-31：「要一直是 Suyen 的声音，后面预留多 2 秒」）
+def cta1s(n):
+    P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, PMS = P[0]['start'], P[2]['start']; E = dur(n) + 0.6
+    SAN, Y27, MS, JIAN = (t(n, 'C0048', x) for x in (6.08, 8.88, 27.92, 30.80))
+    behind = [hero('3 天 · 完全免费', SAN, PMS, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, PMS, 420, 440, 84, ls=0.08, rule=True),
+              hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6)]
+    front = [f'<Flare at={{{r(SAN)}}} k={{0.45}} /><Flare at={{{r(MS)}}} k={{0.55}} />']
+    fx = [sfx(P7S - 0.05, '闪回'), sfx(SAN - 0.03, '综艺咚'), sfx(Y27 - 0.03, '综艺咚咚两声鼓点转场音效'), sfx(MS - 0.03, '叮收银机提示音1'), sfx(JIAN, '亮一下')]
+    T = lambda x: t(n, 'C0048', x)
+    subs = [('我为大家准备了三天完全免费的', P7S, T(8.80)), ('2027 年奇门战略大会', T(8.80), PMS), ('那么马上报名', PMS, T(29.40)), ('我们到时见！', T(29.40), JIAN + 0.6)]
+    return behind, front, fx, subs, [SAN, MS]
+
 # ---------- 每集 = 自己的钩子 + 教方法，后面接共用的 我们是谁 + CTA ----------
 def assemble(n, behind, front, fx, subs, hits, pushes, dust, origin='48% 30%', cta=None, grade='() => [1, 1, 0]'):
-    cta = cta or cta2
+    if cta is None:   # 照 pieces.json 用的是哪个 CTA
+        k = sum(p['src'] == 'C0048' for p in pieces(n)['pieces'])
+        cta = cta1 if k == 4 else cta1s if k == 3 else cta2
     c0 = starts(n, 'C0037')[0]
     nxt = next(p['start'] for p in pieces(n)['pieces'] if p['start'] > c0 and p['src'] != 'C0037')
     phdef, _, ifr, ifx, isub, _ = intro(n, nxt)
@@ -103,7 +121,7 @@ def ep2():
     FAN, SHEN, PEI, LIU, QI, HAI, LANG, ZHENG = (T(x) for x in (4.50, 4.72, 6.46, 7.38, 8.06, 9.04, 9.28, 10.24))
     NA, Y20, Y27, ZHEN, JIA, HUN, YAN, FB, HAISHI, XB = (T(x) for x in (12.10, 12.22, 12.52, 13.72, 13.98, 14.44, 15.14, 16.78, 18.40, 19.78))
     QM, NP, JH, FX, QJ, JT, XBJ, ZTR = (T(x) for x in (21.40, 24.40, 25.88, 27.04, 28.64, 30.18, 31.28, 32.64))
-    INTRO0, C0 = starts(n, 'C0037')[0], starts(n, 'C0039')[0]
+    INTRO0 = starts(n, 'C0037')[0]
     LOSS0, FORK0, YC0, DH0 = HAI - 0.05, YAN - 0.1, NP - 0.35, XBJ - 0.1
     behind = [hero('翻', FAN, PEI - 0.05, 560, 240, 340, dur=0.32, glow=0.6), hero('身？', SHEN, PEI - 0.05, 1400, 240, 340, dur=0.32, glow=0.6),
               hero('20', Y20, ZHEN - 0.05, 520, 220, 340, ls=0.06, glow=0.5), hero('27', Y27, ZHEN - 0.05, 1260, 220, 340, ls=0.06, glow=0.5),
@@ -118,7 +136,7 @@ def ep2():
              f'<Seal text="混" at={{{r(HUN)}}} until={{{r(FORK0)}}} x={{1740}} y={{560}} size={{130}} rot={{-3}} />',
              cut(n, 'p2_fork', FORK0, QM - 0.05, '山路分岔：左边金色日出的路、右边断崖暗雾（没有人）'),
              hero('翻倍转机？', FB, QM - 0.07, 400, 400, 120, anim='呐喊声波'), hero('血本无归？', XB, QM - 0.07, 400, 620, 120, tone='red', anim='呐喊声波'),
-             cut(n, 'ep1_yearchart', YC0, DH0, '奇门年盘', last=False), cut(n, 'ep1_dh_point', DH0, INTRO0, '数字人 Suyen', cont=True),
+             cut(n, 'ep1_yearchart', YC0, INTRO0, '奇门年盘'),   # 数字人 Suyen 不用了（Reagan 10-31：AI 生成的有点老，用原本的她）→ 年盘一路到介绍段，圆框里是她本人
              hero('机会', JH, QJ - 0.05, 380, 460, 130, anim='呐喊声波'), hero('风险', FX, QJ - 0.05, 380, 660, 130, tone='red', anim='呐喊声波'),
              hero('看全局', QJ, DH0, 400, 460, 130, anim='呐喊声波'), hero('定进退', JT, DH0, 400, 660, 130, anim='呐喊声波'),
              hero('先布局', XBJ, INTRO0, 400, 460, 130, anim='呐喊声波'), hero('再投入', ZTR, INTRO0, 400, 660, 130, anim='呐喊声波'),
@@ -130,7 +148,7 @@ def ep2():
           *(sfx(x - 0.03, '木鱼敲击回响音效') for x in (ZHEN, JIA, HUN)),
           sfx(FORK0 - 0.05, '旋风'), sfx(FB - 0.03, '综艺咚'), sfx(XB - 0.03, '咚咚重音心头震'),
           sfx(QM - 0.05, '咚'), sfx(YC0 - 0.05, '回忆-刷一下'), *(sfx(x - 0.03, '叮提示音4') for x in (JH, FX, QJ, JT)),
-          sfx(DH0 - 0.05, '扫光'), *(sfx(x - 0.03, '木鱼敲击回响音效') for x in (XBJ, ZTR))]
+          *(sfx(x - 0.03, '木鱼敲击回响音效') for x in (XBJ, ZTR))]
     subs = [('以为抓到翻身的机会', 0.05, T(5.80)), ('结果赔掉 6 位数、7 位数', T(5.80), HAI - 0.05), ('还浪费一整年的时间', HAI - 0.05, NA - 0.05),
             ('那 2027 年', NA - 0.05, ZHEN - 0.05), ('真假混', ZHEN - 0.05, YAN - 0.05), ('眼前到底是翻倍的转机', YAN - 0.05, HAISHI - 0.05),
             ('还是会让你血本无归的危机？', HAISHI - 0.05, QM - 0.05), ('奇门遁甲战略大会', QM - 0.05, T(23.80)), ('我会从年盘拆解机会和风险', T(23.80), T(27.80)),
@@ -287,7 +305,7 @@ def ep6():
     # v9：讲到「十年储蓄」那一下短暂变黑白（故事转折），之后回彩色
     k0, k1, k2 = m(15.55), m(15.9), HEND
     grade = f'(t) => {{ const k = t < {k2} ? interpolate(t, [{k0}, {k1}], [0, 0.85], clamp) : interpolate(t, [{k2}, {r(k2 + 0.3)}], [0.85, 0], clamp); return [1 - 0.22 * k, 1, k]; }}'
-    return assemble(n, behind, front, fx, subs, hits=hits + [QM], pushes=pushes, dust=QM, cta=cta1, grade=grade)
+    return assemble(n, behind, front, fx, subs, hits=hits + [QM], pushes=pushes, dust=QM, grade=grade)
 
 EPS = [ep2, ep3, ep4, ep5, ep6]
 

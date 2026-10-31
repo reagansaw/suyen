@@ -12,8 +12,9 @@ PIECES = [  # (原片, 起点提示, 止点提示, 最早起点, 最晚止点, �
     ('C0027', 3.04, 36.14, 2.56, 36.37, True, '2027 年年度局势……再决定出手'),
     ('C0037', 3.65, 16.00, 3.65, 16.00, False, '大家好，我是林舒苑……来自于世界各地'),
     ('C0037', 16.22, 19.32, 16.22, 19.32, False, '从上市公司大家族到小家庭'),
-    ('C0039', 0.00, 2.06, 0.00, 2.90, True, '三天完全免费的战略大会'),
-    ('C0039', 5.16, 14.14, 4.60, 14.60, True, '如果你想要看清 2027 年趋势……马上报名，我们到时见'),
+    ('C0048', 4.30, 7.40, 4.30, 7.40, False, '我为大家准备了三天完全'),
+    ('C0048', 7.70, 11.85, 7.70, 11.85, False, '免费的 2027 年奇门战略大会'),
+    ('C0048', 27.10, 33.30, 27.10, 33.30, False, '那么马上报名，我们到时见（+ 讲完挥手笑 2 秒）'),
 ]
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -50,7 +51,7 @@ for (src, a, b, amin, bmax, auto, txt) in PIECES:
         cuts.append((src, x, y, txt))
 raw = sum(y - x for _, x, y, _ in cuts)
 print(f'原片接起来 {raw:.2f} 秒 → 成片 {raw / SPEED:.2f} 秒（{len(cuts)} 刀）')
-if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA2，或删一句'); sys.exit(1)
+if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
 tmp = []
 for i, (src, a, b, _) in enumerate(cuts):
     p = f'{H}/_p{i}.mov'

@@ -14,7 +14,7 @@ TX = os.path.join(H, '..', 'transcripts')
 WT = os.path.join(H, 'wt')
 SPEED = 1.1
 LIMIT_RAW = 66.0   # 原片接起来 ≤66 秒，加速后才 ≤60 秒
-CTA1_MAX = 64.5    # 估的时长要留余地：估出来 ≤64.5 秒才用 CTA-1，否则 CTA-2
+CTA1_MAX = 64.5    # 估的时长要留余地：估出来 ≤64.5 秒才用 CTA-1，否则 CTA-1 短版
 GAP = 0.45         # 句间停顿超过这个就剪短
 PRE, POST = 0.08, 0.25
 
@@ -24,7 +24,10 @@ INTRO = [('C0037', 3.65, 16.00, '大家好，我是林舒苑……来自于世�
 CTA1 = [('C0048', 4.30, 7.40, '我为大家准备了三天完全'),
         ('C0048', 7.70, 11.85, '免费的 2027 年奇门战略大会'),
         ('C0048', 13.57, 23.10, '你在 2027 年那么混乱的赤马红羊年的年代，依然抓准趋势，落实你想要的结果'),
-        ('C0048', 27.10, 30.95, '那么马上报名，我们到时见')]
+        ('C0048', 27.10, 33.30, '那么马上报名，我们到时见（+ 讲完挥手笑 2 秒）')]   # Reagan 10-31：「后面预留多 2 秒，不然后面卡顿」
+# CTA-1 短版：脚本长、放不下整段 CTA-1 时用（代替 CTA-2）
+CTA1S = [CTA1[0], CTA1[1], CTA1[3]]
+# ⚠ CTA-2 不能用：C0039 整段只拍到 logo 墙，声音不是 Suyen（Reagan 10-31：「后面为什么变成男生？要一直是 Suyen 的声音」）
 CTA2 = [('C0039', 0.00, 2.06, '三天完全免费的战略大会', 0.00, 2.90),          # 手册的 1.95 会切掉半个「会」（逐字：会 1.86–2.06）
         ('C0039', 5.16, 14.14, '如果你想要看清 2027 年趋势……马上报名，我们到时见', 4.60, 14.60)]   # 中间「呃，嗯，嗯」剪掉
 CTA4 = [('C0021', 61.74, 72.96, '那么生肖牛和老鼠的人，你们还怕吗？来参加舒苑老师的奇门遁甲战略大会，来获得先机', 61.30, 73.50)]   # 前一个字「来」61.28 才讲完
@@ -56,6 +59,11 @@ CTA2_VIS = {
     ('C0039', 0.00): '回到她本人 · 活动卡：「3 天 · 完全免费」「2027 奇门战略大会」（缩小II，人后层）· 音效：咚',
     ('C0039', 5.00): '整画面切到彩虹吉祥羊（`goat_positive`，已有）+ 圆框 · 「看清 2027 趋势」 · 音效：亮一下',
     ('C0039', 12.04): '回到她本人 · 「马上报名」按钮（呐喊声波，胸口以下）· 音效：叮收银机提示音1',
+}
+CTA1S_VIS = {
+    ('C0048', 4.30): '回到她本人 · 活动卡飞出：「3 天 · 完全免费」（缩小II，人后层）· 音效：咚',
+    ('C0048', 8.84): '「2027 奇门战略大会」立体字 · 音效：综艺咚咚两声鼓点',
+    ('C0048', 27.28): '「马上报名」（人后层）· 讲完她挥手笑，留 2 秒收尾 · 音效：叮收银机提示音1',
 }
 CTA4_VIS = {
     ('C0021', 61.36): '回到她本人 · 「生肖 牛 · 鼠」立体字（人后层）→「你们还怕吗？」 · 音效：咚咚重音心头震',
@@ -257,9 +265,9 @@ def plan(n):
     intro_raw = sum(p[2] - p[1] for p in intro)
     cta = e['cta']
     if cta == 'auto':
-        cta = 'CTA1' if script_raw + intro_raw + sum(p[2] - p[1] for p in CTA1) <= CTA1_MAX else 'CTA2'
-    ctap = {'CTA1': CTA1, 'CTA2': CTA2, 'CTA4': CTA4}[cta]
-    ctav = {'CTA1': CTA1_VIS, 'CTA2': CTA2_VIS, 'CTA4': CTA4_VIS}[cta]
+        cta = 'CTA1' if script_raw + intro_raw + sum(p[2] - p[1] for p in CTA1) <= CTA1_MAX else 'CTA1S'
+    ctap = {'CTA1': CTA1, 'CTA1S': CTA1S, 'CTA4': CTA4}[cta]
+    ctav = {'CTA1': CTA1_VIS, 'CTA1S': CTA1S_VIS, 'CTA4': CTA4_VIS}[cta]
     # PIECES：(原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
     pieces = [(src, round(ah, 2), round(bh, 2), amin, bmax, True, txt) for (src, t0, t1, txt, (ws, ah, bh, amin, bmax)) in spans]
     # 介绍段、CTA-1：第 1 集校准过的切法，不动；CTA-2、CTA-4 带了最早 / 最晚的界线，剪片时也量静音吸附
@@ -345,7 +353,7 @@ for (src, a, b, amin, bmax, auto, txt) in PIECES:
         cuts.append((src, x, y, txt))
 raw = sum(y - x for _, x, y, _ in cuts)
 print(f'原片接起来 {{raw:.2f}} 秒 → 成片 {{raw / SPEED:.2f}} 秒（{{len(cuts)}} 刀）')
-if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA2，或删一句'); sys.exit(1)
+if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
 tmp = []
 for i, (src, a, b, _) in enumerate(cuts):
     p = f'{{H}}/_p{{i}}.mov'
@@ -378,7 +386,7 @@ def main():
         md = [f"# Suyen 2027 奇门战略大会 · 广告第{n}集（{e['code']} · {e['title']}）· 16:9 横版\n",
               f"**总长约 {dur:.1f} 秒**（原片接起来约 {raw:.1f} 秒 ÷ 1.1，句间停顿已剪短）。这是用逐字时间估的，剪完以 `pieces.json` 为准。\n",
               f"**结构**：钩子 + 痛点 + 教方法（{e['script'][0][0]}）→ 我们是谁（C0037）→ 报名 {cta.replace('CTA', 'CTA-')}"
-              + ('（脚本短，放得下 CTA-1）' if cta == 'CTA1' else '（CTA-1 放不下 60 秒，用 CTA-2）' if cta == 'CTA2' else '') + '\n',
+              + ('（脚本短，放得下 CTA-1）' if cta == 'CTA1' else '（CTA-1 放不下 60 秒，用 CTA-1 短版）' if cta == 'CTA1S' else '') + '\n',
               '**素材**：只用 C0001–C0048。字幕照她讲的原话打，名字一律「林舒苑」。⚠ = 要回听确认的字。\n']
         if e.get('hook_done'): md.append(f"**钩子已经定稿**：照 `{e['hook_done']}`（v9），时间全部 ÷1.1。\n")
         md.append('## 剪法备注\n' + '\n'.join(f'- {x}' for x in e['notes']) + '\n')
@@ -386,7 +394,7 @@ def main():
         for r in rows:
             if r[0] == 'sec': md.append(f'\n### {r[1]}\n\n| 时间 | 原片 | 她讲什么 | 画面 |\n|---|---|---|---|')
             else: md.append(f'| {int(r[1] // 60)}:{r[1] % 60:04.1f} | {r[2]} | {r[3]} | {r[4]} |')
-        allvis = list(e['vis'].values()) + list({'CTA1': CTA1_VIS, 'CTA2': CTA2_VIS, 'CTA4': CTA4_VIS}[cta].values())
+        allvis = list(e['vis'].values()) + list({'CTA1': CTA1_VIS, 'CTA1S': CTA1S_VIS, 'CTA4': CTA4_VIS}[cta].values())
         reuse = sorted({k for k in REUSE if any(k in v for v in allvis)})
         md.append('\n## B-roll\n')
         md.append('- **要在 studio 新跑的**（画布已搭好，不按 Run）：' + '、'.join(f'`{b}`' for b in e['broll']))

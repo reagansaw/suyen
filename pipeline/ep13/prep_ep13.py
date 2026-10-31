@@ -51,7 +51,7 @@ for (src, a, b, amin, bmax, auto, txt) in PIECES:
         cuts.append((src, x, y, txt))
 raw = sum(y - x for _, x, y, _ in cuts)
 print(f'原片接起来 {raw:.2f} 秒 → 成片 {raw / SPEED:.2f} 秒（{len(cuts)} 刀）')
-if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA2，或删一句'); sys.exit(1)
+if raw > 66.0: print('⚠ 超过 66 秒（加速后超过 60 秒）：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
 tmp = []
 for i, (src, a, b, _) in enumerate(cuts):
     p = f'{H}/_p{i}.mov'
