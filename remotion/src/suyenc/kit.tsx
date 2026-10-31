@@ -17,7 +17,8 @@ const mkRn = (subs: Cut['subs']): RFn => {
   if (subs.some((s) => s.piece === undefined)) return (r) => one(r);
   const ids = [...new Set(subs.map((s) => s.piece as number))];
   return (r, n = 0) => {
-    const hit = ids.filter((p) => { const g = subs.filter((s) => s.piece === p); return g[0].a - 0.02 <= r && r <= g[g.length - 1].b + 0.02; });
+    const span = (p: number, tol: number) => { const g = subs.filter((s) => s.piece === p); return g[0].a - tol <= r && r <= g[g.length - 1].b + tol; };
+    const strict = ids.filter((p) => span(p, 0)), hit = strict.length ? strict : ids.filter((p) => span(p, 0.02));   // 刚好落在两段交界：先认真的在里面的那段
     if (!hit.length) return one(r);
     return mkR(subs.filter((s) => s.piece === hit[Math.min(n, hit.length - 1)]))(r);
   };
@@ -70,7 +71,7 @@ export const DocCard: React.FC<{ at: number; until: number; stampAt: number; hea
     return (
       <div style={{ position: 'absolute', left: x, top: y, width: 470, opacity: o, transform: `translate(${(1 - u) * -600 + dx}px, ${dy}px) rotate(-4deg)` }}>
         <div style={{ background: '#FFFDF8', borderRadius: 10, padding: '26px 28px 30px', boxShadow: '0 18px 50px rgba(0,0,0,0.4)', borderTop: `14px solid ${NAVY}` }}>
-          <div style={{ fontFamily: LTH, fontSize: 30, color: NAVY, letterSpacing: '0.04em' }}>{head}</div>
+          <div style={{ fontFamily: LTH, fontSize: 26, color: NAVY, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>{head}</div>
           <div style={{ fontFamily: LTH, fontSize: 40, color: ROSE_DEEP, margin: '12px 0 16px', letterSpacing: '0.06em' }}>{title}</div>
           {rows.map(([k, v], i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px dashed #D8CDB8', padding: '8px 0', fontFamily: LTH, fontSize: 28 }}>
@@ -79,7 +80,7 @@ export const DocCard: React.FC<{ at: number; until: number; stampAt: number; hea
           ))}
         </div>
         {t >= stampAt && (
-          <div style={{ position: 'absolute', right: -30, top: 120, transform: `scale(${sk}) rotate(-14deg)`, border: '10px solid #C8202E', color: '#C8202E', fontFamily: LTH, fontSize: 150,
+          <div style={{ position: 'absolute', right: -30, top: 120, transform: `scale(${sk}) rotate(-14deg)`, border: '10px solid #C8202E', color: '#C8202E', fontFamily: LTH, fontSize: [...stamp].length > 1 ? 84 : 150,
             width: 210, height: 210, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.85)', lineHeight: 1 }}>{stamp}</div>
         )}
       </div>

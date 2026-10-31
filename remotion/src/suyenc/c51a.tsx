@@ -1,7 +1,7 @@
 // 内容③ 真假混到底混在哪里？（C0051 0–74s）：香港汇款骗局故事
 // 钩子「汇错人了」→ 2027 真假混混在哪里 → 48 国顾客 → 假 invoice → 汇去香港（B-roll）→ 汇错人 → 偷 letterhead 盖「假」→ 要提防 → scammer → 混水摸鱼 → CTA
 import React from 'react';
-import { Hero, Chip, Cutaway, HandCircle, Seal, Flash, Glitch, TopBanner, MysteryTiles, Sfx } from '../SuyenContent';
+import { Hero, Chip, Cutaway, HandCircle, Flash, Glitch, TopBanner, MysteryTiles, Sfx } from '../SuyenContent';
 import type { Cam } from '../SuyenContent';
 import { EpShell, mkEp, epFrames, subsR, mkYAt, DocCard } from './kit';
 import FACE from '../suyenc-face-c51a.json';
@@ -61,7 +61,7 @@ export const SuyenC51a: React.FC = () => {
       <DocCard at={R(44.14)} until={R(50.20)} stampAt={R(46.92)} head="XX TRADING SDN BHD" title="PAYMENT INVOICE" rows={[['Letterhead', '偷来的'], ['收款人', '不是你'], ['结果', '汇错人']]} />
       <HandCircle ep={ep} at={R(50.76)} until={R(57.95)} label="要提防" labelAt={R(55.96)} />
       <Glitch text="SCAMMER" at={R(62.08)} until={R(63.88)} x={540} y={930} size={150} />
-      <Seal text="混水摸鱼" at={R(71.10)} until={CUTT} x={190} y={900} size={230} />
+      <Chip text="混水摸鱼" at={R(71.10)} until={CUTT} x={300} y={930} tone="rose" size={76} rot={-4} />
     </EpShell>
   );
 };
