@@ -41,7 +41,7 @@ echo "要转写：$CLIPS"
 for c in $CLIPS; do
   [ -f pipeline/wt/$c.json ] && continue
   echo "转写 $c …"
-  nice -n 19 uvx --from mlx-whisper mlx_whisper "$SUYEN_RAW/$c.MP4" --model mlx-community/whisper-large-v3-turbo \
+  nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper "$SUYEN_RAW/$c.MP4" --model mlx-community/whisper-large-v3-turbo \
     --language zh --word-timestamps True --initial-prompt "$PROMPT" --output-format json --output-dir pipeline/wt
 done
 echo '逐字转写好了：先照 pipeline/wt/*.json 把 pipeline/eps_plan.py 的切点挪到字缝，重跑 python3 pipeline/eps_plan.py，再继续'
