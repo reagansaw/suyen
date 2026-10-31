@@ -10,7 +10,7 @@ import { depth } from './JyText';
 import FC_P1 from './suyenh-face-p1.json';
 import FC_I2 from './suyenh-face-i2.json';
 import FC_P6 from './suyenh-face-p6.json';
-const FACE: Partial<Record<'s4' | 'p1' | 'i2' | 'p6' | 'ep1', { x: number[]; y: number[] }>> = { p1: FC_P1 as any, i2: FC_I2 as any, p6: FC_P6 as any };
+const FACE: Partial<Record<HookId, { x: number[]; y: number[] }>> = { p1: FC_P1 as any, i2: FC_I2 as any, p6: FC_P6 as any };
 const DIR = 'suyenh';
 import TK_P1 from './suyenh-track-p1.json';
 import TK_I2 from './suyenh-track-i2.json';
@@ -22,7 +22,7 @@ import EP1 from './suyen-ep1.json';
 const W = 1920, H = 1080, FPS = 30;
 const f = (s: number) => Math.round(s * FPS);
 const clamp = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const };
-type HookId = 's4' | 'p1' | 'i2' | 'p6' | 'ep1';
+type HookId = 's4' | 'p1' | 'i2' | 'p6' | 'ep1' | `ep${number}`;
 const M = { ...(META as unknown as Record<HookId, { dur: number }>), ep1: { dur: (EP1 as any).dur } } as Record<HookId, { dur: number }>;
 export const suyenEFrames = (id: HookId) => f(M[id].dur + 0.6);
 const END = (id: HookId) => M[id].dur + 0.6;
@@ -980,3 +980,8 @@ export const SuyenEp1: React.FC = () => {
     />
   );
 };
+
+/* ================= 第 2–14 集：合成在 SuyenEps.tsx（pipeline/gen_eps.py 产生），这里只登记时长 / 脸 / 圆框轨迹，并把元件借出去 ================= */
+export const regEp = (id: HookId, dur: number, face: { x: number[]; y: number[] }, track: { x: number[]; y: number[] }) => { M[id] = { dur }; FACE[id] = face; TRACK[id] = track; };
+export { Frame, Hero, Cutaway, NameTag, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
+export type { Cam, Grade, HookId };
