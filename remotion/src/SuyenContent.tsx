@@ -261,14 +261,15 @@ const Chip: React.FC<{ text: string; at: number; until: number; x: number; y: nu
   );
 };
 // 整画面切到 B-roll，她缩进圆框（圆框一路跟着脸）
-const Cutaway: React.FC<{ ep: Ep; src: string; from: number; to: number; placeholder?: string; image?: string; full?: boolean; pipTopAt?: number }> = ({ ep, src, from, to, placeholder, image, full, pipTopAt }) => {
+// pipLeft：右上有目录牌时，小卡放左上（标题条下面）
+const Cutaway: React.FC<{ ep: Ep; src: string; from: number; to: number; placeholder?: string; image?: string; full?: boolean; pipTopAt?: number; pipLeft?: boolean }> = ({ ep, src, from, to, placeholder, image, full, pipTopAt, pipLeft }) => {
   const t = useT();
   if (t < from - 0.01 || t > to) return null;
   const o = win(t, from, to, 0.2, 0.2), k = 1.03 + 0.06 * ease(t, from, to - from, eio), pin = pipTopAt !== undefined ? (t < pipTopAt ? 0 : ease(t, pipTopAt, 0.4, Easing.out(Easing.back(1.6)))) : ease(t, from, 0.4, Easing.out(Easing.back(1.6)));
   // full（整张羊图）：小卡放左上空位（Reagan 10-31 画箭头）
   // pipTopAt（内容②，Reagan 10-31「小卡不能在右下角，要放上面；牌亮相完了放右上」）：右上角，牌收掉才弹出
   const top = pipTopAt !== undefined;
-  const [fx, fy] = faceAt(ep, t), CW = top ? 320 : full ? 290 : image ? 320 : 420, CH = top ? 430 : full ? 390 : image ? 440 : 580, cx = top ? 870 : full ? 210 : image ? 880 : 800, cy = top ? 560 : full ? 490 : image ? 1530 : 1500, zoom = top ? 0.75 : full ? 0.7 : image ? 0.75 : 0.9;
+  const [fx, fy] = faceAt(ep, t), CW = top ? 320 : full ? 290 : image ? 320 : 420, CH = top ? 430 : full ? 390 : image ? 440 : 580, cx = top ? (pipLeft ? 210 : 870) : full ? 210 : image ? 880 : 800, cy = top ? (pipLeft ? 600 : 560) : full ? 490 : image ? 1530 : 1500, zoom = top ? 0.75 : full ? 0.7 : image ? 0.75 : 0.9;
   return (
     <AbsoluteFill style={{ opacity: o }}>
       <AbsoluteFill style={{ transform: `scale(${k})` }}>
@@ -367,7 +368,7 @@ const CircleStage: React.FC<{ ep: Ep; from: number; to: number; children?: React
 };
 // 手机画面（violini「phone mockup」）：九宫奇门盘 + 点一下 + 对方宫位亮
 const PALACE = ['巽四', '离九', '坤二', '震三', '中五', '兑七', '艮八', '坎一', '乾六'];
-const PhoneQimen: React.FC<{ at: number; until: number; tap: number; hi: number; hiIdx: number }> = ({ at, until, tap, hi, hiIdx }) => {
+const PhoneQimen: React.FC<{ at: number; until: number; tap: number; hi: number; hiIdx: number; hiLabel?: string }> = ({ at, until, tap, hi, hiIdx, hiLabel = '对方宫位' }) => {
   const t = useT();
   if (t < at || t > until) return null;
   const u = ease(t, at, 0.45, Easing.out(Easing.back(1.4))), o = 1 - ease(t, until - 0.25, 0.25), shown = t >= tap + 0.15;
@@ -384,7 +385,7 @@ const PhoneQimen: React.FC<{ at: number; until: number; tap: number; hi: number;
               <div key={p} style={{ height: 150, borderRadius: 10, background: i === hiIdx ? `rgba(210,64,90,${0.15 + 0.85 * g})` : '#EFE4CB', border: i === hiIdx && g > 0 ? `4px solid ${ROSE_DEEP}` : '2px solid #D9C9A3',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', transform: i === hiIdx ? `scale(${1 + 0.08 * g})` : undefined }}>
                 <div style={{ fontFamily: LTH, fontSize: 30, color: i === hiIdx && g > 0.5 ? WHITE : NAVY }}>{p}</div>
-                <div style={{ fontFamily: LTH, fontSize: 22, color: i === hiIdx && g > 0.5 ? CREAM : '#8A7A5A', marginTop: 6 }}>{i === hiIdx ? '对方宫位' : '·  ·  ·'}</div>
+                <div style={{ fontFamily: LTH, fontSize: 22, color: i === hiIdx && g > 0.5 ? CREAM : '#8A7A5A', marginTop: 6 }}>{i === hiIdx ? hiLabel : '·  ·  ·'}</div>
               </div>
             ))}
           </div>
@@ -843,3 +844,12 @@ const CtaEnd: React.FC<{ at: number }> = ({ at }) => {
     </AbsoluteFill>
   );
 };
+
+/* ---------- 给内容③起的每一集用（src/suyenc/*.tsx）---------- */
+export {
+  W, H, FPS, f, clamp, useT, eo, eio, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, faceAt, Plate, Hero, TopBanner, IndexPanel, MysteryTiles, NameTag,
+  Glitch, Chip, Cutaway, HandCircle, Checklist, CircleStage, PhoneQimen, Seal, Flash, FlipPair, Bug, Subs, BlindBox, SpeedLines, rng, LuopanRing, Road, mkR, QuestionCard, CtaEnd,
+  applyTheme, shakeAt,
+};
+export { ROSE, ROSE_DEEP, CREAM, NAVY, BUTTERFLY, PANEL };
+export type { Ep, Cam, Sub, SubSeg, Face };

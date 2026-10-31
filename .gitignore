@@ -21,3 +21,4 @@ remotion/public/suyenc/pf/
 !remotion/public/suyenc/cta_vo.wav
 content/_*
 content/*_v1.json
+node_modules
