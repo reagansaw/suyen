@@ -44,7 +44,7 @@ def intro(n, nxt):
     s0, s1 = starts(n, 'C0037')
     LIN, SN, KC, JW, SJ, SS = (t(n, 'C0037', x) for x in (4.74, 8.20, 10.6, 12.26, 14.64, 16.5))
     PH = [('hd-suyen-1', SN - 0.1, KC - 0.85, '16 年'), ('hd-QiMen_Training1', KC - 0.85, JW - 0.1, '千多场课程'), ('hd-fengshui_training-Qimen1', JW - 0.1, SJ - 0.1, '几万个学员'),
-          ('hd-masterSuyenLim_qm1', SJ - 0.1, SS - 0.1, '来自世界各地'), ('hd-CNY_Program', SS - 0.1, nxt, '上市公司 大家族 小家庭')]
+          ('hd-masterSuyenLim_qm1', SJ - 0.1, SS - 0.1, '来自世界各地'), ('hd-family_group', SS - 0.1, nxt, '上市公司 大家族 小家庭')]
     ph = ', '.join(f"['{a}', {r(b)}, {r(c)}, '{d}']" for a, b, c, d in PH)
     front = [f'<NameTag at={{{r(LIN)}}} until={{{r(SN - 0.2)}}} x={{1280}} y={{640}} light />',
              f'<Cutaway id="ep{n}" src="" from={{{r(SN - 0.1)}}} to={{{r(nxt)}}} focus={{[990, 430]}} bg={{<PhotoWall shots={{PH{n}}} base={{{r(SN - 0.1)}}} />}} />',

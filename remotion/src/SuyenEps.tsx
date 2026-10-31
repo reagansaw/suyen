@@ -40,7 +40,7 @@ const Shot: React.FC<{ src: string; from: number; to: number; bg?: React.ReactNo
 
 /* ================= 第 2 集（54.1 秒）================= */
 regEp('ep2', 54.1, FC_EP2, TK_EP2);
-const PH2: [string, number, number, string][] = [['hd-suyen-1', 31.87, 33.3, '16 年'], ['hd-QiMen_Training1', 33.3, 35.56, '千多场课程'], ['hd-fengshui_training-Qimen1', 35.56, 37.72, '几万个学员'], ['hd-masterSuyenLim_qm1', 37.72, 39.21, '来自世界各地'], ['hd-CNY_Program', 39.21, 41.88, '上市公司 大家族 小家庭']];
+const PH2: [string, number, number, string][] = [['hd-suyen-1', 31.87, 33.3, '16 年'], ['hd-QiMen_Training1', 33.3, 35.56, '千多场课程'], ['hd-fengshui_training-Qimen1', 35.56, 37.72, '几万个学员'], ['hd-masterSuyenLim_qm1', 37.72, 39.21, '来自世界各地'], ['hd-family_group', 39.21, 41.88, '上市公司 大家族 小家庭']];
 export const SuyenEp2: React.FC = () => {
   const cam: Cam = { hits: [1.07, 1.27, 2.85, 8.09, 8.36, 16.44, 27.83, 43.5, 49.21], pushes: [[7.98, 9.45, 1.05]], origin: '48% 30%' };
   const grade: Grade = () => [1, 1, 0];
@@ -127,7 +127,7 @@ export const SuyenEp2: React.FC = () => {
 
 /* ================= 第 3 集（56.58 秒）================= */
 regEp('ep3', 56.58, FC_EP3, TK_EP3);
-const PH3: [string, number, number, string][] = [['hd-suyen-1', 36.01, 37.44, '16 年'], ['hd-QiMen_Training1', 37.44, 39.7, '千多场课程'], ['hd-fengshui_training-Qimen1', 39.7, 41.86, '几万个学员'], ['hd-masterSuyenLim_qm1', 41.86, 43.35, '来自世界各地'], ['hd-CNY_Program', 43.35, 46.02, '上市公司 大家族 小家庭']];
+const PH3: [string, number, number, string][] = [['hd-suyen-1', 36.01, 37.44, '16 年'], ['hd-QiMen_Training1', 37.44, 39.7, '千多场课程'], ['hd-fengshui_training-Qimen1', 39.7, 41.86, '几万个学员'], ['hd-masterSuyenLim_qm1', 41.86, 43.35, '来自世界各地'], ['hd-family_group', 43.35, 46.02, '上市公司 大家族 小家庭']];
 export const SuyenEp3: React.FC = () => {
   const cam: Cam = { hits: [0.07, 3.87, 5.25, 6.62, 9.38, 14.25, 14.56, 15.63, 27.85, 31.97, 46.02, 47.16, 54.95], pushes: [[8.02, 14.25, 1.04]], origin: '48% 30%' };
   const grade: Grade = () => [1, 1, 0];
@@ -216,7 +216,7 @@ export const SuyenEp3: React.FC = () => {
 
 /* ================= 第 4 集（51.08 秒）================= */
 regEp('ep4', 51.08, FC_EP4, TK_EP4);
-const PH4: [string, number, number, string][] = [['hd-suyen-1', 30.51, 31.94, '16 年'], ['hd-QiMen_Training1', 31.94, 34.2, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.2, 36.36, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.36, 37.85, '来自世界各地'], ['hd-CNY_Program', 37.85, 40.52, '上市公司 大家族 小家庭']];
+const PH4: [string, number, number, string][] = [['hd-suyen-1', 30.51, 31.94, '16 年'], ['hd-QiMen_Training1', 31.94, 34.2, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.2, 36.36, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.36, 37.85, '来自世界各地'], ['hd-family_group', 37.85, 40.52, '上市公司 大家族 小家庭']];
 export const SuyenEp4: React.FC = () => {
   const cam: Cam = { hits: [0.07, 0.51, 3.69, 9.63, 13.92, 26.47, 40.52, 41.66, 49.45], pushes: [[9.63, 13.92, 1.05]], origin: '48% 30%' };
   const grade: Grade = () => [1, 1, 0];
@@ -306,7 +306,7 @@ export const SuyenEp4: React.FC = () => {
 
 /* ================= 第 5 集（54.73 秒）================= */
 regEp('ep5', 54.73, FC_EP5, TK_EP5);
-const PH5: [string, number, number, string][] = [['hd-suyen-1', 34.15, 35.58, '16 年'], ['hd-QiMen_Training1', 35.58, 37.84, '千多场课程'], ['hd-fengshui_training-Qimen1', 37.84, 40.01, '几万个学员'], ['hd-masterSuyenLim_qm1', 40.01, 41.5, '来自世界各地'], ['hd-CNY_Program', 41.5, 44.16, '上市公司 大家族 小家庭']];
+const PH5: [string, number, number, string][] = [['hd-suyen-1', 34.15, 35.58, '16 年'], ['hd-QiMen_Training1', 35.58, 37.84, '千多场课程'], ['hd-fengshui_training-Qimen1', 37.84, 40.01, '几万个学员'], ['hd-masterSuyenLim_qm1', 40.01, 41.5, '来自世界各地'], ['hd-family_group', 41.5, 44.16, '上市公司 大家族 小家庭']];
 export const SuyenEp5: React.FC = () => {
   const cam: Cam = { hits: [0.07, 0.56, 2.45, 3.02, 3.53, 19.87, 30.11, 44.16, 45.31, 53.1], pushes: [[4.42, 7.77, 1.05]], origin: '48% 30%' };
   const grade: Grade = () => [1, 1, 0];
@@ -391,7 +391,7 @@ export const SuyenEp5: React.FC = () => {
 
 /* ================= 第 6 集（58.21 秒）================= */
 regEp('ep6', 58.21, FC_EP6, TK_EP6);
-const PH6: [string, number, number, string][] = [['hd-suyen-1', 29.45, 30.88, '16 年'], ['hd-QiMen_Training1', 30.88, 33.14, '千多场课程'], ['hd-fengshui_training-Qimen1', 33.14, 35.3, '几万个学员'], ['hd-masterSuyenLim_qm1', 35.3, 36.79, '来自世界各地'], ['hd-CNY_Program', 36.79, 39.45, '上市公司 大家族 小家庭']];
+const PH6: [string, number, number, string][] = [['hd-suyen-1', 29.45, 30.88, '16 年'], ['hd-QiMen_Training1', 30.88, 33.14, '千多场课程'], ['hd-fengshui_training-Qimen1', 33.14, 35.3, '几万个学员'], ['hd-masterSuyenLim_qm1', 35.3, 36.79, '来自世界各地'], ['hd-family_group', 36.79, 39.45, '上市公司 大家族 小家庭']];
 export const SuyenEp6: React.FC = () => {
   const cam: Cam = { hits: [0.58, 4.8, 7.78, 9.73, 10.96, 13.49, 14.11, 15.8, 25.41, 41.07, 55.45], pushes: [[1.45, 3.71, 1.08], [12.35, 14.06, 1.12]], origin: '48% 30%' };
   const grade: Grade = (t) => { const k = t < 14.67 ? interpolate(t, [14.11, 14.42], [0, 0.85], clamp) : interpolate(t, [14.67, 14.97], [0.85, 0], clamp); return [1 - 0.22 * k, 1, k]; };

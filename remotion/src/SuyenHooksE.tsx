@@ -891,7 +891,7 @@ const PhotoWall: React.FC<{ shots: [string, number, number, string][]; base: num
     </AbsoluteFill>
   );
 };
-const EP1_PH: [string, number, number, string][] = [['hd-suyen-1', 30.89, 32.32, '16 年'], ['hd-QiMen_Training1', 32.32, 34.58, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.58, 36.75, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['hd-CNY_Program', 38.24, 40.9, '上市公司 大家族 小家庭']];
+const EP1_PH: [string, number, number, string][] = [['hd-suyen-1', 30.89, 32.32, '16 年'], ['hd-QiMen_Training1', 32.32, 34.58, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.58, 36.75, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['hd-family_group', 38.24, 40.9, '上市公司 大家族 小家庭']];
 export const SuyenEp1: React.FC = () => {
   const cam: Cam = { hits: [0.78, 1.56, 2.65, 7.22, 11.45, 11.89, 12.69, 26.855, 42.52, 56.9], pushes: [[3.31, 6.86, 1.06], [8.51, 11.44, 1.04], [47.491, 49.81, 1.05]], origin: '46% 25%' };
   const grade: Grade = (t) => {
