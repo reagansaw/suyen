@@ -46,13 +46,37 @@ for c in $CLIPS; do
 done
 echo '逐字转写好了：先照 pipeline/wt/*.json 把 pipeline/eps_plan.py 的切点挪到字缝，重跑 python3 pipeline/eps_plan.py，再继续'
 [ "${CUT:-0}" = 1 ] || exit 0
-# 3. 剪片 + 抠像 + 追踪（CUT=1 才跑）
+# 3. 剪片 + 抠像 + 脸部追踪 + 成片转写检查（CUT=1 才跑）。已经做好的那一步会跳过；REDO=1 全部重做
 mkdir -p remotion/public/suyenh/pf
 for n in $EPS; do
-  nice -n 19 python3 pipeline/ep$n/prep_ep$n.py
   V=remotion/public/suyenh/ep$n.mp4
-  nice -n 19 tools/subjectmatte $V /tmp/m_ep$n.mp4
-  nice -n 19 ffmpeg -v error -y -threads 2 -i $V -i /tmp/m_ep$n.mp4 -filter_complex "[1:v]format=gray,erosion,erosion,gblur=sigma=1.3,lutyuv=y='clip((val-28)*1.18,0,255)'[m];[0:v][m]alphamerge,format=yuva420p[v]" \
-    -map "[v]" -an -c:v libvpx-vp9 -pix_fmt yuva420p -deadline realtime -cpu-used 8 -b:v 6M -auto-alt-ref 0 remotion/public/suyenh/pf/ep$n.webm
-  echo "ep$n 剪好、抠好。facetrack 要给起始脸的位置：tools/facetrack $V /tmp/face_ep$n.json <x> <y>"
+  [ -f $V ] && [ -f pipeline/ep$n/pieces.json ] && [ "${REDO:-0}" != 1 ] || nice -n 19 python3 pipeline/ep$n/prep_ep$n.py
+  if [ ! -f remotion/public/suyenh/pf/ep$n.webm ] || [ "${REDO:-0}" = 1 ]; then
+    nice -n 19 tools/subjectmatte $V /tmp/m_ep$n.mp4
+    nice -n 19 ffmpeg -v error -y -threads 2 -i $V -i /tmp/m_ep$n.mp4 -filter_complex "[1:v]format=gray,erosion,erosion,gblur=sigma=1.3,lutyuv=y='clip((val-28)*1.18,0,255)'[m];[0:v][m]alphamerge,format=yuva420p[v]" \
+      -map "[v]" -an -c:v libvpx-vp9 -pix_fmt yuva420p -deadline realtime -cpu-used 8 -b:v 6M -auto-alt-ref 0 remotion/public/suyenh/pf/ep$n.webm
+    rm -f /tmp/m_ep$n.mp4
+  fi
+  # 脸部追踪（从画面中间偏上开始找）→ 平滑 7 格 → 护脸层 face / 圆框 track（y+150）
+  if [ ! -f remotion/src/suyenh-track-ep$n.json ] || [ "${REDO:-0}" = 1 ]; then
+    nice -n 19 tools/facetrack $V /tmp/face_ep$n.json
+    python3 - "$n" <<'PY'
+import json, sys
+n = sys.argv[1]; d = json.load(open(f'/tmp/face_ep{n}.json'))
+def sm(v, k=7):
+    h = k // 2; return [round(sum(v[max(0, i - h):i + h + 1]) / len(v[max(0, i - h):i + h + 1]), 1) for i in range(len(v))]
+x, y = sm(d['x']), sm(d['y'])
+json.dump({'x': x, 'y': y}, open(f'remotion/src/suyenh-face-ep{n}.json', 'w'))
+json.dump({'x': x, 'y': [round(v + 150, 1) for v in y]}, open(f'remotion/src/suyenh-track-ep{n}.json', 'w'))
+print(f'ep{n} 脸：起点 ({x[0]:.0f}, {y[0]:.0f})，x 范围 {min(x):.0f}–{max(x):.0f}，y 范围 {min(y):.0f}–{max(y):.0f}')
+PY
+  fi
+  # 成片再转写一次（HANDOFF 4.1 第 4 步：不能少字、不能多出前一句的尾音）→ pipeline/epN/check.json，推上来给 Claude 比对
+  if [ ! -f pipeline/ep$n/check.json ] || [ "${REDO:-0}" = 1 ]; then
+    nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper $V --model mlx-community/whisper-large-v3-turbo \
+      --language zh --word-timestamps True --initial-prompt "$PROMPT" --output-format json --output-dir /tmp --verbose False
+    mv /tmp/ep$n.json pipeline/ep$n/check.json
+  fi
+  echo "ep$n 好了"
 done
+echo '全部好了：git add pipeline remotion/src && git commit -m "剪片 + 脸部追踪 + 检查" && git push origin claude/wizardly-ptolemy-9vg3v6'

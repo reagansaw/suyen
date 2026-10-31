@@ -21,12 +21,15 @@ def run(cmd):
     return r
 _sil = {}
 def silences(src):
+    # 先用 NOISE 量；量不到几段静音（背景声比较大）就自动放宽
     if src not in _sil:
-        r = run(['nice', '-n', '10', 'ffmpeg', '-v', 'info', '-threads', '2', '-i', f'{RAW}/{src}.MP4', '-vn', '-af', f'silencedetect=noise={NOISE}:d=0.12', '-f', 'null', '-'])
-        st = [float(x) for x in re.findall(r'silence_start: ([\d.]+)', r.stderr)]
-        en = [float(x) for x in re.findall(r'silence_end: ([\d.]+)', r.stderr)]
-        _sil[src] = list(zip(st, en))
-        print(f'{src}: {len(_sil[src])} 段静音（{NOISE}）')
+        for nz in [NOISE, '-30dB', '-25dB']:
+            r = run(['nice', '-n', '10', 'ffmpeg', '-v', 'info', '-threads', '2', '-i', f'{RAW}/{src}.MP4', '-vn', '-af', f'silencedetect=noise={nz}:d=0.12', '-f', 'null', '-'])
+            st = [float(x) for x in re.findall(r'silence_start: ([\d.]+)', r.stderr)]
+            en = [float(x) for x in re.findall(r'silence_end: ([\d.]+)', r.stderr)]
+            _sil[src] = list(zip(st, en))
+            if len(_sil[src]) >= 3: break
+        print(f'{src}: {len(_sil[src])} 段静音（{nz}）')
     return _sil[src]
 def snap(src, a, b, amin, bmax):
     sil = silences(src)
