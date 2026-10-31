@@ -68,9 +68,15 @@ const Sfx: React.FC<{ at: number; s: string; vol?: number; len?: number }> = ({ 
 /* ---------- 镜头：开场 1.18→1 缓收；冲击点轻推 1.05；段落慢推 ---------- */
 type Cam = { hits: number[]; pushes: [number, number, number][]; origin: string; holds?: [number, number, number][]; shrink?: [number, number, number][]; shrinkCurve?: [number, number][] };
 // shrink：只缩抠出来的人和护脸层（以画面底部中间为基准），背景不动；z=0 就是这段不要人
-const shrinkK = (t: number, c: Cam) => {
+// intro-v2：照片段改成一整段活动影片（不拆成照片），人整段藏起来
+const IntroV2 = React.createContext(false);
+const shrinkSpans = (c: Cam, v2: boolean): [number, number, number][] => {
+  const s = c.shrink ?? [];
+  return v2 && s.length ? [[Math.min(...s.map((x) => x[0])), Math.max(...s.map((x) => x[1])), 0]] : s;
+};
+const shrinkK = (t: number, c: Cam, v2 = false) => {
   let k = 1;
-  for (const [a, b, z] of c.shrink ?? []) if (t >= a && t < b) {
+  for (const [a, b, z] of shrinkSpans(c, v2)) if (t >= a && t < b) {
     k *= z;
     const cv = c.shrinkCurve;
     if (cv) k *= interpolate(t, cv.map((p) => p[0]), cv.map((p) => p[1]), clamp);
@@ -91,7 +97,7 @@ const Plate: React.FC<{ id: HookId; cam: Cam; grade: Grade; person?: boolean }> 
   const t = useT(), s = camK(t, cam), [b, sat, g] = grade(t);
   const flt = person ? `saturate(${1 - g})` : `brightness(${b}) saturate(${sat * (1 - g)})`;
   return (
-    <AbsoluteFill style={{ transform: `scale(${person ? shrinkK(t, cam) : 1})`, transformOrigin: '50% 100%' }}>
+    <AbsoluteFill style={{ transform: `scale(${person ? shrinkK(t, cam, React.useContext(IntroV2)) : 1})`, transformOrigin: '50% 100%' }}>
       <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: cam.origin, filter: flt }}>
         {person ? <OffthreadVideo src={staticFile(`suyenh/pf/${id}.webm`)} transparent muted /> : <OffthreadVideo src={staticFile(`suyenh/${id}.mp4`)} />}
       </AbsoluteFill>
@@ -107,7 +113,7 @@ const FaceGuard: React.FC<{ id: HookId; cam: Cam; grade: Grade }> = ({ id, cam, 
   const s = camK(t, cam), [, , g] = grade(t), i = Math.max(0, Math.min(fc.x.length - 1, Math.round(t * FPS)));
   const m = `radial-gradient(ellipse 125px 165px at ${fc.x[i]}px ${fc.y[i] - 10}px, #000 72%, transparent 100%)`;
   return (
-    <AbsoluteFill style={{ transform: `scale(${shrinkK(t, cam)})`, transformOrigin: '50% 100%' }}>
+    <AbsoluteFill style={{ transform: `scale(${shrinkK(t, cam, React.useContext(IntroV2))})`, transformOrigin: '50% 100%' }}>
       <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: cam.origin, filter: g ? `saturate(${1 - g})` : undefined }}>
         <AbsoluteFill style={{ WebkitMaskImage: m, maskImage: m }}><OffthreadVideo src={staticFile(`${DIR}/${id}.mp4`)} muted /></AbsoluteFill>
       </AbsoluteFill>
@@ -919,6 +925,18 @@ const PhotoWall: React.FC<{ shots: [string, number, number, string][]; base: num
 const PhotoBG: React.FC<{ shots: [string, number, number, string][] }> = ({ shots }) => {
   // 照片之间可以空一段回到她本人（每段 B-roll ≤3 秒，Reagan 10-31）；接连的两张才交叉淡入
   const t = useT();
+  if (React.useContext(IntroV2)) {
+    // intro-v2：整段放 2024 ALCP 新春晚宴活动影片（50.1 秒起，到 58.85 换镜头前就停，免得最后闪一下别的镜头；已裁掉字幕、浮水印），Reagan 10-31：「video direct don't split to image」
+    const a = shots[0][1], b = shots[shots.length - 1][2];
+    if (t < a - 0.01 || t >= b) return null;
+    const kb = 1.04 + 0.18 * (1 - ease(t, a, 0.18, Easing.out(Easing.cubic))) + 0.05 * ease(t, a + 0.18, b - a, eio), fl = 0.55 * (1 - ease(t, a, 0.14));
+    return (
+      <AbsoluteFill>
+        <Sequence from={f(a)} layout="none"><AbsoluteFill style={{ transform: `scale(${kb})` }}><OffthreadVideo src={staticFile('suyenbr/intro_v2.mp4')} muted /></AbsoluteFill></Sequence>
+        <AbsoluteFill style={{ background: '#FFF6E0', opacity: fl }} />
+      </AbsoluteFill>
+    );
+  }
   return (
     <AbsoluteFill>
       {shots.map(([id, a, b], i) => {
@@ -1049,5 +1067,6 @@ export const SuyenEp1: React.FC = () => {
 
 /* ================= 第 2–14 集：合成在 SuyenEps.tsx（pipeline/gen_eps.py 产生），这里只登记时长 / 脸 / 圆框轨迹，并把元件借出去 ================= */
 export const regEp = (id: HookId, dur: number, face: { x: number[]; y: number[] }, track: { x: number[]; y: number[] }) => { M[id] = { dur }; FACE[id] = face; TRACK[id] = track; };
-export { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, PhotoBG, PaperEdge, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
+const withIntroV2 = (C: React.FC): React.FC => () => <IntroV2.Provider value><C /></IntroV2.Provider>;
+export { withIntroV2, Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, PhotoBG, PaperEdge, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
 export type { Cam, Grade, HookId };

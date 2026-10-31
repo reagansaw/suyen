@@ -55,10 +55,11 @@ SC = {
    "suit; she holds a company cheque book against her chest, torn and hesitant. Medium shot, the man on the left seen mostly from behind, her face "
    "lit by a cold side light. " + REAL,
    "He tightens his grip and pleads; she slowly looks down at the cheque book in her hands. Only these small movements. " + LOCK),
- 'p5_line': ('0:21.3「从年度格局来谈风险，带你先看代价、划清界限」（数字人 · 正能量）', 6, 'face',
-   DH + " At a dark lacquered strategy table, she holds a slim golden brush and draws a glowing gold line across the table surface, separating a "
-   "group of gold chess pieces on her side from scattered dark pieces on the other side. Warm candle light, a faint glowing luopan on the wall.",
-   "She slowly draws the glowing gold line from left to right; the line lights up as she draws. Face consistent. " + LOCK),
+ 'p5_line': ('0:21.3「从年度格局来谈风险，带你先看代价、划清界限」（只拍手 · 正能量）', 6, None,
+   "Top-down close-up of a dark lacquered strategy table lit by warm candle light: an elegant hand in a coral-pink sleeve holds a slim golden brush "
+   "and draws a glowing gold line across the table, separating a neat group of gold chess pieces on one side from scattered dark pieces on the other; "
+   "a faint glowing luopan pattern is engraved in the table. Only the hand and sleeve, no face.",
+   "The hand slowly draws the glowing gold line from left to right; the line lights up as it is drawn. The chess pieces stay still. " + LOCK),
  'p6_family': ('0:17.4「带你提前思考进退」（演员 · 正能量）', 6, None,
    "A warm Malaysian Chinese family home at night: three generations — grandparents, a couple in their 40s and two school-age children — share dinner "
    "around a round wooden table with dishes, warm pendant light, soft smiles, a window behind with golden city lights. Wide shot slightly from above. " + REAL,
@@ -83,10 +84,10 @@ SC = {
    "A Malaysian Chinese business owner in her late 30s sits at a desk facing several glowing AI dashboard screens with flat lines (no readable text); "
    "banknotes on the desk dissolve into glowing blue digital particles that drift into the screens. Cool blue light, dark office. " + REAL,
    "The banknotes keep dissolving into blue particles that float into the screens while she watches, unmoving. " + LOCK),
- 'p9_focus': ('0:26.5「再决定下一笔的技术投入，到底值不值得」（数字人 · 正能量）', 6, 'face',
-   DH + " At an elegant desk she holds up a small glowing microchip over an antique gold balance scale, examining it thoughtfully; warm golden light "
-   "and a faint Qimen nine-palace pattern on the wall behind.",
-   "She slowly places the glowing chip on one pan of the scale and the scale tips gently; she gives a knowing nod. Face consistent. " + LOCK),
+ 'p9_focus': ('0:26.5「再决定下一笔的技术投入，到底值不值得」（没有人 · 正能量）', 6, None,
+   "A large antique brass-and-gold balance scale on a dark stone desk in a quiet study at night: on the left pan a small glowing blue-gold microchip, "
+   "on the right pan a neat stack of gold coins; a faint golden Qimen nine-palace pattern glows on the wall behind. Close-up, shallow depth of field.",
+   "The two pans sway gently and settle perfectly level while the chip glows a little brighter. " + LOCK),
  'i1_shop': ('0:07.5「老顾客越来越少，利润越来越薄」（负面 · 演员）', 6, None,
    "Inside an old traditional Malaysian Chinese family shop with wooden shelves and faded goods, a Chinese shop owner in his 60s stands alone behind "
    "the counter looking out at an empty street through the shop front; late afternoon light, dust in the air, quiet and lonely. " + REAL,
@@ -123,16 +124,25 @@ SC = {
    "A high mountain pass at sunrise: the main stone road continues ahead, and a second path branches off to the right, glowing with warm golden light "
    "toward a sunlit valley; ink-wash mountain layers, sea of clouds.",
    "The golden light slowly spreads along the second path as the sun rises. " + LOCK),
+ 's2_flock': ('0:03.1「你看我的封面，三只羊……其中一只是披着羊皮的狼」（没有人）', 6, None,
+   "A misty grassy hillside at dawn in soft golden light: three white sheep stand side by side facing the camera; the one in the middle is a wolf "
+   "wearing a sheepskin — its grey wolf snout, amber eyes and paws showing beneath the woolly fleece. Low-angle wide shot, ink-wash mountains far behind.",
+   "The two real sheep keep grazing calmly; the disguised wolf in the middle slowly turns its head and its amber eyes catch the light. " + LOCK),
+ 's2_hunt': ('0:14.1「你做羊就被狼吃，你做狼就被牧羊人杀」（负面 · 没有正脸）', 6, None,
+   "A hillside at dusk under a cold red sky: a grey wolf lunges toward a small flock of fleeing white sheep in the foreground; on the ridge behind, "
+   "the dark silhouette of a shepherd seen from behind draws a bow aimed at the wolf. Dramatic backlight, dust in the air, no faces visible.",
+   "The sheep scatter as the wolf leaps; on the ridge the shepherd slowly pulls the bowstring back. " + LOCK),
 }
 EP_TITLE = {2: 'P2 翻身变赔钱', 3: 'P3 赚到的钱押错', 4: 'P4 现金被烧光', 5: 'P5 拿公司钱救人', 6: 'P6 全家的退路', 7: 'P7 对手不是人',
             8: 'P8 贵人还是拖你下水', 9: 'P9 AI 赚钱还是花钱', 10: 'I1 做了 20 年的老板', 11: 'I2 做领导的你', 12: 'I3 创业的女性',
-            13: 'I4 生肖牛鼠第一次创业', 14: 'I5 35 岁以后'}
+            13: 'I4 生肖牛鼠第一次创业', 14: 'I5 35 岁以后', 15: 'S2 做狼还是做羊'}
 EP_SCENES = {2: ['p2_loss', 'p2_fork'], 3: ['p3_bet', 'p3_scale'], 4: ['p4_bills', 'p4_burn'], 5: ['p5_plea', 'p5_line'], 6: ['p6_family'],
              7: ['p7_ai', 'p7_chess'], 8: ['p8_sink', 'p8_map'], 9: ['p9_spend', 'p9_focus'], 10: ['i1_shop', 'i1_roots'], 11: ['i2_lead'],
-             12: ['i3_late', 'i3_step'], 13: ['i4_reno', 'i4_oxrat'], 14: ['i5_box', 'i5_road']}
+             12: ['i3_late', 'i3_step'], 13: ['i4_reno', 'i4_oxrat'], 14: ['i5_box', 'i5_road'], 15: ['s2_flock', 's2_hunt']}
 REUSED = {2: '年盘、数字人指年盘、彩虹吉祥羊', 3: '彩虹吉祥羊', 4: '年盘、彩虹吉祥羊', 5: '彩虹吉祥羊', 6: '学费/账单/存款（p6_points）、火马火羊、彩虹吉祥羊',
           7: '彩虹吉祥羊', 8: '彩虹吉祥羊', 9: '年盘、彩虹吉祥羊', 10: '彩虹吉祥羊', 11: '老板带队冲出门（i2_team）、年盘、彩虹吉祥羊',
-          12: '彩虹吉祥羊', 13: '（CTA 用她自己的 C0021，不用羊）', 14: '彩虹吉祥羊'}
+          12: '彩虹吉祥羊', 13: '（CTA 用她自己的 C0021，不用羊）', 14: '彩虹吉祥羊', 15: '火马火羊、彩虹吉祥羊（CTA）'}
+FRESH = {'p5_line', 'p9_focus'}   # 10-31 拿掉数字人，提示改了，旧结果不保留
 OUTH = {'aiImage': 'result', 'aiVideo': 'result', 'fileUpload': 'output'}
 
 def build(n):
@@ -148,7 +158,7 @@ def build(n):
     for k, sid in enumerate(scenes):
         lines.append(f'{"①②③"[k]} {SC[sid][0]}')
     lines += ['', '每个场景都先跑第一帧图，满意了再跑影片（grok-imagine-1.5 · 720p，跟第一集一样）。',
-              '负面场景用演员；只有正能量的才用数字人 Suyen（参考图是她 C0037 的正面截图）。',
+              '负面场景用演员；不用数字人 Suyen（Reagan 10-31），要她就用原片的她本人。',
               f'这一集直接重复用、不用再跑的：{REUSED[n]}。', '时间是成片时间，详见 pipeline/ep%d/第%d集-脚本.md' % (n, n)]
     node('note', 'stickyNote', 0, -480, '使用说明', {'text': '\n'.join(lines)}, 980, 330)
     kinds = {SC[s][2] for s in scenes}
@@ -189,7 +199,7 @@ def main(eps):
             old = {o['id']: o for o in cur.get('nodes', [])}
             for nd in nodes:
                 o = old.get(nd['id']); oc = o['data']['config'] if o else {}
-                if o and (oc.get('resultUrl') or oc.get('historyId') or oc.get('status') == 'running'):
+                if o and nd['id'].rsplit('_', 1)[0] not in FRESH and (oc.get('resultUrl') or oc.get('historyId') or oc.get('status') == 'running'):
                     nd['data']['config'] = oc; nd['position'] = o.get('position', nd['position'])
         res = call('save_workflow', **({'workflow_id': wid} if wid else {}), name=name, nodes=nodes, edges=edges)
         if 'workflow_id' not in res: print(n, 'ERROR', json.dumps(res, ensure_ascii=False)[:800]); continue
