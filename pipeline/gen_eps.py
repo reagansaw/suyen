@@ -11,8 +11,9 @@ SP = 1.1
 
 def pieces(n): return json.load(open(f'{H}/ep{n}/pieces.json'))
 def t(n, src, x):
+    sp = pieces(n).get('speed', SP)
     for p in pieces(n)['pieces']:
-        if p['src'] == src and p['a'] - 0.06 <= x <= p['b'] + 0.06: return round(p['start'] + (x - p['a']) / SP, 2)
+        if p['src'] == src and p['a'] - 0.06 <= x <= p['b'] + 0.06: return round(p['start'] + (x - p['a']) / sp, 2)
     raise SystemExit(f'ep{n}: no piece {src} {x}')
 def starts(n, src): return [p['start'] for p in pieces(n)['pieces'] if p['src'] == src]
 def ends(n, src): return [p['end'] for p in pieces(n)['pieces'] if p['src'] == src]
@@ -233,38 +234,6 @@ def ep4():
             ('现金已经被烧光', XJ - 0.05, INTRO0)]
     return assemble(n, behind, front, fx, subs, hits=[Y20, Y27, GONG, XYB, QM], pushes=[[XYB, QM, 1.05]], dust=QM)
 
-# ---------- 第 5 集 · P5 拿公司钱救人（C0027）----------
-# ep5.mp4 前 12 格是镜头还在横摇、只拍到海报：已经用第 12 格定格盖掉（第 0 秒就看到人），抠像海报那边用 gate_matte 切掉
-def ep5():
-    n = 5; T = lambda x: t(n, 'C0027', x)
-    Y20, Y27, NIAN, ZHEN, JIA, HUN, YOU, JU, BIE, NA, YJ, ZY, PEI, ZG = (T(x) for x in (3.04, 3.58, 4.02, 5.66, 6.28, 6.84, 7.82, 8.66, 11.62, 13.94, 16.88, 17.42, 21.16, 22.28))
-    YC, QM, WO, NI, DJ, HQ, ZAI = (T(x) for x in (24.42, 24.94, 26.50, 30.44, 31.46, 32.48, 34.18))
-    INTRO0 = starts(n, 'C0037')[0]
-    PL0, BACK, LN0 = BIE - 0.1, T(20.00), WO - 0.3
-    behind = [hero('20', Y20, ZHEN - 0.05, 520, 220, 340, ls=0.06, glow=0.5), hero('27', Y27, ZHEN - 0.05, 1400, 220, 340, ls=0.06, glow=0.5),
-              f'<Seal text="真" at={{{r(ZHEN)}}} until={{{r(YOU - 0.05)}}} x={{1420}} y={{330}} size={{140}} rot={{-6}} />',
-              f'<Seal text="假" at={{{r(JIA)}}} until={{{r(YOU - 0.05)}}} x={{1590}} y={{380}} size={{140}} rot={{4}} />',
-              f'<Seal text="混" at={{{r(HUN)}}} until={{{r(YOU - 0.05)}}} x={{1760}} y={{330}} size={{140}} rot={{-3}} />',
-              f'<Luopan at={{{r(JU - 0.1)}}} until={{{r(PL0)}}} x={{1500}} y={{430}} r={{300}} spin={{fastToSlow(160, 10)}} />',
-              hero('奇门战略大会', QM, LN0, 960, 150, 130, ls=0.14, glow=0.5)]
-    front = [cut(n, 'p5_plea', PL0, BACK, '昏暗走廊，一个男人抓住老板的手臂求救，老板手里握着公司支票簿犹豫（演员）'), f'<InkVig from={{{r(PL0)}}} to={{{r(BACK)}}} />',
-             hero('别人求救', BIE, YJ - 0.05, 400, 420, 130, tone='cream', anim='呐喊声波'), hero('拿公司的钱？', NA, YJ - 0.05, 470, 620, 120, tone='red', anim='呐喊声波'),
-             f'<Slip text="只有你能帮我" at={{{r(ZY)}}} until={{{r(BACK)}}} x={{300}} y={{120}} w={{150}} h={{640}} size={{78}} />',
-             hero('赔上', PEI, QM - 0.05, 960, 640, 64, ls=0.3, rotY=0, rotX=18, anim='呐喊声波'),
-             hero('整个团队的薪水', ZG, QM - 0.05, 960, 790, 120, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
-             cut(n, 'p5_line', LN0, INTRO0, '数字人 Suyen 用金笔在桌上划一道金线，把棋子分成两边（正能量）'),
-             hero('先看代价', NI, INTRO0, 430, 420, 120, anim='呐喊声波'), hero('划清界限', HQ, INTRO0, 430, 600, 120, anim='呐喊声波'),
-             hero('再决定出手', ZAI, INTRO0, 470, 780, 110, anim='呐喊声波'),
-             f'<Flare at={{{r(Y20)}}} k={{0.5}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
-    fx = ['{OPEN_DONG}', sfx(Y27 - 0.03, '综艺咚咚两声鼓点转场音效'), *(sfx(x - 0.03, '木鱼敲击回响音效') for x in (ZHEN, JIA, HUN)), sfx(JU - 0.12, '发条声', len=1.6),
-          sfx(PL0 - 0.05, '回忆-刷一下'), sfx(BIE - 0.03, '猛然一惊'), sfx(NA - 0.03, '咚咚重音心头震'), sfx(ZY - 0.03, '纸张抖动声'),
-          sfx(BACK - 0.05, '闪回'), sfx(PEI - 0.03, '咚'), sfx(ZG - 0.03, '咚咚重音心头震'), sfx(QM - 0.05, '咚'),
-          sfx(LN0 - 0.05, '回忆-刷一下'), *(sfx(x - 0.03, '正确') for x in (NI, HQ)), sfx(ZAI - 0.03, '木鱼敲击回响音效')]
-    subs = [('2027 年年度局势', 0.05, ZHEN - 0.05), ('真假混', ZHEN - 0.05, YOU - 0.05), ('有一种局你尤其要想清楚', YOU - 0.05, PL0), ('别人求救', PL0, T(13.20)),
-            ('你要不要拿公司的钱去救呢？', T(13.20), YJ - 0.05), ('一句「只有你能够帮到我」', YJ - 0.05, T(19.90)), ('可能会让你赔上整个团队的薪水', T(19.90), YC - 0.05),
-            ('这一次的奇门战略大会', YC - 0.05, WO - 0.05), ('我会从年度格局来谈风险', WO - 0.05, NI - 0.05), ('带你先看代价', NI - 0.05, HQ - 0.05), ('划清界限，再决定出手', HQ - 0.05, INTRO0)]
-    return assemble(n, behind, front, fx, subs, hits=[Y20, Y27, ZHEN, JIA, HUN, QM], pushes=[[YOU, PL0, 1.05]], dust=QM)
-
 # ---------- 第 6 集 · P6 全家的退路（C0029）：钩子照 SuyenEP6 v9 定稿 ----------
 # v9 钩子的时间是钩子短片（C0029 1.95 起、1 倍速、没剪停顿）的秒数；这集剪了停顿又加速，所以照逐字一一对齐再内插，不是单纯 ÷1.1
 import re as _re
@@ -321,7 +290,122 @@ def ep6():
     grade = f'(t) => {{ const k = t < {k2} ? interpolate(t, [{k0}, {k1}], [0, 0.85], clamp) : interpolate(t, [{k2}, {r(k2 + 0.3)}], [0.85, 0], clamp); return [1 - 0.22 * k, 1, k]; }}'
     return assemble(n, behind, front, fx, subs, hits=hits + [QM], pushes=pushes, dust=QM, grade=grade)
 
-EPS = [ep2, ep3, ep4, ep5, ep6]
+# ---------- IC2 集数：钩子（约 15 秒、1.2 倍速）+ Reagan 给的新 intro+CTA 成片（照原样，不叠字、不加字幕、不加 BGM）----------
+# 字、B-roll、音效只放在钩子里；IC2 一开始 Frame 的 asisFrom 就把人后层 / 抠像 / 前景 / 字幕全部关掉，只剩原片
+def ic2_start(n): return next(p['start'] for p in pieces(n)['pieces'] if p['src'] == 'IC2')
+def assemble_ic2(n, behind, front, fx, subs, hits, pushes, dust, origin='48% 30%', grade='() => [1, 1, 0]'):
+    return n, '', behind, front, fx, subs, dict(hits=hits, pushes=pushes, origin=origin, grade=grade, shrink=[], asis=ic2_start(n)), dust
+
+# ---------- 第 5 集 · P5 拿公司钱救人（C0027）----------
+def ep5():
+    n = 5; T = lambda x: t(n, 'C0027', x); HE = ic2_start(n)
+    BIE, NI0, NA, PEI, ZG, ZYC, QM, DAI, NI, HQ, ZAI = (T(x) for x in (11.62, 13.25, 13.94, 21.16, 22.28, 24.28, 24.94, 30.25, 31.46, 32.48, 34.18))
+    PL0, BACK, LN0 = NI0, T(16.50), DAI - 0.05
+    behind = [hero('别人求救', BIE, PL0 - 0.05, 960, 170, 190, ls=0.1, glow=0.5),
+              hero('奇门战略大会', QM, LN0 - 0.05, 960, 150, 130, ls=0.14, glow=0.5)]
+    front = [cut(n, 'p5_plea', PL0, BACK, '昏暗走廊，男人抓住老板手臂求救，老板握着公司支票簿犹豫（演员）'), f'<InkVig from={{{r(PL0)}}} to={{{r(BACK)}}} />',
+             hero('拿公司的钱？', NA, BACK, 470, 520, 120, tone='red', anim='呐喊声波'),
+             hero('赔上', PEI, ZYC - 0.05, 960, 640, 64, ls=0.3, rotY=0, rotX=18, anim='呐喊声波'),
+             hero('整个团队的薪水', ZG, ZYC - 0.05, 960, 790, 120, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
+             cut(n, 'p5_line', LN0, HE, '一只手用金笔划一道发光金线，把金棋子和黑棋子分成两边（只拍手）'),
+             hero('先看代价', NI, HE, 430, 420, 120, anim='呐喊声波'), hero('划清界限', HQ, HE, 430, 600, 120, anim='呐喊声波'),
+             hero('再决定出手', ZAI, HE, 470, 780, 110, anim='呐喊声波'),
+             f'<Flare at={{{r(PL0)}}} k={{0.4}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DONG}', sfx(PL0 - 0.05, '回忆-刷一下'), sfx(NA - 0.03, '猛然一惊'), sfx(BACK - 0.05, '闪回'), sfx(PEI - 0.03, '咚'), sfx(ZG - 0.03, '咚咚重音心头震'),
+          sfx(QM - 0.05, '咚'), sfx(LN0 - 0.05, '回忆-刷一下'), *(sfx(x - 0.03, '正确') for x in (NI, HQ)), sfx(ZAI - 0.03, '木鱼敲击回响音效')]
+    subs = [('别人求救', 0.05, PL0), ('你要不要拿公司的钱去救呢？', PL0, T(20.03)), ('可能会让你赔上整个团队的薪水', T(20.03), ZYC - 0.05),
+            ('这一次的奇门战略大会', ZYC - 0.05, LN0), ('带你先看代价', LN0, HQ - 0.1), ('划清界限，再决定出手', HQ - 0.1, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[BIE, QM], pushes=[[PEI, ZYC, 1.05]], dust=QM)
+
+# ---------- 第 9 集 · P9 AI 是赚钱还是花钱（C0022）----------
+def ep9():
+    n = 9; T = lambda x: t(n, 'C0022', x); HE = ic2_start(n)
+    ZQ, HQ, XT, KC, YY, MD, ZYC, QM, ZAI, JS, ZD = (T(x) for x in (13.34, 15.16, 16.12, 16.98, 19.80, 21.06, 22.30, 22.96, 33.28, 34.82, 36.54))
+    SP0, FC0 = XT - 0.05, ZAI - 0.08
+    behind = [hero('AI', 0.07, ZQ - 0.05, 960, 170, 220, ls=0.1, glow=0.5),
+              hero('赚钱？', ZQ, SP0 - 0.05, 520, 230, 220, glow=0.5), hero('花钱？', HQ, SP0 - 0.05, 1400, 230, 220, tone='red', glow=0.5),
+              hero('奇门战略大会', QM, FC0 - 0.05, 960, 150, 130, ls=0.14, glow=0.5)]
+    front = [cut(n, 'p9_spend', SP0, YY, '老板坐在一排 AI 屏幕前，钞票化成光点被吸进屏幕，销售线一直平（演员）'),
+             hero('系统买了', XT, YY, 430, 420, 120, anim='呐喊声波'), hero('课程上了', KC, YY, 430, 600, 120, anim='呐喊声波'),
+             hero('营业额', YY + 0.05, ZYC - 0.05, 960, 640, 64, ls=0.3, rotY=0, rotX=18, anim='呐喊声波'),
+             hero('没有动静', MD, ZYC - 0.05, 960, 790, 130, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
+             cut(n, 'p9_focus', FC0, HE, '古铜金天平一边发光芯片、一边金币，慢慢平衡（没有人）'),
+             hero('下一笔投入', JS, HE, 450, 420, 110, anim='呐喊声波'), hero('值不值得？', ZD, HE, 450, 610, 120, tone='cream', anim='呐喊声波'),
+             f'<Flare at={{{r(ZQ)}}} k={{0.4}} /><Flare at={{{r(YY)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DONG}', sfx(ZQ - 0.03, '叮收银机提示音1'), sfx(HQ - 0.03, '咚咚重音心头震'), sfx(SP0 - 0.05, '故障音效'),
+          *(sfx(x - 0.03, '叮提示音4') for x in (XT, KC)), sfx(YY - 0.05, '闪回'), sfx(MD - 0.03, '咚'), sfx(QM - 0.05, '咚'),
+          sfx(FC0 - 0.05, '回忆-刷一下'), sfx(ZD - 0.03, '木鱼敲击回响音效')]
+    subs = [('你追的 AI 到底是在帮你赚钱', 0.05, T(13.80)), ('还是在帮你花钱？', T(13.80), SP0), ('系统买了，课程上了', SP0, YY),
+            ('营业额却没有动静', YY, ZYC - 0.05), ('这一次的奇门战略大会', ZYC - 0.05, FC0), ('再决定下一笔的技术投入', FC0, ZD - 0.1), ('到底值不值得', ZD - 0.1, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[ZQ, HQ, QM], pushes=[[YY, ZYC, 1.05]], dust=QM)
+
+# ---------- 第 13 集 · I4 生肖牛鼠第一次创业（C0021）----------
+def ep13():
+    n = 13; T = lambda x: t(n, 'C0021', x); HE = ic2_start(n)
+    NIU, SHU, DYC, SS, YZ, MD, JSW, LD, ZL, NI, QB = (T(x) for x in (5.44, 6.02, 13.32, 16.60, 18.54, 22.86, 24.04, 40.70, 42.08, 52.74, 53.60))
+    RN0, BACK = MD - 0.08, T(25.40)
+    behind = [hero('八字有', 0.07, DYC - 0.05, 960, 150, 110, ls=0.2),
+              hero('牛', NIU, DYC - 0.05, 560, 300, 300, glow=0.5), hero('鼠', SHU, DYC - 0.05, 1360, 300, 300, glow=0.5),
+              hero('第一次创业', DYC, SS - 0.05, 960, 170, 150, ls=0.1, glow=0.5),
+              hero('先试水？', SS, RN0 - 0.05, 520, 240, 170, tone='cream', glow=0.4), hero('押重注？', YZ, RN0 - 0.05, 1400, 240, 170, tone='red', glow=0.4),
+              hero('奇门遁甲战略大会', ZL - 0.2, NI - 0.1, 960, 150, 120, ls=0.12, glow=0.5),
+              f'<Luoshu at={{{r(NI - 0.1)}}} shatter={{999}} until={{{r(HE)}}} x={{1480}} y={{430}} cell={{120}} />',
+              hero('起步节奏', QB, HE, 960, 150, 150, ls=0.14, glow=0.5)]
+    front = [cut(n, 'i4_reno', RN0, BACK, '年轻老板站在还在装修的店面里，满地纸箱（演员）'),
+             hero('门店还没开', MD, BACK, 450, 420, 120, anim='呐喊声波'), hero('几十万已经出了', JSW, BACK, 480, 610, 100, tone='red', anim='呐喊声波'),
+             f'<Flare at={{{r(NIU)}}} k={{0.4}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(ZL - 0.2)}}} k={{0.5}} />']
+    fx = ['{OPEN_DONG}', sfx(NIU - 0.03, '咚'), sfx(SHU - 0.03, '综艺咚'), sfx(DYC - 0.03, '咚'), sfx(SS - 0.03, '叮提示音4'), sfx(YZ - 0.03, '咚咚重音心头震'),
+          sfx(RN0 - 0.05, '复古胶片滚动', len=0.6), sfx(JSW - 0.03, '叮收银机提示音1'), sfx(BACK - 0.05, '闪回'), sfx(ZL - 0.25, '咚'),
+          sfx(NI - 0.12, '亮一下'), sfx(QB - 0.03, '木鱼敲击回响音效')]
+    subs = [('八字中有牛和老鼠的人', 0.05, DYC - 0.05), ('第一次想要创业', DYC - 0.05, T(15.10)), ('你应该先试水', T(15.10), T(17.20)),
+            ('还是直接押重注？', T(17.20), RN0), ('门店还没开', RN0, JSW - 0.1), ('几十万已经出了', JSW - 0.1, BACK), ('来到老师的战略大会里', BACK, NI - 0.15),
+            ('带你思考起步节奏', NI - 0.15, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[NIU, SHU, DYC, ZL - 0.2], pushes=[[SS, RN0, 1.05]], dust=ZL - 0.2)
+
+# ---------- 第 14 集 · I5 35 岁以后（C0025）----------
+def ep14():
+    n = 14; T = lambda x: t(n, 'C0025', x); HE = ic2_start(n)
+    SY, XYB, SHY, ZX, SN, CX, XF, WB, CN, ZB, DE = (T(x) for x in (5.74, 7.26, 8.20, 10.04, 11.45, 12.62, 14.52, 15.48, 29.16, 31.30, 32.58))
+    BX0, BACK, RD0 = SN - 0.05, T(14.40), CN - 0.08
+    behind = [hero('35 岁以后', SY, XYB - 0.05, 960, 180, 200, ls=0.08, glow=0.5),
+              hero('守业？', SHY, BX0 - 0.05, 520, 240, 200, tone='cream', glow=0.4), hero('转型？', ZX, BX0 - 0.05, 1400, 240, 200, tone='red', glow=0.4)]
+    front = [cut(n, 'i5_box', BX0, BACK, '三十多岁的上班族抱着纸箱走出办公大楼（演员）'),
+             hero('10 年经验', SN, BACK, 430, 420, 120, anim='呐喊声波'), hero('重新换岗位', CX, BACK, 470, 600, 110, tone='red', anim='呐喊声波'),
+             hero('下一份收入', XF, RD0 - 0.05, 960, 640, 64, ls=0.3, rotY=0, rotX=18, anim='呐喊声波'),
+             hero('未必达到', WB, RD0 - 0.05, 960, 790, 130, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
+             cut(n, 'i5_road', RD0, HE, '山口日出，主路旁分出第二条金色的路（没有人）'),
+             hero('趁你还有选择', CN, HE, 470, 420, 100, tone='cream', anim='呐喊声波'), hero('先准备', ZB, HE, 400, 590, 110, anim='呐喊声波'),
+             hero('第二条路', DE, HE, 470, 760, 140, glow=0.6, anim='呐喊声波'),
+             f'<Flare at={{{r(SY)}}} k={{0.4}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(RD0)}}} k={{0.5}} />']
+    fx = ['{OPEN_DROP}', sfx(SHY - 0.03, '咚'), sfx(ZX - 0.03, '综艺咚'), sfx(BX0 - 0.05, '回忆-刷一下'), sfx(CX - 0.03, '咚咚重音心头震'),
+          sfx(BACK - 0.05, '闪回'), sfx(WB - 0.03, '咚'), sfx(RD0 - 0.05, '亮一下'), sfx(DE - 0.03, '木鱼敲击回响音效')]
+    subs = [('35 岁以后', 0.05, XYB - 0.05), ('下一步该守业还是准备转型？', XYB - 0.05, BX0), ('10 年的经验重新换岗位', BX0, BACK),
+            ('下一份收入未必达到你心目中想要的', BACK, RD0), ('趁你还有选择', RD0, ZB - 0.1), ('先准备第二条路', ZB - 0.1, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[SY, SHY, ZX], pushes=[[XF, RD0, 1.05]], dust=RD0)
+
+# ---------- 第 15 集 · S2 做狼还是做羊（C0023 + C0024）----------
+def ep15():
+    n = 15; T = lambda x: t(n, 'C0023', x); U = lambda x: t(n, 'C0024', x); HE = ic2_start(n)
+    SZ, QZ, PZ, Y20, Y27, LANG, YANG, ZY, BLC, ZL, BMR, YL, PY = (T(10.06), T(12.40), T(13.46), T(20.04), T(20.50), T(21.60), T(22.32),
+                                                                  U(3.30), U(4.84), U(6.18), U(7.12), T(94.74), T(95.70))
+    FL0, BACK, HT0, BACK2 = QZ - 0.05, T(15.40), ZY - 0.08, U(8.00)
+    behind = [hero('三只羊', SZ, FL0 - 0.05, 1420, 200, 170, glow=0.5),
+              hero('20', Y20, LANG - 0.05, 520, 220, 300, ls=0.06, glow=0.5), hero('27', Y27, LANG - 0.05, 1400, 220, 300, ls=0.06, glow=0.5),
+              hero('做狼？', LANG, HT0 - 0.05, 520, 240, 200, tone='red', glow=0.4), hero('做羊？', YANG, HT0 - 0.05, 1400, 240, 200, tone='cream', glow=0.4),
+              hero('披着羊皮的狼', PY, HE, 470, 230, 116, ls=0.06, glow=0.6)]
+    front = [cut(n, 's2_flock', FL0, BACK, '晨雾草坡三只羊，中间那只是披着羊皮的狼（没有人）'),
+             hero('其中一只', QZ + 0.1, BACK, 430, 420, 110, tone='cream', anim='呐喊声波'), hero('是狼', PZ + 0.5, BACK, 400, 600, 160, tone='red', anim='呐喊声波'),
+             cut(n, 's2_hunt', HT0, BACK2, '黄昏山坡，狼扑向羊群、牧羊人在远处举弓（没有正脸）'),
+             hero('做羊 → 被狼吃', ZY + 0.1, BACK2, 520, 420, 96, tone='cream', anim='呐喊声波'), hero('做狼 → 被牧羊人杀', ZL, BACK2, 560, 600, 90, tone='red', anim='呐喊声波'),
+             f'<Flare at={{{r(FL0)}}} k={{0.4}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(BACK2)}}} />']
+    fx = ['{OPEN_DONG}', sfx(SZ - 0.03, '综艺咚'), sfx(FL0 - 0.05, '回忆-刷一下'), sfx(PZ + 0.47, '咚咚重音心头震'), sfx(BACK - 0.05, '闪回'),
+          sfx(Y20 - 0.03, '咚'), sfx(Y27 - 0.03, '综艺咚咚两声鼓点转场音效'), sfx(LANG - 0.03, '咚'), sfx(YANG - 0.03, '咚'),
+          sfx(HT0 - 0.05, '猛然一惊'), sfx(BLC - 0.03, '咚咚重音心头震'), sfx(BMR - 0.03, '咚咚重音心头震'), sfx(BACK2 - 0.05, '闪回'), sfx(PY - 0.03, '咚咚重音心头震')]
+    subs = [('你看我的封面', 0.05, SZ - 0.1), ('三只羊，对不对？', SZ - 0.1, FL0), ('其中一只是披着羊皮的狼', FL0, Y20 - 0.1), ('2027 年', Y20 - 0.1, T(21.0)),
+            ('你要做狼还是做羊？', T(21.0), HT0), ('你做羊就被狼吃', HT0, U(5.30)), ('你做狼就被牧羊人杀', U(5.30), BACK2 + 0.3), ('就有了这一只披着羊皮的狼', BACK2 + 0.3, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[SZ, Y20, Y27, LANG, YANG, PY], pushes=[[YL, HE, 1.05]], dust=PY)
+
+EPS = [ep2, ep3, ep4, ep5, ep6, ep9, ep13, ep14, ep15]
 
 HEAD = '''// 广告第 2–14 集（16:9 · 每集 ≤60 秒 · 1.1 倍速）。⚠ 这个档案是 pipeline/gen_eps.py 产生的，不要手改，改产生器再重跑
 // 结构照第 1 集：钩子 + 教方法 → 我们是谁（C0037 + 照片墙）→ CTA；只用 C0001–C0048；名字一律「林舒苑」
@@ -368,7 +452,7 @@ export const SuyenEp{n}: React.FC = () => {{
   const cam: Cam = {{ hits: {[r(x) for x in cam['hits']]}, pushes: {[[r(a), r(b), z] for a, b, z in cam['pushes']]}, origin: '{cam['origin']}', shrink: {[[r(a), r(b), z] for a, b, z in cam.get('shrink', [])]} }};
   const grade: Grade = {cam['grade']};
   return (
-    <Frame id="ep{n}" cam={{cam}} grade={{grade}} dust={{{r(dust)}}}
+    <Frame id="ep{n}" cam={{cam}} grade={{grade}} dust={{{r(dust)}}}{f' asisFrom={{{r(cam["asis"])}}}' if cam.get('asis') else ''}
       behind={{<>
         {chr(10).join('        ' + x for x in behind).lstrip()}
       </>}}
@@ -392,6 +476,7 @@ export const SuyenEp{n}: React.FC = () => {{
         s = s.replace('  </>\n);', f'    {a}\n    {b}\n  </>\n);', 1)
     i, j = s.index(a) + len(a), s.index(b)
     comps = ''.join(f"\n    <Composition id=\"SuyenEp{n}\" component={{EPS.SuyenEp{n}}} durationInFrames={{suyenEFrames('ep{n}')}} fps={{30}} width={{1920}} height={{1080}} />" for n in names)
+    comps += ''.join(f"\n    <Composition id=\"{c}IntroV2\" component={{withIntroV2({k})}} durationInFrames={{suyenEFrames('{e}')}} fps={{30}} width={{1920}} height={{1080}} />" for c, k, e in (('SuyenEp1', 'SuyenEp1', 'ep1'), ('SuyenEp2', 'EPS.SuyenEp2', 'ep2')))   # intro-v2 版（只有第 1、2 集）
     s = s[:i] + comps + '\n    ' + s[j:]
     open(p, 'w').write(s)
     print('ok', names)

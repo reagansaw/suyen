@@ -8,6 +8,9 @@ i = src.index(f'export const SuyenEp{n}:'); j = src.find('export const SuyenEp',
 dur = json.load(open(f'{ROOT}/pipeline/ep{n}/pieces.json'))['dur']
 ats = [float(x) for x in re.findall(r'<(?:Hero|Cutaway|Shot|Seal|NameTag)[^>]*?(?:at|from)=\{([\d.]+)\}', body)]
 ts = sorted({round(x, 2) for x in [k * 2.5 for k in range(int(dur / 2.5) + 1)] + [a + d for a in ats for d in (0.15, 0.6)] if 0 <= x < dur})
+asis = re.search(r'asisFrom=\{([\d.]+)\}', body)
+if asis:   # 后面接 IC2 成片（照原样）：只查钩子 + 接缝前后，成片本身抽 3 格看有没有被叠到东西
+    a = float(asis.group(1)); ts = sorted({x for x in ts if x < a} | {round(a - 0.1, 2), round(a + 0.3, 2), round(a + 15, 2), round(dur - 1, 2)})
 # 太近的格（<0.3 秒）只留一格
 keep = []
 for x in ts:

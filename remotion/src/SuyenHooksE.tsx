@@ -622,20 +622,24 @@ const Crackle: React.FC<{ at: number; until: number; cx: number; cy: number }> =
 };
 
 /* ---------- 骨架：压暗底片 → 人后层 → 人像 → 前景 → 氛围 ---------- */
-const Frame: React.FC<{ id: HookId; cam: Cam; grade: Grade; behind?: React.ReactNode; front?: React.ReactNode; sfx: React.ReactNode; subs: Sub[]; subX?: number; stage?: React.ReactNode; dust?: number }> = ({ id, cam, grade, behind, front, sfx, subs, subX, stage, dust }) => {
+const Frame: React.FC<{ id: HookId; cam: Cam; grade: Grade; behind?: React.ReactNode; front?: React.ReactNode; sfx: React.ReactNode; subs: Sub[]; subX?: number; stage?: React.ReactNode; dust?: number; asisFrom?: number }> = ({ id, cam, grade, behind, front, sfx, subs, subX, stage, dust, asisFrom }) => {
   useFonts();
-  const total = suyenEFrames(id);
+  const t = useT();
+  // asisFrom：后面接的是 Reagan 给的 intro+CTA 成片（IC2），照原样播 → 从这秒起只剩原片，不叠字、不加字幕、BGM 在接缝前收掉
+  const end = asisFrom !== undefined ? f(asisFrom) : suyenEFrames(id), live = asisFrom === undefined || t < asisFrom;
   return (
     <AbsoluteFill style={{ background: INK }}>
-      <Audio src={staticFile('audio/bgm-zhushen-loop.mp3')} loop volume={(fr) => 0.3 * Math.min(1, fr / f(0.4)) * Math.min(1, (total - fr) / f(0.6))} />
+      <Audio src={staticFile('audio/bgm-zhushen-loop.mp3')} loop volume={(fr) => 0.3 * Math.min(1, fr / f(0.4)) * Math.max(0, Math.min(1, (end - fr) / f(0.6)))} />
       {stage ?? <Plate id={id} cam={cam} grade={grade} />}
-      {behind}
-      {!stage && <Plate id={id} cam={cam} grade={grade} person />}
-      {!stage && <FaceGuard id={id} cam={cam} grade={grade} />}
-      {front}
-      <GoldDust burst={dust} />
-      <Subs subs={subs} cx={subX} />
-      <Grain />
+      {live && <>
+        {behind}
+        {!stage && <Plate id={id} cam={cam} grade={grade} person />}
+        {!stage && <FaceGuard id={id} cam={cam} grade={grade} />}
+        {front}
+        <GoldDust burst={dust} />
+        <Subs subs={subs} cx={subX} />
+        <Grain />
+      </>}
       <Flare at={0} dur={0.7} k={0.3} />
       {sfx}
     </AbsoluteFill>
