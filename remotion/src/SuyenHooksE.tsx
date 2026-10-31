@@ -877,7 +877,7 @@ export const SuyenEP6: React.FC = () => {
 /* ================= 广告第一集（16:9 · 59.7 秒 · 1.1 倍速）================= */
 // 结构：钩子 P1 v9（时间 ÷1.1）→ 教方法（年盘 / 数字人）→ 我们是谁（真照片墙）→ 报名（火马火羊 → 彩虹吉祥羊）
 // 原片剪段见 suyen-ads/ep1/prep_ep1.py；只用 C0001–C0048
-// 真照片墙：landing page 的照片只有 600×400，所以放成金框卡片（放大 1.7 倍内）+ 同一张大糊当底，不整张撑满
+// 真照片墙：landing page 的照片只有 600×400 → Real-ESRGAN 放大成 hd-*.jpg（1620 宽，Reagan 10-31：「照片很蒙」）；金框卡片 + 同一张大糊当底，不整张撑满
 const PhotoWall: React.FC<{ shots: [string, number, number, string][]; base: number }> = ({ shots, base }) => {
   const t = useT() + base, cur = shots.find(([, a, b]) => t >= a && t < b) ?? shots[shots.length - 1];
   const [id, a] = cur, p = ease(t, a, 0.45), kb = 1 + 0.05 * ease(t, a, 3, eio);
@@ -891,7 +891,7 @@ const PhotoWall: React.FC<{ shots: [string, number, number, string][]; base: num
     </AbsoluteFill>
   );
 };
-const EP1_PH: [string, number, number, string][] = [['suyen-1', 30.89, 32.32, '16 年'], ['G_fengshui_training-Qimen1', 32.32, 34.58, '千多场课程'], ['G_qimendunjia_training1', 34.58, 36.75, '几万个学员'], ['G_masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['G_masterSuyenLim_CNY_Program-1', 38.24, 40.9, '上市公司 · 大家族 · 小家庭']];
+const EP1_PH: [string, number, number, string][] = [['hd-suyen-1', 30.89, 32.32, '16 年'], ['hd-QiMen_Training1', 32.32, 34.58, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.58, 36.75, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['hd-CNY_Program', 38.24, 40.9, '上市公司 大家族 小家庭']];
 export const SuyenEp1: React.FC = () => {
   const cam: Cam = { hits: [0.78, 1.56, 2.65, 7.22, 11.45, 11.89, 12.69, 26.855, 42.52, 56.9], pushes: [[3.31, 6.86, 1.06], [8.51, 11.44, 1.04], [47.491, 49.81, 1.05]], origin: '46% 25%' };
   const grade: Grade = (t) => {
@@ -911,7 +911,7 @@ export const SuyenEp1: React.FC = () => {
         <Hero text="倍" at={12.13} until={12.66} x={1220} y={230} size={360} dur={0.32} glow={0.6} />
       
         <Hero text="奇门遁甲战略大会" {...T(12.69, 15.445)} x={960} y={150} size={120} ls={0.12} glow={0.5} />
-        <Hero text="3 天 · 完全免费" {...T(42.52, 47.491)} x={960} y={150} size={120} ls={0.1} glow={0.5} />
+        <Hero text="3 天完全免费" {...T(42.52, 47.491)} x={960} y={150} size={120} ls={0.1} glow={0.5} />
         <Hero text="2027 奇门战略大会" {...T(44.79, 47.491)} x={560} y={440} size={84} ls={0.08} rule />
         <Hero text="马上报名" {...T(56.9, 60.26)} x={960} y={160} size={150} ls={0.2} glow={0.6} />
       </>}
@@ -931,7 +931,7 @@ export const SuyenEp1: React.FC = () => {
         <Cutaway id="ep1" src="ep1_yearchart" from={16.38} to={26.855} focus={[990, 430]} />
         <Hero text="趋势" {...T(18.48, 19.63)} x={380} y={560} size={130} anim="呐喊声波" />
         <Hero text="格局" {...T(19.63, 20.091)} x={380} y={560} size={130} anim="呐喊声波" />
-        <Hero text="宫位 · 方向 · 时间点" {...T(21.18, 22.982)} x={1400} y={210} size={78} anim="呐喊声波" />
+        <Hero text="宫位 方向 时间点" {...T(21.18, 22.982)} x={1400} y={210} size={78} anim="呐喊声波" />
         <Hero text="投入" {...T(24.18, 25.38)} x={380} y={760} size={130} anim="呐喊声波" />
         <Hero text="防守" {...T(25.38, 26.855)} x={380} y={760} size={130} tone="red" anim="呐喊声波" />
         <NameTag at={27.85} until={30.79} x={1280} y={640} light />

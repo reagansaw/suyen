@@ -99,7 +99,8 @@ Reagan 的五步口播广告：画面加台词钩子 3 秒 → 痛点 → 教方
     - 负面 / 2027 / 赤马红羊：**熔岩裂纹 + 火焰鬃毛的火马火羊**（参考 `studio/assets/ref_horse_goat_run.jpg`）
     - 正能量：**书封面那只彩虹鬃毛吉祥羊，站在金色梯田日出里**（`remotion/public/suyenbr/goat_positive.mp4`）
     - 奇门天宫风格参考 `ref_goat_palace.jpg`
-12. 介绍段的「证明」用**真照片**（`remotion/public/suyenph/`，从 landing page 来，只有 600×400）。做成**金框卡片**，底下铺同一张照片放大糊掉当背景，**不要整张撑满**（会糊）。
+12. 介绍段的「证明」用**真照片**（`remotion/public/suyenph/`，从 landing page 来，只有 600×400）。做成**金框卡片**，底下铺同一张照片放大糊掉当背景，**不要整张撑满**（会糊）。用 Real-ESRGAN 放大过的 `hd-*.jpg`（Reagan 10-31：「照片很蒙」）。
+    - **大字里不要用「·」分隔**（Reagan 10-31：「不要有 dot」）→ 用空格或直接连写，例如「3 天完全免费」。
 
 ### 字和动画
 13. 字体：**Lantinghei SC Heavy（兰亭黑特粗）**，大字、字幕、印章全部用它。

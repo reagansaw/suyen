@@ -43,8 +43,8 @@ def subs_js(subs): return ', '.join(f"['{s}', {r(a)}, {r(b)}]" for s, a, b in su
 def intro(n, nxt):
     s0, s1 = starts(n, 'C0037')
     LIN, SN, KC, JW, SJ, SS = (t(n, 'C0037', x) for x in (4.74, 8.20, 10.6, 12.26, 14.64, 16.5))
-    PH = [('suyen-1', SN - 0.1, KC - 0.85, '16 年'), ('G_fengshui_training-Qimen1', KC - 0.85, JW - 0.1, '千多场课程'), ('G_qimendunjia_training1', JW - 0.1, SJ - 0.1, '几万个学员'),
-          ('G_masterSuyenLim_qm1', SJ - 0.1, SS - 0.1, '来自世界各地'), ('G_masterSuyenLim_CNY_Program-1', SS - 0.1, nxt, '上市公司 · 大家族 · 小家庭')]
+    PH = [('hd-suyen-1', SN - 0.1, KC - 0.85, '16 年'), ('hd-QiMen_Training1', KC - 0.85, JW - 0.1, '千多场课程'), ('hd-fengshui_training-Qimen1', JW - 0.1, SJ - 0.1, '几万个学员'),
+          ('hd-masterSuyenLim_qm1', SJ - 0.1, SS - 0.1, '来自世界各地'), ('hd-CNY_Program', SS - 0.1, nxt, '上市公司 大家族 小家庭')]
     ph = ', '.join(f"['{a}', {r(b)}, {r(c)}, '{d}']" for a, b, c, d in PH)
     front = [f'<NameTag at={{{r(LIN)}}} until={{{r(SN - 0.2)}}} x={{1280}} y={{640}} light />',
              f'<Cutaway id="ep{n}" src="" from={{{r(SN - 0.1)}}} to={{{r(nxt)}}} focus={{[990, 430]}} bg={{<PhotoWall shots={{PH{n}}} base={{{r(SN - 0.1)}}} />}} />',
@@ -64,7 +64,7 @@ def cta2(n):
     behind = []
     front = [shot('ep1_yearchart', c0, HG, '奇门年盘', last=False), shot('ep1_horse_goat_h', HG, GP, '火马火羊', cont=True, last=False),
              shot('goat_positive', GP, BK, '彩虹吉祥羊', cont=True, last=False), shot('ep1_dh_point', BK, E, '数字人 Suyen', cont=True),
-             hero('3 天 · 完全免费', SAN + 0.05, HG, 960, 330, 150, ls=0.1, glow=0.5), hero('奇门战略大会', ZL, HG, 960, 600, 110, ls=0.14, rule=True),
+             hero('3 天完全免费', SAN + 0.05, HG, 960, 330, 150, ls=0.1, glow=0.5), hero('奇门战略大会', ZL, HG, 960, 600, 110, ls=0.14, rule=True),
              hero('看清 2027 趋势', Y20, GP, 1380, 230, 104, anim='呐喊声波'),
              hero('企业家', QY, BK, 380, 430, 120, anim='呐喊声波'), hero('更精准的方向', JZ, BK, 470, 620, 100, anim='呐喊声波'),
              hero('马上报名', MS, E, 1380, 800, 150, ls=0.2, glow=0.6),
@@ -79,7 +79,7 @@ def cta2(n):
 def cta1(n):
     P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, P8S, P9S = P[0]['start'], P[2]['start'], P[3]['start']; E = dur(n) + 0.6
     SAN, Y27, CHIMA, ZZ, LS, MS = (t(n, 'C0048', x) for x in (6.08, 8.88, 16.56, 19.40, 21.24, 27.92))
-    behind = [hero('3 天 · 完全免费', SAN, P8S, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, P8S, 420, 440, 84, ls=0.08, rule=True),
+    behind = [hero('3 天完全免费', SAN, P8S, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, P8S, 420, 440, 84, ls=0.08, rule=True),
               hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6)]
     front = [cut(n, 'ep1_horse_goat_h', CHIMA - 0.35, ZZ - 0.55, '火马火羊', last=False), cut(n, 'goat_positive', ZZ - 0.55, P9S, '彩虹吉祥羊', cont=True),
              hero('赤马红羊年', CHIMA, ZZ - 0.55, 1400, 230, 110, tone='red', anim='呐喊声波'),
@@ -96,7 +96,7 @@ def cta1(n):
 def cta1s(n):
     P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, PMS = P[0]['start'], P[2]['start']; E = dur(n) + 0.6
     SAN, Y27, MS, JIAN = (t(n, 'C0048', x) for x in (6.08, 8.88, 27.92, 30.80))
-    behind = [hero('3 天 · 完全免费', SAN, PMS, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, PMS, 420, 440, 84, ls=0.08, rule=True),
+    behind = [hero('3 天完全免费', SAN, PMS, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, PMS, 420, 440, 84, ls=0.08, rule=True),
               hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6)]
     front = [f'<Flare at={{{r(SAN)}}} k={{0.45}} /><Flare at={{{r(MS)}}} k={{0.55}} />']
     fx = [sfx(P7S - 0.05, '闪回'), sfx(SAN - 0.03, '综艺咚'), sfx(Y27 - 0.03, '综艺咚咚两声鼓点转场音效'), sfx(MS - 0.03, '叮收银机提示音1'), sfx(JIAN, '亮一下')]
