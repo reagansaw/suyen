@@ -34,7 +34,7 @@ command -v uvx >/dev/null || { echo '没有 uvx：先跑 brew install uv'; exit 
 CLIPS=$(python3 -c "
 import sys; sys.path.insert(0,'pipeline'); import eps_plan as e
 s=set()
-for n in [int(x) for x in '$EPS'.split()]: s|={p['src'] for p in e.plan(n)[1]}
+for n in [int(x) for x in '$EPS'.split()]: s|={p[0] for p in e.plan(n)[2]}
 print(' '.join(sorted(s)))")
 [ -n "$CLIPS" ] || { echo '列不出要转写的原片'; exit 1; }
 echo "要转写：$CLIPS"
