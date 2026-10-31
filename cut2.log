@@ -1,0 +1,35 @@
+原片资料夹：/Users/apple/Downloads/raw
+要转写：C0006 C0037 C0039
+逐字转写好了：先照 pipeline/wt/*.json 把 pipeline/eps_plan.py 的切点挪到字缝，重跑 python3 pipeline/eps_plan.py，再继续
+C0006: 20 段静音（-35dB）
+C0039: 0 段静音（-35dB）
+原片接起来 57.69 秒 → 成片 52.44 秒（6 刀）
+ep2 52.44s
+…60
+…120
+…180
+…240
+…300
+…360
+…420
+…480
+…540
+…600
+…660
+…720
+…780
+…840
+…900
+…960
+…1020
+…1080
+…1140
+…1200
+…1260
+…1320
+…1380
+…1440
+…1500
+…1560
+ok 1576 frames 1920x1080 退回人像分割 319 帧
+ep2 剪好、抠好。facetrack 要给起始脸的位置：tools/facetrack remotion/public/suyenh/ep2.mp4 /tmp/face_ep2.json <x> <y>

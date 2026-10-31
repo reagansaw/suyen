@@ -2,7 +2,7 @@
 // 结构照第 1 集：钩子 + 教方法 → 我们是谁（C0037 + 照片墙）→ CTA；只用 C0001–C0048；名字一律「林舒苑」
 import React from 'react';
 import { AbsoluteFill, OffthreadVideo, Sequence, staticFile } from 'remotion';
-import { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, fastToSlow, useT, win, ease, eio, f, clamp, regEp, LTH, CREAM } from './SuyenHooksE';
+import { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoBG, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, fastToSlow, useT, win, ease, eio, f, clamp, regEp, LTH, CREAM } from './SuyenHooksE';
 import { interpolate } from 'remotion';
 import type { Cam, Grade } from './SuyenHooksE';
 import FC_EP2 from './suyenh-face-ep2.json';
@@ -40,9 +40,9 @@ const Shot: React.FC<{ src: string; from: number; to: number; bg?: React.ReactNo
 
 /* ================= 第 2 集（54.88 秒）================= */
 regEp('ep2', 54.88, FC_EP2, TK_EP2);
-const PH2: [string, number, number, string][] = [['hd-suyen-1', 31.87, 33.3, '16 年'], ['hd-QiMen_Training1', 33.3, 35.56, '千多场课程'], ['hd-fengshui_training-Qimen1', 35.56, 37.72, '几万个学员'], ['hd-masterSuyenLim_qm1', 37.72, 39.21, '来自世界各地'], ['hd-family_group', 39.21, 41.88, '上市公司 大家族 小家庭']];
+const PH2: [string, number, number, string][] = [['hd-hall_seated', 31.87, 33.3, '16 年'], ['hd-QiMen_Training1', 33.3, 34.68, '千多场课程'], ['hd-fengshui_training-Qimen1', 35.56, 37.16, '几万个学员'], ['hd-masterSuyenLim_qm1', 37.72, 39.21, '来自世界各地'], ['hd-family_group', 39.21, 40.57, '上市公司 大家族 小家庭']];
 export const SuyenEp2: React.FC = () => {
-  const cam: Cam = { hits: [1.07, 1.27, 2.85, 8.09, 8.36, 16.44, 27.83, 43.5, 49.49], pushes: [[7.98, 9.45, 1.05]], origin: '48% 30%' };
+  const cam: Cam = { hits: [1.07, 1.27, 2.85, 8.09, 8.36, 16.44, 27.83, 43.5, 49.49], pushes: [[7.98, 9.45, 1.05]], origin: '48% 30%', shrink: [[31.87, 34.68, 0], [35.56, 37.16, 0], [37.72, 40.57, 0]] };
   const grade: Grade = () => [1, 1, 0];
   return (
     <Frame id="ep2" cam={cam} grade={grade} dust={16.44}
@@ -52,6 +52,8 @@ export const SuyenEp2: React.FC = () => {
         <Hero text="20" at={8.09} until={9.4} x={520} y={220} size={340} ls={0.06} glow={0.5} />
         <Hero text="27" at={8.36} until={9.4} x={1260} y={220} size={340} ls={0.06} glow={0.5} />
         <Hero text="奇门遁甲战略大会" at={16.44} until={18.81} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+        <PhotoBG shots={PH2} />
+        {PH2.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
         <Hero text="3 天完全免费" at={43.5} until={48.74} x={960} y={150} size={120} ls={0.1} glow={0.5} />
         <Hero text="2027 奇门战略大会" at={46.04} until={48.74} x={420} y={440} size={84} ls={0.08} rule />
         <Hero text="马上报名" at={49.49} until={55.48} x={960} y={160} size={150} ls={0.2} glow={0.6} />
@@ -68,10 +70,13 @@ export const SuyenEp2: React.FC = () => {
         <Seal text="真" at={9.45} until={10.65} x={1420} y={560} size={130} rot={-6} />
         <Seal text="假" at={9.69} until={10.65} x={1580} y={600} size={130} rot={4} />
         <Seal text="混" at={10.11} until={10.65} x={1740} y={560} size={130} rot={-3} />
-        <Cutaway id="ep2" src="i2_team" from={10.65} to={16.39} focus={[990, 430]} />
+        <Cutaway id="ep2" src="i2_team" from={10.65} to={13.12} focus={[990, 430]} />
+        <Cutaway id="ep2" src="i2_team" from={13.92} to={16.39} focus={[990, 430]} skip={2.57} />
         <Hero text="翻倍转机？" at={12.24} until={16.37} x={400} y={400} size={120} anim="呐喊声波" />
         <Hero text="血本无归？" at={14.96} until={16.37} x={400} y={620} size={120} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep2" src="ep1_yearchart" from={18.81} to={27.83} focus={[990, 430]} />
+        <Cutaway id="ep2" src="ep1_yearchart" from={18.81} to={21.28} focus={[990, 430]} />
+        <Cutaway id="ep2" src="ep1_yearchart" from={22.08} to={24.56} focus={[990, 430]} skip={2.57} />
+        <Cutaway id="ep2" src="ep1_yearchart" from={25.36} to={27.83} focus={[990, 430]} skip={1.64} />
         <Hero text="机会" at={20.51} until={22.97} x={380} y={460} size={130} anim="呐喊声波" />
         <Hero text="风险" at={21.56} until={22.97} x={380} y={660} size={130} tone="red" anim="呐喊声波" />
         <Hero text="看全局" at={23.02} until={25.2} x={400} y={460} size={130} anim="呐喊声波" />
@@ -80,8 +85,6 @@ export const SuyenEp2: React.FC = () => {
         <Hero text="再投入" at={26.54} until={27.83} x={400} y={660} size={130} anim="呐喊声波" />
         <Flare at={1.07} k={0.6} /><Flare at={7.88} /><Flare at={16.44} k={0.5} />
         <NameTag at={28.82} until={31.77} x={1280} y={640} light />
-        <Cutaway id="ep2" src="" from={31.87} to={41.88} focus={[990, 430]} bg={<PhotoWall shots={PH2} base={31.87} />} />
-        {PH2.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
         <Flare at={43.5} k={0.45} /><Flare at={49.49} k={0.55} />
       </>}
       sfx={<>
@@ -128,9 +131,9 @@ export const SuyenEp2: React.FC = () => {
 
 /* ================= 第 3 集（56.58 秒）================= */
 regEp('ep3', 56.58, FC_EP3, TK_EP3);
-const PH3: [string, number, number, string][] = [['hd-suyen-1', 36.01, 37.44, '16 年'], ['hd-QiMen_Training1', 37.44, 39.7, '千多场课程'], ['hd-fengshui_training-Qimen1', 39.7, 41.86, '几万个学员'], ['hd-masterSuyenLim_qm1', 41.86, 43.35, '来自世界各地'], ['hd-family_group', 43.35, 46.02, '上市公司 大家族 小家庭']];
+const PH3: [string, number, number, string][] = [['hd-hall_seated', 36.01, 37.44, '16 年'], ['hd-QiMen_Training1', 37.44, 38.82, '千多场课程'], ['hd-fengshui_training-Qimen1', 39.7, 41.3, '几万个学员'], ['hd-masterSuyenLim_qm1', 41.86, 43.35, '来自世界各地'], ['hd-family_group', 43.35, 44.71, '上市公司 大家族 小家庭']];
 export const SuyenEp3: React.FC = () => {
-  const cam: Cam = { hits: [0.07, 3.87, 5.25, 6.62, 9.38, 14.25, 14.56, 15.63, 27.85, 31.97, 46.02, 47.16, 54.95], pushes: [[8.02, 14.25, 1.04]], origin: '48% 30%' };
+  const cam: Cam = { hits: [0.07, 3.87, 5.25, 6.62, 9.38, 14.25, 14.56, 15.63, 27.85, 31.97, 46.02, 47.16, 54.95], pushes: [[8.02, 14.25, 1.04]], origin: '48% 30%', shrink: [[36.01, 38.82, 0], [39.7, 41.3, 0], [41.86, 44.71, 0]] };
   const grade: Grade = () => [1, 1, 0];
   return (
     <Frame id="ep3" cam={cam} grade={grade} dust={15.63}
@@ -142,13 +145,19 @@ export const SuyenEp3: React.FC = () => {
         <Hero text="20" at={14.25} until={15.58} x={500} y={220} size={340} ls={0.06} glow={0.5} />
         <Hero text="27" at={14.56} until={15.58} x={1340} y={220} size={340} ls={0.06} glow={0.5} />
         <Hero text="奇门遁甲战略大会" at={15.63} until={17.18} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+        <PhotoBG shots={PH3} />
+        {PH3.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
       </>}
       front={<>
-        <Cutaway id="ep3" src="p3_bet" from={7.92} to={13.77} focus={[990, 430]} bg={<Ph label="p3_bet：老板把一整叠金币推上赌桌的一格，金币塔垮掉（演员）" />} />
+        <Cutaway id="ep3" src="p3_bet" from={7.92} to={10.45} focus={[990, 430]} bg={<Ph label="p3_bet：老板把一整叠金币推上赌桌的一格，金币塔垮掉（演员）" />} />
+        <Cutaway id="ep3" src="p3_bet" from={11.25} to={13.77} focus={[990, 430]} bg={<Ph label="p3_bet：老板把一整叠金币推上赌桌的一格，金币塔垮掉（演员）" />} />
         <InkVig from={7.92} to={13.77} />
         <Seal text="押错" at={9.38} until={13.75} x={420} y={330} size={190} rot={-6} />
         <Hero text="赔回去" at={12.24} until={13.75} x={400} y={680} size={150} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep3" src="p3_scale" from={17.18} to={27.7} focus={[990, 430]} bg={<Ph label="p3_scale：数字人 Suyen 在天平一边放金砝码、一边放玉盾（正能量）" />} />
+        <Cutaway id="ep3" src="p3_scale" from={17.18} to={19.21} focus={[990, 430]} bg={<Ph label="p3_scale：数字人 Suyen 在天平一边放金砝码、一边放玉盾（正能量）" />} />
+        <Cutaway id="ep3" src="p3_scale" from={20.01} to={22.04} focus={[990, 430]} bg={<Ph label="p3_scale：数字人 Suyen 在天平一边放金砝码、一边放玉盾（正能量）" />} />
+        <Cutaway id="ep3" src="p3_scale" from={22.84} to={24.87} focus={[990, 430]} bg={<Ph label="p3_scale：数字人 Suyen 在天平一边放金砝码、一边放玉盾（正能量）" />} />
+        <Cutaway id="ep3" src="p3_scale" from={25.67} to={27.7} focus={[990, 430]} bg={<Ph label="p3_scale：数字人 Suyen 在天平一边放金砝码、一边放玉盾（正能量）" />} />
         <Hero text="机会" at={19.47} until={20.94} x={380} y={460} size={130} anim="呐喊声波" />
         <Hero text="风险" at={20.48} until={20.94} x={380} y={660} size={130} tone="red" anim="呐喊声波" />
         <Hero text="高回酬" at={22.38} until={24.64} x={400} y={460} size={130} anim="呐喊声波" />
@@ -159,8 +168,6 @@ export const SuyenEp3: React.FC = () => {
         <Hero text="再争高峰" at={29.43} until={31.97} x={960} y={830} size={130} ls={0.2} rotY={0} rotX={18} anim="呐喊声波" />
         <Flare at={0.07} k={0.5} /><Flare at={13.77} /><Flare at={15.63} k={0.5} /><Flare at={29.43} k={0.4} />
         <NameTag at={32.96} until={35.91} x={1280} y={640} light />
-        <Cutaway id="ep3" src="" from={36.01} to={46.02} focus={[990, 430]} bg={<PhotoWall shots={PH3} base={36.01} />} />
-        {PH3.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
         <Shot src="ep1_yearchart" from={46.02} to={48.09} last={false} />
         <Shot src="ep1_horse_goat_h" from={48.09} to={50.76} cont last={false} />
         <Shot src="goat_positive" from={50.76} to={54.45} cont last={false} />
@@ -217,9 +224,9 @@ export const SuyenEp3: React.FC = () => {
 
 /* ================= 第 4 集（51.08 秒）================= */
 regEp('ep4', 51.08, FC_EP4, TK_EP4);
-const PH4: [string, number, number, string][] = [['hd-suyen-1', 30.51, 31.94, '16 年'], ['hd-QiMen_Training1', 31.94, 34.2, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.2, 36.36, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.36, 37.85, '来自世界各地'], ['hd-family_group', 37.85, 40.52, '上市公司 大家族 小家庭']];
+const PH4: [string, number, number, string][] = [['hd-hall_seated', 30.51, 31.94, '16 年'], ['hd-QiMen_Training1', 31.94, 33.32, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.2, 35.8, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.36, 37.85, '来自世界各地'], ['hd-family_group', 37.85, 39.21, '上市公司 大家族 小家庭']];
 export const SuyenEp4: React.FC = () => {
-  const cam: Cam = { hits: [0.07, 0.51, 3.69, 9.63, 13.92, 26.47, 40.52, 41.66, 49.45], pushes: [[9.63, 13.92, 1.05]], origin: '48% 30%' };
+  const cam: Cam = { hits: [0.07, 0.51, 3.69, 9.63, 13.92, 26.47, 40.52, 41.66, 49.45], pushes: [[9.63, 13.92, 1.05]], origin: '48% 30%', shrink: [[30.51, 33.32, 0], [34.2, 35.8, 0], [36.36, 39.21, 0]] };
   const grade: Grade = () => [1, 1, 0];
   return (
     <Frame id="ep4" cam={cam} grade={grade} dust={13.92}
@@ -231,15 +238,21 @@ export const SuyenEp4: React.FC = () => {
         <Hero text="下一笔钱" at={9.63} until={13.87} x={1480} y={250} size={140} />
         <Hero text="扎哪里？" at={12.48} until={13.87} x={1480} y={480} size={150} tone="red" />
         <Hero text="奇门遁甲战略大会" at={13.92} until={15.27} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+        <PhotoBG shots={PH4} />
+        {PH4.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
       </>}
       front={<>
-        <Cutaway id="ep4" src="p4_bills" from={5.15} to={9.53} focus={[990, 430]} bg={<Ph label="p4_bills：小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）" />} />
+        <Cutaway id="ep4" src="p4_bills" from={5.15} to={6.94} focus={[990, 430]} bg={<Ph label="p4_bills：小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）" />} />
+        <Cutaway id="ep4" src="p4_bills" from={7.74} to={9.53} focus={[990, 430]} bg={<Ph label="p4_bills：小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）" />} />
         <InkVig from={5.15} to={9.53} />
         <Hero text="薪水" at={7.18} until={9.51} x={380} y={400} size={130} tone="cream" anim="呐喊声波" />
         <Hero text="租金" at={7.65} until={9.51} x={380} y={580} size={130} tone="cream" anim="呐喊声波" />
         <Hero text="追到门口" at={8.4} until={9.51} x={440} y={770} size={120} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep4" src="ep1_yearchart" from={15.27} to={21.51} focus={[990, 430]} last={false} />
-        <Cutaway id="ep4" src="p4_burn" from={21.51} to={26.47} focus={[990, 430]} bg={<Ph label="p4_burn：金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）" />} cont />
+        <Cutaway id="ep4" src="ep1_yearchart" from={15.27} to={16.82} focus={[990, 430]} />
+        <Cutaway id="ep4" src="ep1_yearchart" from={17.62} to={19.16} focus={[990, 430]} skip={1.65} />
+        <Cutaway id="ep4" src="ep1_yearchart" from={19.96} to={21.51} focus={[990, 430]} last={false} skip={3.29} />
+        <Cutaway id="ep4" src="p4_burn" from={21.51} to={23.59} focus={[990, 430]} bg={<Ph label="p4_burn：金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）" />} cont />
+        <Cutaway id="ep4" src="p4_burn" from={24.39} to={26.47} focus={[990, 430]} bg={<Ph label="p4_burn：金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）" />} />
         <Hero text="年度趋势" at={17.41} until={18.58} x={420} y={430} size={130} anim="呐喊声波" />
         <Luoshu at={18.63} shatter={999} until={21.51} x={420} y={470} cell={110} />
         <Hero text="投入的次序" at={20.3} until={21.51} x={440} y={770} size={104} anim="呐喊声波" />
@@ -248,8 +261,6 @@ export const SuyenEp4: React.FC = () => {
         <Hero text="被烧光" at={25.61} until={26.47} x={420} y={680} size={150} tone="red" anim="呐喊声波" />
         <Flare at={0.07} k={0.5} /><Flare at={9.53} /><Flare at={13.92} k={0.5} />
         <NameTag at={27.46} until={30.41} x={1280} y={640} light />
-        <Cutaway id="ep4" src="" from={30.51} to={40.52} focus={[990, 430]} bg={<PhotoWall shots={PH4} base={30.51} />} />
-        {PH4.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
         <Shot src="ep1_yearchart" from={40.52} to={42.59} last={false} />
         <Shot src="ep1_horse_goat_h" from={42.59} to={45.26} cont last={false} />
         <Shot src="goat_positive" from={45.26} to={48.95} cont last={false} />
@@ -307,9 +318,9 @@ export const SuyenEp4: React.FC = () => {
 
 /* ================= 第 5 集（54.73 秒）================= */
 regEp('ep5', 54.73, FC_EP5, TK_EP5);
-const PH5: [string, number, number, string][] = [['hd-suyen-1', 34.15, 35.58, '16 年'], ['hd-QiMen_Training1', 35.58, 37.84, '千多场课程'], ['hd-fengshui_training-Qimen1', 37.84, 40.01, '几万个学员'], ['hd-masterSuyenLim_qm1', 40.01, 41.5, '来自世界各地'], ['hd-family_group', 41.5, 44.16, '上市公司 大家族 小家庭']];
+const PH5: [string, number, number, string][] = [['hd-hall_seated', 34.15, 35.58, '16 年'], ['hd-QiMen_Training1', 35.58, 36.96, '千多场课程'], ['hd-fengshui_training-Qimen1', 37.84, 39.44, '几万个学员'], ['hd-masterSuyenLim_qm1', 40.01, 41.5, '来自世界各地'], ['hd-family_group', 41.5, 42.86, '上市公司 大家族 小家庭']];
 export const SuyenEp5: React.FC = () => {
-  const cam: Cam = { hits: [0.07, 0.56, 2.45, 3.02, 3.53, 19.87, 30.11, 44.16, 45.31, 53.1], pushes: [[4.42, 7.77, 1.05]], origin: '48% 30%' };
+  const cam: Cam = { hits: [0.07, 0.56, 2.45, 3.02, 3.53, 19.87, 30.11, 44.16, 45.31, 53.1], pushes: [[4.42, 7.77, 1.05]], origin: '48% 30%', shrink: [[34.15, 36.96, 0], [37.84, 39.44, 0], [40.01, 42.86, 0]] };
   const grade: Grade = () => [1, 1, 0];
   return (
     <Frame id="ep5" cam={cam} grade={grade} dust={19.87}
@@ -321,23 +332,27 @@ export const SuyenEp5: React.FC = () => {
         <Seal text="混" at={3.53} until={4.37} x={1760} y={330} size={140} rot={-3} />
         <Luopan at={5.08} until={7.77} x={1500} y={430} r={300} spin={fastToSlow(160, 10)} />
         <Hero text="奇门战略大会" at={19.87} until={20.99} x={960} y={150} size={130} ls={0.14} glow={0.5} />
+        <PhotoBG shots={PH5} />
+        {PH5.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
       </>}
       front={<>
-        <Cutaway id="ep5" src="p5_plea" from={7.77} to={15.49} focus={[990, 430]} bg={<Ph label="p5_plea：昏暗走廊，一个男人抓住老板的手臂求救，老板手里握着公司支票簿犹豫（演员）" />} />
+        <Cutaway id="ep5" src="p5_plea" from={7.77} to={9.81} focus={[990, 430]} bg={<Ph label="p5_plea：昏暗走廊，一个男人抓住老板的手臂求救，老板手里握着公司支票簿犹豫（演员）" />} />
+        <Cutaway id="ep5" src="p5_plea" from={10.61} to={12.65} focus={[990, 430]} bg={<Ph label="p5_plea：昏暗走廊，一个男人抓住老板的手臂求救，老板手里握着公司支票簿犹豫（演员）" />} />
+        <Cutaway id="ep5" src="p5_plea" from={13.45} to={15.49} focus={[990, 430]} bg={<Ph label="p5_plea：昏暗走廊，一个男人抓住老板的手臂求救，老板手里握着公司支票簿犹豫（演员）" />} />
         <InkVig from={7.77} to={15.49} />
         <Hero text="别人求救" at={7.87} until={12.6} x={400} y={420} size={130} tone="cream" anim="呐喊声波" />
         <Hero text="拿公司的钱？" at={9.98} until={12.6} x={470} y={620} size={120} tone="red" anim="呐喊声波" />
         <Slip text="只有你能帮我" at={13.15} until={15.49} x={300} y={120} w={150} h={640} size={78} />
         <Hero text="赔上" at={16.55} until={19.82} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
         <Hero text="整个团队的薪水" at={17.56} until={19.82} x={960} y={790} size={120} ls={0.06} rotY={0} rotX={18} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep5" src="p5_line" from={20.99} to={30.11} focus={[990, 430]} bg={<Ph label="p5_line：数字人 Suyen 用金笔在桌上划一道金线，把棋子分成两边（正能量）" />} />
+        <Cutaway id="ep5" src="p5_line" from={20.99} to={23.5} focus={[990, 430]} bg={<Ph label="p5_line：数字人 Suyen 用金笔在桌上划一道金线，把棋子分成两边（正能量）" />} />
+        <Cutaway id="ep5" src="p5_line" from={24.3} to={26.81} focus={[990, 430]} bg={<Ph label="p5_line：数字人 Suyen 用金笔在桌上划一道金线，把棋子分成两边（正能量）" />} />
+        <Cutaway id="ep5" src="p5_line" from={27.61} to={30.11} focus={[990, 430]} bg={<Ph label="p5_line：数字人 Suyen 用金笔在桌上划一道金线，把棋子分成两边（正能量）" />} />
         <Hero text="先看代价" at={24.72} until={30.11} x={430} y={420} size={120} anim="呐喊声波" />
         <Hero text="划清界限" at={26.58} until={30.11} x={430} y={600} size={120} anim="呐喊声波" />
         <Hero text="再决定出手" at={28.12} until={30.11} x={470} y={780} size={110} anim="呐喊声波" />
         <Flare at={0.07} k={0.5} /><Flare at={15.49} /><Flare at={19.87} k={0.5} />
         <NameTag at={31.11} until={34.05} x={1280} y={640} light />
-        <Cutaway id="ep5" src="" from={34.15} to={44.16} focus={[990, 430]} bg={<PhotoWall shots={PH5} base={34.15} />} />
-        {PH5.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
         <Shot src="ep1_yearchart" from={44.16} to={46.23} last={false} />
         <Shot src="ep1_horse_goat_h" from={46.23} to={48.9} cont last={false} />
         <Shot src="goat_positive" from={48.9} to={52.6} cont last={false} />
@@ -392,9 +407,9 @@ export const SuyenEp5: React.FC = () => {
 
 /* ================= 第 6 集（58.21 秒）================= */
 regEp('ep6', 58.21, FC_EP6, TK_EP6);
-const PH6: [string, number, number, string][] = [['hd-suyen-1', 29.45, 30.88, '16 年'], ['hd-QiMen_Training1', 30.88, 33.14, '千多场课程'], ['hd-fengshui_training-Qimen1', 33.14, 35.3, '几万个学员'], ['hd-masterSuyenLim_qm1', 35.3, 36.79, '来自世界各地'], ['hd-family_group', 36.79, 39.45, '上市公司 大家族 小家庭']];
+const PH6: [string, number, number, string][] = [['hd-hall_seated', 29.45, 30.88, '16 年'], ['hd-QiMen_Training1', 30.88, 32.26, '千多场课程'], ['hd-fengshui_training-Qimen1', 33.14, 34.74, '几万个学员'], ['hd-masterSuyenLim_qm1', 35.3, 36.79, '来自世界各地'], ['hd-family_group', 36.79, 38.15, '上市公司 大家族 小家庭']];
 export const SuyenEp6: React.FC = () => {
-  const cam: Cam = { hits: [0.58, 4.8, 7.78, 9.73, 10.96, 13.49, 14.11, 15.8, 25.41, 41.07, 55.45], pushes: [[1.45, 3.71, 1.08], [12.35, 14.06, 1.12]], origin: '48% 30%' };
+  const cam: Cam = { hits: [0.58, 4.8, 7.78, 9.73, 10.96, 13.49, 14.11, 15.8, 25.41, 41.07, 55.45], pushes: [[1.45, 3.71, 1.08], [12.35, 14.06, 1.12]], origin: '48% 30%', shrink: [[29.45, 32.26, 0], [33.14, 34.74, 0], [35.3, 38.15, 0]] };
   const grade: Grade = (t) => { const k = t < 14.67 ? interpolate(t, [14.11, 14.42], [0, 0.85], clamp) : interpolate(t, [14.67, 14.97], [0.85, 0], clamp); return [1 - 0.22 * k, 1, k]; };
   return (
     <Frame id="ep6" cam={cam} grade={grade} dust={15.8}
@@ -405,6 +420,8 @@ export const SuyenEp6: React.FC = () => {
         <Hero text="全家的退路" at={4.8} until={7.12} x={1520} y={290} size={120} rule />
         <Hero text="一笔" at={7.15} until={9.7} x={1530} y={340} size={300} dur={0.4} glow={0.5} />
         <Hero text="奇门战略大会" at={15.8} until={16.95} x={960} y={150} size={130} ls={0.14} glow={0.5} />
+        <PhotoBG shots={PH6} />
+        {PH6.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
         <Hero text="3 天完全免费" at={41.07} until={42.27} x={960} y={150} size={120} ls={0.1} glow={0.5} />
         <Hero text="2027 奇门战略大会" at={43.35} until={42.27} x={420} y={440} size={84} ls={0.08} rule />
         <Hero text="马上报名" at={55.45} until={58.81} x={960} y={160} size={150} ls={0.2} glow={0.6} />
@@ -420,14 +437,14 @@ export const SuyenEp6: React.FC = () => {
         <InkVig from={8.76} to={9.75} k={0.7} />
         <InkVig from={14.11} to={14.97} k={0.85} />
         <Flare at={0.07} k={0.5} /><Flare at={7.15} k={0.45} />
-        <Cutaway id="ep6" src="p6_family" from={16.95} to={25.41} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
+        <Cutaway id="ep6" src="p6_family" from={16.95} to={19.24} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
+        <Cutaway id="ep6" src="p6_family" from={20.04} to={22.32} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
+        <Cutaway id="ep6" src="p6_family" from={23.12} to={25.41} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
         <Hero text="真假混的" at={19.07} until={22.98} x={420} y={430} size={110} anim="呐喊声波" />
         <Hero text="年度趋势" at={20.55} until={22.98} x={420} y={610} size={120} anim="呐喊声波" />
         <Hero text="提前思考" at={23.03} until={25.41} x={420} y={430} size={120} anim="呐喊声波" />
         <Hero text="进退" at={24.4} until={25.41} x={380} y={620} size={150} anim="呐喊声波" />
         <NameTag at={26.4} until={29.35} x={1280} y={640} light />
-        <Cutaway id="ep6" src="" from={29.45} to={39.45} focus={[990, 430]} bg={<PhotoWall shots={PH6} base={29.45} />} />
-        {PH6.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
         <Cutaway id="ep6" src="ep1_horse_goat_h" from={48.41} to={50.79} focus={[990, 430]} last={false} />
         <Cutaway id="ep6" src="goat_positive" from={50.79} to={46.05} focus={[990, 430]} cont />
         <Hero text="赤马红羊年" at={48.76} until={50.79} x={1400} y={230} size={110} tone="red" anim="呐喊声波" />

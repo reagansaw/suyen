@@ -66,7 +66,17 @@ const Sfx: React.FC<{ at: number; s: string; vol?: number; len?: number }> = ({ 
 };
 
 /* ---------- 镜头：开场 1.18→1 缓收；冲击点轻推 1.05；段落慢推 ---------- */
-type Cam = { hits: number[]; pushes: [number, number, number][]; origin: string; holds?: [number, number, number][] };
+type Cam = { hits: number[]; pushes: [number, number, number][]; origin: string; holds?: [number, number, number][]; shrink?: [number, number, number][]; shrinkCurve?: [number, number][] };
+// shrink：只缩抠出来的人和护脸层（以画面底部中间为基准），背景不动；z=0 就是这段不要人
+const shrinkK = (t: number, c: Cam) => {
+  let k = 1;
+  for (const [a, b, z] of c.shrink ?? []) if (t >= a && t < b) {
+    k *= z;
+    const cv = c.shrinkCurve;
+    if (cv) k *= interpolate(t, cv.map((p) => p[0]), cv.map((p) => p[1]), clamp);
+  }
+  return k;
+};
 const camK = (t: number, c: Cam) => {
   let s = 1 + 0.18 * (1 - ease(t, 0, 1.1, Easing.out(Easing.quad)));
   for (const h of c.hits) if (t >= h && t < h + 0.6) s *= 1 + 0.05 * Math.sin(Math.PI * Math.min(1, (t - h) / 0.6)) * (1 - (t - h) / 0.6 * 0.3);
@@ -81,8 +91,10 @@ const Plate: React.FC<{ id: HookId; cam: Cam; grade: Grade; person?: boolean }> 
   const t = useT(), s = camK(t, cam), [b, sat, g] = grade(t);
   const flt = person ? `saturate(${1 - g})` : `brightness(${b}) saturate(${sat * (1 - g)})`;
   return (
-    <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: cam.origin, filter: flt }}>
-      {person ? <OffthreadVideo src={staticFile(`suyenh/pf/${id}.webm`)} transparent muted /> : <OffthreadVideo src={staticFile(`suyenh/${id}.mp4`)} />}
+    <AbsoluteFill style={{ transform: `scale(${person ? shrinkK(t, cam) : 1})`, transformOrigin: '50% 100%' }}>
+      <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: cam.origin, filter: flt }}>
+        {person ? <OffthreadVideo src={staticFile(`suyenh/pf/${id}.webm`)} transparent muted /> : <OffthreadVideo src={staticFile(`suyenh/${id}.mp4`)} />}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -95,8 +107,10 @@ const FaceGuard: React.FC<{ id: HookId; cam: Cam; grade: Grade }> = ({ id, cam, 
   const s = camK(t, cam), [, , g] = grade(t), i = Math.max(0, Math.min(fc.x.length - 1, Math.round(t * FPS)));
   const m = `radial-gradient(ellipse 125px 165px at ${fc.x[i]}px ${fc.y[i] - 10}px, #000 72%, transparent 100%)`;
   return (
-    <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: cam.origin, filter: g ? `saturate(${1 - g})` : undefined }}>
-      <AbsoluteFill style={{ WebkitMaskImage: m, maskImage: m }}><OffthreadVideo src={staticFile(`${DIR}/${id}.mp4`)} muted /></AbsoluteFill>
+    <AbsoluteFill style={{ transform: `scale(${shrinkK(t, cam)})`, transformOrigin: '50% 100%' }}>
+      <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: cam.origin, filter: g ? `saturate(${1 - g})` : undefined }}>
+        <AbsoluteFill style={{ WebkitMaskImage: m, maskImage: m }}><OffthreadVideo src={staticFile(`${DIR}/${id}.mp4`)} muted /></AbsoluteFill>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -213,18 +227,19 @@ const Broll: React.FC<{ src: string; from: number; to: number; push?: number; bl
 // Suyen 原片缩进右下角金框圆窗（半身）继续讲；圆窗里是原片同一时间，不带声音（声音来自底下的原片）
 // 圆框跟着人（Reagan：「圈圈永远要跟着人」）：suyen-ads/tools/facetrack 逐帧找她的脸（只跟离上一格最近的脸，避开海报上的人脸），对准脸中心往下 150px，平滑 7 格
 const TRACK: Partial<Record<HookId, { x: number[]; y: number[] }>> = { p1: TK_P1 as any, i2: TK_I2 as any, p6: TK_P6 as any, ep1: TK_EP1 as any };
-const Cutaway: React.FC<{ id: HookId; src: string; from: number; to: number; focus: [number, number]; zoom?: number; bg?: React.ReactNode; cont?: boolean; last?: boolean }> = ({ id, src, from, to, focus: focus0, zoom = 0.62, bg, cont, last = true }) => {
+const Cutaway: React.FC<{ id: HookId; src: string; from: number; to: number; focus: [number, number]; zoom?: number; bg?: React.ReactNode; cont?: boolean; last?: boolean; skip?: number }> = ({ id, src, from, to, focus: focus0, zoom = 0.62, bg, cont, last = true, skip = 0 }) => {
   const t = useT();
   const tk = TRACK[id], fi = tk ? Math.max(0, Math.min(tk.x.length - 1, Math.round(t * FPS))) : 0;
   const focus: [number, number] = tk ? [tk.x[fi], tk.y[fi]] : focus0;
   if (t < from - 0.01 || t > to) return null;
-  const o = win(t, from, to, cont ? 0.001 : 0.2, last ? 0.2 : 0.001), k = 1.02 + 0.06 * ease(t, from, to - from, eio);
+  // jump：B-roll 硬切进出 + 冲进来（Reagan 10-31：「要 jump jump jump」）
+  const o = win(t, from, to, 0.001, 0.001), k = 1.02 + (cont ? 0 : 0.16 * (1 - ease(t, from, 0.18, Easing.out(Easing.cubic)))) + 0.06 * ease(t, from, to - from, eio);
   const rate = Math.min(1, 5.9 / (to - from));
   const D = 400, cx = 1640, cy = 690, pin = cont ? 1 : ease(t, from, 0.4, Easing.out(Easing.back(1.6)));
   return (
     <AbsoluteFill style={{ opacity: o }}>
       <Sequence from={f(from)} durationInFrames={Math.max(1, f(to - from))} layout="none">
-        <AbsoluteFill style={{ transform: `scale(${k})` }}>{bg ?? <OffthreadVideo src={staticFile(`suyenbr/${src}.mp4`)} muted playbackRate={rate} />}</AbsoluteFill>
+        <AbsoluteFill style={{ transform: `scale(${k})` }}>{bg ?? <OffthreadVideo src={staticFile(`suyenbr/${src}.mp4`)} muted playbackRate={rate} startFrom={f(skip)} />}</AbsoluteFill>
       </Sequence>
       <AbsoluteFill style={{ background: 'radial-gradient(ellipse 75% 80% at 45% 45%, rgba(0,0,0,0) 55%, rgba(10,8,6,0.45) 100%)' }} />
       <div style={{ position: 'absolute', left: cx - D / 2, top: cy - D / 2, width: D, height: D, transform: `scale(${pin})` }}>
@@ -899,9 +914,49 @@ const PhotoWall: React.FC<{ shots: [string, number, number, string][]; base: num
     </AbsoluteFill>
   );
 };
-const EP1_PH: [string, number, number, string][] = [['hd-suyen-1', 30.89, 32.32, '16 年'], ['hd-QiMen_Training1', 32.32, 34.58, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.58, 36.75, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['hd-family_group', 38.24, 40.9, '上市公司 大家族 小家庭']];
+// 照片整张当背景、她本人（抠像）站在照片前面，外圈撕纸边（Reagan 10-31：照片段要像「投资产品」那张；颜色要跟前面一样，不要压暗）
+// PhotoBG 放人后层（behind），PaperEdge 放前景（只在画面边缘，离脸远）
+const PhotoBG: React.FC<{ shots: [string, number, number, string][] }> = ({ shots }) => {
+  // 照片之间可以空一段回到她本人（每段 B-roll ≤3 秒，Reagan 10-31）；接连的两张才交叉淡入
+  const t = useT();
+  return (
+    <AbsoluteFill>
+      {shots.map(([id, a, b], i) => {
+                if (t < a - 0.01 || t >= b) return null;
+        // jump：硬切 + 一下冲进来（1.22 → 1.04，0.18 秒）+ 白闪，不用淡入（Reagan 10-31：「要 jump jump jump」）
+        const kb = 1.04 + 0.18 * (1 - ease(t, a, 0.18, Easing.out(Easing.cubic))) + 0.05 * ease(t, a + 0.18, b - a, eio), fl = 0.55 * (1 - ease(t, a, 0.14));
+        return (
+          <AbsoluteFill key={a}>
+            <AbsoluteFill style={{ backgroundImage: `url(${staticFile(`suyenph/${id}.jpg`)})`, backgroundSize: 'cover', backgroundPosition: 'center', transform: `scale(${kb})`, filter: 'saturate(1.05) brightness(1.04)' }} />
+            <AbsoluteFill style={{ background: '#FFF6E0', opacity: fl }} />
+          </AbsoluteFill>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+const PaperEdge: React.FC<{ from: number; to: number }> = ({ from, to }) => {
+  const t = useT();
+  if (t < from - 0.01 || t > to) return null;
+  const o = 1;
+  return (
+    <AbsoluteFill style={{ opacity: o }}>
+      <svg width={W} height={H} style={{ position: 'absolute', inset: 0 }}>
+        <defs>
+          <filter id="tear" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035 0.05" numOctaves={4} seed={7} /><feDisplacementMap in="SourceGraphic" scale={34} xChannelSelector="R" yChannelSelector="G" /></filter>
+          <filter id="tearIn"><feGaussianBlur stdDeviation={6} /></filter>
+          <mask id="paperHole"><rect width={W} height={H} fill="white" /><rect x={58} y={46} width={W - 116} height={H - 92} fill="black" filter="url(#tear)" /></mask>
+        </defs>
+        <rect width={W} height={H} fill="rgba(60,40,20,0.35)" mask="url(#paperHole)" filter="url(#tearIn)" transform="translate(0 4)" />
+        <rect width={W} height={H} fill="#F1E8D8" mask="url(#paperHole)" />
+      </svg>
+    </AbsoluteFill>
+  );
+};
+// 每段连续照片 ≤3 秒，中间回到她本人（Reagan 10-31：「照片太久了，每个 b-roll 不能超过 3 秒」）
+const EP1_PH: [string, number, number, string][] = [['hd-hall_seated', 30.89, 32.32, '16 年'], ['hd-QiMen_Training1', 32.32, 33.7, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.58, 36.18, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['hd-family_group', 38.24, 39.6, '上市公司 大家族 小家庭']];
 export const SuyenEp1: React.FC = () => {
-  const cam: Cam = { hits: [0.78, 1.56, 2.65, 7.22, 11.45, 11.89, 12.69, 26.855, 42.52, 57.4], pushes: [[3.31, 6.86, 1.06], [8.51, 11.44, 1.04], [47.764, 50.083, 1.05]], origin: '46% 25%' };
+  const cam: Cam = { hits: [0.78, 1.56, 2.65, 7.22, 11.45, 11.89, 12.69, 26.855, 42.52, 57.4], pushes: [[3.31, 6.86, 1.06], [8.51, 11.44, 1.04], [47.764, 50.083, 1.05]], origin: '46% 25%', shrink: [[30.89, 33.7, 0], [34.58, 36.18, 0], [36.75, 39.6, 0]] };  // 照片段：整张照片、不要人（Reagan 10-31：「不要人和 bg frame」）→ 抠像和护脸层缩成 0 = 藏起来
   const grade: Grade = (t) => {
     if (t >= 6.93) return [1, 1, 0];
     return [interpolate(t, [3.27, 6.36], [1, 0.72], clamp), 1, interpolate(t, [3.45, 6.55], [0, 0.9], clamp)];
@@ -919,6 +974,8 @@ export const SuyenEp1: React.FC = () => {
         <Hero text="倍" at={12.13} until={12.66} x={1220} y={230} size={360} dur={0.32} glow={0.6} />
       
         <Hero text="奇门遁甲战略大会" {...T(12.69, 15.445)} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+        <PhotoBG shots={EP1_PH} />
+        {EP1_PH.map(([, a, b, label]) => <Hero key={a} text={label} {...T(a + 0.15, b)} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
         <Hero text="3 天完全免费" {...T(42.52, 47.764)} x={960} y={150} size={120} ls={0.1} glow={0.5} />
         <Hero text="2027 奇门战略大会" {...T(45.063, 47.764)} x={560} y={440} size={84} ls={0.08} rule />
         <Hero text="马上报名" {...T(57.4, 60.76)} x={960} y={160} size={150} ls={0.2} glow={0.6} />
@@ -929,25 +986,25 @@ export const SuyenEp1: React.FC = () => {
         <Hero text="RM1,000,000" at={0.11} until={1.02} x={960} y={790} size={150} ls={0.02} rotY={0} rotX={18} anim="呐喊声波" />
         <Hero text="八位数" at={1.04} until={3.09} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
         <Hero text="RM10,000,000" at={1.04} until={3.09} x={960} y={790} size={142} ls={0.02} rotY={0} rotX={18} anim="呐喊声波" />
-        <Cutaway id="ep1" src="p1_tired" from={3.31} to={6.93} focus={[990, 430]} />
-        <InkVig from={3.31} to={6.93} />
+        <Cutaway id="ep1" src="p1_tired" from={3.31} to={6.25} focus={[990, 430]} />
+        <InkVig from={3.31} to={6.25} />
         <Hero text="精力" at={5.05} until={6.91} x={330} y={320} size={210} tone="cream" anim="呐喊声波" />
         <Hero text="耗尽" at={6.05} until={6.91} x={330} y={590} size={220} tone="red" dur={0.36} anim="呐喊声波" />
         <InkBrush at={6.67} dur={0.51} />
         <Flare at={0.78} k={0.35} /><Flare at={1.56} k={0.4} /><Flare at={6.93} /><Flare at={11.45} k={0.45} /><Flare at={11.89} k={0.7} />
       
         {/* 数字人 Suyen 不用了（Reagan 10-31：AI 生成的有点老，用原本的她）→ 年盘一路到介绍段，圆框里是她本人 */}
-        <Cutaway id="ep1" src="ep1_yearchart" from={16.38} to={26.855} focus={[990, 430]} />
+        <Cutaway id="ep1" src="ep1_yearchart" from={16.38} to={19.3} focus={[990, 430]} />
+        <Cutaway id="ep1" src="ep1_yearchart" from={21.1} to={23.4} focus={[990, 430]} skip={3.0} />
+        <Cutaway id="ep1" src="ep1_yearchart" from={24.1} to={26.855} focus={[990, 430]} skip={3.2} />
         <Hero text="趋势" {...T(18.48, 19.63)} x={380} y={560} size={130} anim="呐喊声波" />
         <Hero text="格局" {...T(19.63, 20.091)} x={380} y={560} size={130} anim="呐喊声波" />
         <Hero text="宫位 方向 时间点" {...T(21.18, 22.982)} x={1400} y={210} size={78} anim="呐喊声波" />
         <Hero text="投入" {...T(24.18, 25.38)} x={380} y={760} size={130} anim="呐喊声波" />
         <Hero text="防守" {...T(25.38, 26.855)} x={380} y={760} size={130} tone="red" anim="呐喊声波" />
         <NameTag at={27.85} until={30.79} x={1280} y={640} light />
-        <Cutaway id="ep1" src="" from={30.889999999999997} to={40.9} focus={[990, 430]} bg={<PhotoWall shots={EP1_PH} base={30.889999999999997} />} />
-        {EP1_PH.map(([, a, b, label]) => <Hero key={a} text={label} {...T(a + 0.15, b)} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
-        <Cutaway id="ep1" src="ep1_horse_goat_h" from={50.133} to={52.513} focus={[990, 430]} last={false} />
-        <Cutaway id="ep1" src="goat_positive" from={52.513} to={56.655} focus={[990, 430]} cont />
+        <Cutaway id="ep1" src="ep1_horse_goat_h" from={50.133} to={52.513} focus={[990, 430]} />
+        <Cutaway id="ep1" src="goat_positive" from={53.3} to={56.2} focus={[990, 430]} />
         <Hero text="赤马红羊年" {...T(50.483, 52.513)} x={1400} y={230} size={110} tone="red" anim="呐喊声波" />
         <Hero text="抓准趋势" {...T(53.063, 56.655)} x={360} y={460} size={104} anim="呐喊声波" />
         <Hero text="落实结果" {...T(54.733, 56.655)} x={360} y={620} size={104} anim="呐喊声波" />
@@ -992,5 +1049,5 @@ export const SuyenEp1: React.FC = () => {
 
 /* ================= 第 2–14 集：合成在 SuyenEps.tsx（pipeline/gen_eps.py 产生），这里只登记时长 / 脸 / 圆框轨迹，并把元件借出去 ================= */
 export const regEp = (id: HookId, dur: number, face: { x: number[]; y: number[] }, track: { x: number[]; y: number[] }) => { M[id] = { dur }; FACE[id] = face; TRACK[id] = track; };
-export { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
+export { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, PhotoBG, PaperEdge, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
 export type { Cam, Grade, HookId };

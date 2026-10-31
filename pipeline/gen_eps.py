@@ -4,7 +4,7 @@
 - 每集 = 钩子 + 教方法（各集自己设计，照 epN/第N集-脚本.md）+ 共用的 我们是谁（C0037）+ CTA
 - C0039（CTA-2）整段只拍到 Suyen 的 logo 墙，没有人：那段没有圆框，B-roll 用全画面 Shot，大字随便放
 - B-roll 还没下载（studio 还没 Run）的，画面先放「待生成」占位卡，分镜检查图看得出来是哪一段"""
-import json, os
+import subprocess, json, os
 H = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(H, '..')
 BR = os.path.join(ROOT, 'remotion', 'public', 'suyenbr')
 SP = 1.1
@@ -24,10 +24,22 @@ def bg(src, label):
     return '' if os.path.exists(f'{BR}/{src}.mp4') else f' bg={{<Ph label="{src}：{label}" />}}'
 # 新 B-roll 还没生成、又要先出片时：拿已有的同调性片顶着（负面配负面、演员配演员），真的片下载后重跑就会换回来
 STANDIN = {'p2_loss': 'p1_tired', 'p2_fork': 'i2_team'} if os.environ.get('STANDIN') else {}
+MAXB = 3.0   # 每段 B-roll 最长 3 秒，超过就切几段、中间回到她本人 0.8 秒（Reagan 10-31：「每个 b-roll 不能超过 3 秒」）
 def cut(n, src, a, b, label, **kw):
     if not os.path.exists(f'{BR}/{src}.mp4') and src in STANDIN: src = STANDIN[src]
-    extra = ''.join(f' {k}' if v is True else f' {k}={{{str(v).lower()}}}' for k, v in kw.items())
-    return f'<Cutaway id="ep{n}" src="{src}" from={{{r(a)}}} to={{{r(b)}}} focus={{[990, 430]}}{bg(src, label)}{extra} />'
+    segs = [(a, b, 0)]
+    if b - a > MAXB:
+        k = int((b - a + 0.8) // (2.7 + 0.8)) + (1 if (b - a + 0.8) % 3.5 > 0.01 else 0)
+        L = (b - a - 0.8 * (k - 1)) / k
+        cd = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f'{BR}/{src}.mp4'], capture_output=True, text=True).stdout or 0) if os.path.exists(f'{BR}/{src}.mp4') else 0
+        room = max(0.0, cd - L - 0.05)   # 每段从片子不同位置开始，但要放得完（片子不够长就从头）
+        segs = [(a + i * (L + 0.8), a + i * (L + 0.8) + L, round((i * (L + 0.1)) % room, 2) if room > 0.2 else 0) for i in range(k)]
+    out = []
+    for i, (x, y, sk) in enumerate(segs):
+        kk = {k: v for k, v in kw.items() if not ((k == 'cont' and i > 0) or (k == 'last' and i < len(segs) - 1))}
+        extra = ''.join(f' {k}' if v is True else f' {k}={{{str(v).lower()}}}' for k, v in kk.items()) + (f' skip={{{sk}}}' if sk else '')
+        out.append(f'<Cutaway id="ep{n}" src="{src}" from={{{r(x)}}} to={{{r(y)}}} focus={{[990, 430]}}{bg(src, label)}{extra} />')
+    return '\n        '.join(out)
 def shot(src, a, b, label, **kw):
     extra = ''.join(f' {k}' if v is True else f' {k}={{{str(v).lower()}}}' for k, v in kw.items())
     return f'<Shot src="{src}" from={{{r(a)}}} to={{{r(b)}}}{bg(src, label)}{extra} />'
@@ -43,17 +55,19 @@ def subs_js(subs): return ', '.join(f"['{s}', {r(a)}, {r(b)}]" for s, a, b in su
 def intro(n, nxt):
     s0, s1 = starts(n, 'C0037')
     LIN, SN, KC, JW, SJ, SS = (t(n, 'C0037', x) for x in (4.74, 8.20, 10.6, 12.26, 14.64, 16.5))
-    PH = [('hd-suyen-1', SN - 0.1, KC - 0.85, '16 年'), ('hd-QiMen_Training1', KC - 0.85, JW - 0.1, '千多场课程'), ('hd-fengshui_training-Qimen1', JW - 0.1, SJ - 0.1, '几万个学员'),
-          ('hd-masterSuyenLim_qm1', SJ - 0.1, SS - 0.1, '来自世界各地'), ('hd-family_group', SS - 0.1, nxt, '上市公司 大家族 小家庭')]
+    # 整张照片、不要人不要框（Reagan 10-31）；连续照片 ≤3 秒，中间回到她本人（照第 1 集）
+    PH = [('hd-hall_seated', SN - 0.1, KC - 0.85, '16 年'), ('hd-QiMen_Training1', KC - 0.85, KC + 0.53, '千多场课程'), ('hd-fengshui_training-Qimen1', JW - 0.1, JW + 1.5, '几万个学员'),
+          ('hd-masterSuyenLim_qm1', SJ - 0.1, SS - 0.1, '来自世界各地'), ('hd-family_group', SS - 0.1, SS + 1.26, '上市公司 大家族 小家庭')]
+    hide = [(SN - 0.1, KC + 0.53, 0), (JW - 0.1, JW + 1.5, 0), (SJ - 0.1, SS + 1.26, 0)]
     ph = ', '.join(f"['{a}', {r(b)}, {r(c)}, '{d}']" for a, b, c, d in PH)
-    front = [f'<NameTag at={{{r(LIN)}}} until={{{r(SN - 0.2)}}} x={{1280}} y={{640}} light />',
-             f'<Cutaway id="ep{n}" src="" from={{{r(SN - 0.1)}}} to={{{r(nxt)}}} focus={{[990, 430]}} bg={{<PhotoWall shots={{PH{n}}} base={{{r(SN - 0.1)}}} />}} />',
-             f'{{PH{n}.map(([, a, b, label]) => <Hero key={{a}} text={{label}} at={{a + 0.15}} until={{b}} x={{690}} y={{110}} size={{label.length > 6 ? 70 : 96}} ls={{0.12}} anim="呐喊声波" />)}}']
+    front = [f'<NameTag at={{{r(LIN)}}} until={{{r(SN - 0.2)}}} x={{1280}} y={{640}} light />']
+    behind = [f'<PhotoBG shots={{PH{n}}} />',
+              f'{{PH{n}.map(([, a, b, label]) => <Hero key={{a}} text={{label}} at={{a + 0.15}} until={{b}} x={{960}} y={{150}} size={{label.length > 6 ? 110 : 170}} ls={{0.12}} anim="呐喊声波" />)}}']
     fx = [sfx(s0 - 0.05, '闪回'), sfx(LIN - 0.03, '一声响铃'), sfx(SN - 0.15, '回忆-刷一下'), f'{{PH{n}.slice(1).map(([, a]) => <Sfx key={{a}} at={{a - 0.03}} s="扫光音效4" />)}}']
     subs = [('大家好，我是林舒苑', s0, t(n, 'C0037', 5.40)), ('您的人生战略导师', t(n, 'C0037', 5.40), t(n, 'C0037', 7.20)),
             ('我在过去 16 年培训超过千多场课程', t(n, 'C0037', 7.20), t(n, 'C0037', 11.30)), ('也帮助过几万个学员', t(n, 'C0037', 11.30), t(n, 'C0037', 13.60)),
             ('来自于世界各地', t(n, 'C0037', 13.60), s1), ('从上市公司、大家族到小家庭', s1, nxt)]
-    return f'const PH{n}: [string, number, number, string][] = [{ph}];', [], front, fx, subs, [s0, nxt]
+    return f'const PH{n}: [string, number, number, string][] = [{ph}];', behind, front, fx, subs, [s0, nxt], hide
 
 # ---------- 共用：CTA-2（C0039 logo 墙，没有人）----------
 def cta2(n):
@@ -111,9 +125,9 @@ def assemble(n, behind, front, fx, subs, hits, pushes, dust, origin='48% 30%', c
         cta = cta1 if k >= 3 else cta1s if k == 2 else cta2   # k == 4：旧切法（还没重剪的集）
     c0 = starts(n, 'C0037')[0]
     nxt = next(p['start'] for p in pieces(n)['pieces'] if p['start'] > c0 and p['src'] != 'C0037')
-    phdef, _, ifr, ifx, isub, _ = intro(n, nxt)
+    phdef, ib, ifr, ifx, isub, _, hide = intro(n, nxt)
     cb, cf, cfx, csub, chits = cta(n)
-    return n, phdef, behind + cb, front + ifr + cf, fx + ifx + cfx, subs + isub + csub, dict(hits=hits + [c0] + chits, pushes=pushes, origin=origin, grade=grade), dust
+    return n, phdef, behind + ib + cb, front + ifr + cf, fx + ifx + cfx, subs + isub + csub, dict(hits=hits + [c0] + chits, pushes=pushes, origin=origin, grade=grade, shrink=hide), dust
 
 # ---------- 第 2 集 · P2 翻身变赔钱（C0006）----------
 def ep2():
@@ -313,7 +327,7 @@ HEAD = '''// 广告第 2–14 集（16:9 · 每集 ≤60 秒 · 1.1 倍速）。
 // 结构照第 1 集：钩子 + 教方法 → 我们是谁（C0037 + 照片墙）→ CTA；只用 C0001–C0048；名字一律「林舒苑」
 import React from 'react';
 import { AbsoluteFill, OffthreadVideo, Sequence, staticFile } from 'remotion';
-import { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, fastToSlow, useT, win, ease, eio, f, clamp, regEp, LTH, CREAM } from './SuyenHooksE';
+import { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoBG, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, fastToSlow, useT, win, ease, eio, f, clamp, regEp, LTH, CREAM } from './SuyenHooksE';
 import { interpolate } from 'remotion';
 import type { Cam, Grade } from './SuyenHooksE';
 %IMPORTS%
@@ -351,7 +365,7 @@ def build():
 regEp('ep{n}', {dur(n)}, FC_EP{n}, TK_EP{n});
 {phdef}
 export const SuyenEp{n}: React.FC = () => {{
-  const cam: Cam = {{ hits: {[r(x) for x in cam['hits']]}, pushes: {[[r(a), r(b), z] for a, b, z in cam['pushes']]}, origin: '{cam['origin']}' }};
+  const cam: Cam = {{ hits: {[r(x) for x in cam['hits']]}, pushes: {[[r(a), r(b), z] for a, b, z in cam['pushes']]}, origin: '{cam['origin']}', shrink: {[[r(a), r(b), z] for a, b, z in cam.get('shrink', [])]} }};
   const grade: Grade = {cam['grade']};
   return (
     <Frame id="ep{n}" cam={{cam}} grade={{grade}} dust={{{r(dust)}}}
