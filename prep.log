@@ -33,8 +33,295 @@ print('\'' '\''.join(sorted(s)))'
 要转写：C0006 C0007 C0009 C0011 C0014 C0018 C0019 C0020 C0021 C0022 C0025 C0027 C0029 C0037 C0039 C0048
 + for c in '$CLIPS'
 + '[' -f pipeline/wt/C0006.json ']'
-+ echo '转写 C0006 …'
-转写 C0006 …
-+ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0006.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
-Args: {'audio': ['/Users/apple/Downloads/raw/C0006.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
++ continue
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0007.json ']'
++ echo '转写 C0007 …'
+转写 C0007 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0007.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0007.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2723.13it/s]
+[00:00.000 --> 00:03.680] 你的你的你的那个promptor太高。
+[00:04.860 --> 00:07.100] 啊,不拿,这样子。
+[00:07.620 --> 00:09.380] ok,可以。
+[00:10.100 --> 00:12.720] 你拉低一点先,拉低一点,拉低再低。
+[00:12.920 --> 00:14.240] ok,可以这样子。
+[00:15.120 --> 00:16.300] 3、2、1。
+[00:16.540 --> 00:21.560] 在事业上,你的竞争对手,快你5倍,10倍。
+[00:22.120 --> 00:25.420] 你越追越急,越追越紧张。
+[00:25.800 --> 00:27.460] 你整盘级都乱了。
+[00:27.460 --> 00:30.960] 更何况你的竞争对手,不是人。
+[00:31.640 --> 00:37.720] 那2027年,你要如何慢的稳,又能够稳坐第一呢?
+[00:38.300 --> 00:39.820] 奇门遁甲战略大会。
+[00:40.060 --> 00:44.940] 我会用年度的年盘来为你拆解局余式。
+[00:45.460 --> 00:49.260] 让你思考哪里出力,哪里用力。
+[00:49.500 --> 00:52.700] 把力气压在关键的第一步。
+[00:53.920 --> 00:56.800] 把力气压在关键的一步。
+[00:56.800 --> 01:00.500] 争取突破,稳住全局。
+[01:00.740 --> 01:02.300] 正能量。
+[01:03.960 --> 01:04.780] ok
+[01:04.780 --> 01:06.140] Next
+[01:06.140 --> 01:06.280] 。
+[01:08.140 --> 01:08.140] 。
+[01:08.140 --> 01:08.140] 。
+[01:08.140 --> 01:08.140] 。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0009.json ']'
++ echo '转写 C0009 …'
+转写 C0009 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0009.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0009.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 4102.01it/s]
+[00:00.000 --> 00:01.180] 来讲还是讲的才看?
+[00:02.240 --> 00:03.540] 边看边讲。
+[00:04.180 --> 00:13.660] 定位要换,取道要换,新伙伴要换,要小心哦!
+[00:14.280 --> 00:18.500] 那新伙伴到底是贵人还是托你下水的人?
+[00:19.160 --> 00:22.980] 那一次的换错,赔上的可能是一整年。
+[00:22.980 --> 00:32.340] 那2027年奇门战略大会,我会从年盘拆解年度趋势,带你建立全局观。
+[00:32.740 --> 00:40.620] 哪里升更?哪里转向?哪里攻守?下一步都有布局的策略方案。
+[00:41.080 --> 00:45.360] 那让你心里有底,正能量。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0011.json ']'
++ echo '转写 C0011 …'
+转写 C0011 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0011.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0011.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2828.73it/s]
+[00:01.240 --> 00:11.360] 321。企业家们,你今年赚到的钱,明年要哪去扩张投资产品还是扎人才呢?
+[00:12.080 --> 00:26.640] 那最怕一次的压错,把今年所赚的利润赔回去。那2027年,奇门遁甲战略大会,我会用年盘来拆解机会与风险,
+[00:26.640 --> 00:43.960] 带你省视高回仇背后的代价,提前进化,提前规划进攻与防守,守住你的成绩,再争下一个高峰,正能量。
+[00:45.060 --> 00:46.180] OK,好。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0014.json ']'
++ echo '转写 C0014 …'
+转写 C0014 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0014.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0014.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2623.08it/s]
+[00:01.380 --> 00:29.980] 321。2027年。从奇门角度,你的生意应该供还是手?订单还没收到钱,薪水租金已经追到门口。那下一笔钱,你还能不……等下,我继续啊。下一笔钱还能不能扎?应该扎在哪里?那奇门遁甲战略大会,我会用年盘来拆减年度的趋势,带你从前进去。
+[00:30.000 --> 00:37.540] 省市投入的次序,别让生意还没等到突破,现金已经被烧光。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0018.json ']'
++ echo '转写 C0018 …'
+转写 C0018 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0018.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0018.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1650.16it/s]
+[00:00.000 --> 00:01.220] 321。
+[00:01.560 --> 00:10.700] 2027年奇门遁甲年盘的局仪式,有声门藤舌。企业家们,你要注意啦!
+[00:11.340 --> 00:16.260] 那你做了20年的生意,该怎么样重新找到你的位置?
+[00:16.760 --> 00:23.640] 老顾客越来越少,利润越来越薄,你应该继续守还是转型。
+[00:23.640 --> 00:33.700] 那这一次的奇门遁甲战略大会,我会用年度的趋势预测,来带你审视转型方向。
+[00:34.020 --> 00:40.880] 把20年你累计下来的根基,用来争取一下下一步的突破。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0019.json ']'
++ echo '转写 C0019 …'
+转写 C0019 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0019.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0019.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2736.01it/s]
+[00:00.680 --> 00:21.740] 来,3,2,1。奇门讲究布局破局,做领导的你,想要看你的整盘奇吗?那2027年你的一个决定,几十个人甚至几百个人跟着你就是冲,方向一错,整年的薪水和士气一起烧掉。
+[00:21.740 --> 00:38.900] 那这一次的奇门遁甲战略大会，我会从年盘来跟你拆解真假混的局势。那带你呢,首先,带你领先省事方向,再聚踪团队的火力。你想要吗?
+[00:41.100 --> 00:42.680] 来,可以吗?可以。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0020.json ']'
++ echo '转写 C0020 …'
+转写 C0020 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0020.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0020.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2357.01it/s]
+[00:03.200 --> 00:07.380] 从2027年，我重新来过。那个第一句话不美。
+[00:11.180 --> 00:17.440] 从2027年奇门战略来看,创越的女性应该如何布局?
+[00:17.880 --> 00:25.200] 你太想做出成绩,把储备金、时间、退路全压进去。
+[00:25.200 --> 00:31.000] 最怕的不是事业没做起来,而是人先倒下去。
+[00:31.440 --> 00:37.840] 这一次的奇门战略大会,我会从年盘来拆解年度趋势,
+[00:38.100 --> 00:42.580] 带你看准进退,把证明自己的痕迹,
+[00:42.780 --> 00:45.820] 集中在最关键的一步。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0021.json ']'
++ echo '转写 C0021 …'
+转写 C0021 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0021.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0021.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2909.18it/s]
+[00:00.000 --> 00:25.440] 321。够力了。八字中有牛和老鼠的人,从2027年的奇门布局角度来看,那如果刚好你又是第一次想要创业,你应该先试水还是直接的押中住。装修费、设备加门费,门的还没开,几十万已经出了。
+[00:26.080 --> 00:39.760] 那么如果刚好你是老师所说的那两个生肖,从奇门遁甲的角度,你不仅仅有破胎税、害胎税、大号还有小号凶星,零声。
+[00:40.320 --> 00:55.040] 那来到老师的战略大会里,我会从奇门年盘解读的,我会从奇门年盘来解读年度趋势,带你思考起步节奏。
+[00:55.440 --> 01:12.960] 把基础和退路都排好,再争取把生意做上来,那么生肖牛和老鼠的人,你们还怕吗?来参加随便老师的奇门遁甲战略大会,来获得先机。
+[01:13.580 --> 01:14.820] 正能量。
+[01:16.780 --> 01:17.000] 其实讲到一段时间,
+[01:17.000 --> 01:17.000] 其实讲到一段时间,
+[01:17.000 --> 01:17.140] 其实讲到一段时间,
+[01:17.200 --> 01:17.200] 其实讲到一段时间,
+[01:17.220 --> 01:17.220] 其实讲到一段时间,
+[01:17.220 --> 01:17.220] 其实讲到一段时间,
+[01:17.220 --> 01:17.220] 其实讲到一段时间,
+[01:17.220 --> 01:17.220] 其实讲到一段时间,
+[01:17.240 --> 01:17.540] 其实讲到一段时间,
+[01:17.540 --> 01:17.880] 其实讲到一段时间,
+[01:17.880 --> 01:17.940] 其实讲到一段时间,
+[01:17.940 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.120] 其实讲到一段时间,
+[01:18.120 --> 01:18.540] 其实讲到一段时间,
+[01:18.540 --> 01:18.540] 讲到一段时间,
+[01:18.520 --> 01:18.520] 讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
+[01:18.520 --> 01:18.520] 其实讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
+[01:18.520 --> 01:18.520] 讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
+[01:18.520 --> 01:18.520] 所以讲到一段时间,
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0022.json ']'
++ echo '转写 C0022 …'
+转写 C0022 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0022.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0022.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 3078.95it/s]
+[00:00.000 --> 00:01.960] 营业排到开始又累了。
+[00:05.020 --> 00:08.460] 2027年三大关键词——真假混。
+[00:08.920 --> 00:15.880] 从奇门角度来看不知,你追的AI到底是在帮你赚钱,还是在帮你花钱。
+[00:16.120 --> 00:19.280] 系统买了课程上了,营业。
+[00:19.660 --> 00:21.900] 营业而却没有动静。
+[00:22.140 --> 00:26.000] 这一次的奇门战略大会,我会从年盘度,
+[00:26.900 --> 00:38.080] 我会从年盘来谈年度方向,带你理清你的事业重点,再决定下一笔的技术投入,到底值不值得。
+[00:40.320 --> 00:41.000] 可以吗?
+[00:41.240 --> 00:41.380] 可以。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0025.json ']'
++ echo '转写 C0025 …'
+转写 C0025 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0025.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0025.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2604.35it/s]
+[00:00.000 --> 00:02.440] 来啊,3,2,1。
+[00:02.540 --> 00:10.600] 2027奇门年度布局,35岁以后,下一步该首业还是准备转型。
+[00:11.040 --> 00:18.660] 那10年的经验重新换岗位,下一份收入未必达到你的心目中想要的。
+[00:19.100 --> 00:28.480] 那么这一次的战略大会,我会从年盘来解读年度的趋势,给你职业方向重新定位。
+[00:29.160 --> 00:34.120] 趁你还有选择,先准备第二条路。
+[00:38.240 --> 00:39.120] 很假!
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0027.json ']'
++ echo '转写 C0027 …'
+转写 C0027 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0027.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0027.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2689.95it/s]
+[00:00.660 --> 00:16.160] 来321。2027年年度局势真假混。有一种局你尤其要想清楚。别人求救,你要不要拿公司的钱去救呢?
+[00:16.880 --> 00:23.360] 一句只有你能够帮到我,可能会让你赔上整个团队的薪水。
+[00:23.360 --> 00:29.720] 这一次的奇门战略大会,我会从年度格局来谈风险。
+[00:29.960 --> 00:38.000] 带你先看代价,划清界限,再决定出手,正能量。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0029.json ']'
++ echo '转写 C0029 …'
+转写 C0029 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0029.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0029.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2964.70it/s]
+[00:00.000 --> 00:02.100] OK,3,2,1。
+[00:02.560 --> 00:09.840] 2027年,你的奇门战略布局,有没有把全家的退路算进去?
+[00:10.340 --> 00:18.500] 一笔的投入,动荡的可能是孩子的学费,父母的养老,还有可能是你十年的储蓄。
+[00:18.760 --> 00:26.160] 这一次的奇门战略大会,我会从年盘来解读真假混的年度趋势,
+[00:26.160 --> 00:30.100] 带你齐前思考进退。
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0037.json ']'
++ echo '转写 C0037 …'
+转写 C0037 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0037.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0037.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2209.85it/s]
+[00:01.460 --> 00:28.460] 来321。大家好,我是林舒苑，您的人生战略导师。我在过去16年培训超过千多场课程,也帮助过几万个学员,来自于世界各地。从上市公司大家族到小家庭,我都为他们提供咨询、教育,甚至是服务,帮助他们走出人生的迷茫以及低谷。
+[00:28.460 --> 00:38.320] 从没有方向到懂得布局人生,把握机会,看清趋势,活出自己想要的人生。
+[00:39.060 --> 00:52.600] 透过传承数千年的易经智慧,结合奇门遁甲、风水八字,融入我的课程以及咨询服务。
+[00:52.600 --> 01:01.160] 帮助每一位学员看清方向,走向自己正想要的人生,活出精彩。
+[01:01.160 --> 01:03.740] 正能量。
+[01:03.740 --> 01:03.800] 正能量。
+[01:03.860 --> 01:03.860] 正能量。
+[01:04.720 --> 01:06.040] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
+[01:06.020 --> 01:06.020] YES!
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0039.json ']'
++ echo '转写 C0039 …'
+转写 C0039 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0039.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0039.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2212.48it/s]
+[00:00.000 --> 00:03.260] 三天完全免费的战略大会，呃�有我的，如果你想要看清2027年趋势,你是一个企业家，你是一个要更精准的方向的人，你一定要马上报名，我们到时见，嗯，
+[00:03.260 --> 00:03.960] 嗯，
+[00:03.960 --> 00:05.160] 嗯，
+[00:05.160 --> 00:14.840] 如果你想要看清2027年趋势,你是一个企业家，你是一个要更精准的方向的人，你一定要马上报名，我们到时见，嗯，
++ for c in '$CLIPS'
++ '[' -f pipeline/wt/C0048.json ']'
++ echo '转写 C0048 …'
+转写 C0048 …
++ nice -n 19 uvx --python 3.12 --from mlx-whisper mlx_whisper /Users/apple/Downloads/raw/C0048.MP4 --model mlx-community/whisper-large-v3-turbo --language zh --word-timestamps True --initial-prompt $'以�\213�\230��\200�\223�\255�\226\207�\232\204�\217��\255\220�\200\202�\236\227�\210\222�\213\221�\214�\207�\227��\201\201�\224��\210\230�\225�大�\232�\214年�\233\230�\214宫�\215�\214赤马红�\212年�\2142027年�\200\202' --output-format json --output-dir pipeline/wt
+Args: {'audio': ['/Users/apple/Downloads/raw/C0048.MP4'], 'model': 'mlx-community/whisper-large-v3-turbo', 'output_name': None, 'output_dir': 'pipeline/wt', 'output_format': 'json', 'verbose': True, 'task': 'transcribe', 'language': 'zh', 'temperature': 0, 'best_of': 5, 'patience': None, 'length_penalty': None, 'suppress_tokens': '-1', 'initial_prompt': '以下是简体中文的句子。林舒苑，奇门遁甲战略大会，年盘，宫位，赤马红羊年，2027年。', 'condition_on_previous_text': True, 'fp16': True, 'compression_ratio_threshold': 2.4, 'logprob_threshold': -1.0, 'no_speech_threshold': 0.6, 'word_timestamps': True, 'prepend_punctuations': '"\'“¿([{-', 'append_punctuations': '"\'.。,，!！?？:：”)]}、', 'highlight_words': False, 'max_line_width': None, 'max_line_count': None, 'max_words_per_line': None, 'hallucination_silence_threshold': None, 'clip_timestamps': '0'}
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1977.28it/s]
+[00:02.840 --> 00:11.700] 那接下来,我为大家准备了三天完全免费的2027年奇门战略大会。
+[00:12.020 --> 00:27.200] 如果你是希望你在2027年那么混乱的赤马红羊年的年代,依然抓准趋势,落实你想要的结果,少走坑路,走出你想要的人生。
+[00:27.200 --> 00:30.840] 那么马上报名,我们到时见!
++ echo '逐字转写好了：先照 pipeline/wt/*.json 把 pipeline/eps_plan.py 的切点挪到字缝，重跑 python3 pipeline/eps_plan.py，再继续'
+逐字转写好了：先照 pipeline/wt/*.json 把 pipeline/eps_plan.py 的切点挪到字缝，重跑 python3 pipeline/eps_plan.py，再继续
++ '[' 0 = 1 ']'
++ exit 0
