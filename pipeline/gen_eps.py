@@ -77,10 +77,10 @@ def cta2(n):
 
 # ---------- 共用：CTA-1（C0048，她本人在黄椅子上讲；照第 1 集）----------
 def cta1(n):
-    P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, P8S, P9S = P[0]['start'], P[2]['start'], P[3]['start']; E = dur(n) + 0.6
+    P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, P8S, P9S = P[0]['start'], P[1]['start'], P[2]['start']; E = dur(n) + 0.6
     SAN, Y27, CHIMA, ZZ, LS, MS = (t(n, 'C0048', x) for x in (6.08, 8.88, 16.56, 19.40, 21.24, 27.92))
     behind = [hero('3 天完全免费', SAN, P8S, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, P8S, 420, 440, 84, ls=0.08, rule=True),
-              hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6)]
+              hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6), f'<EventLogo at={{{r(P9S)}}} until={{{r(E)}}} />']
     front = [cut(n, 'ep1_horse_goat_h', CHIMA - 0.35, ZZ - 0.55, '火马火羊', last=False), cut(n, 'goat_positive', ZZ - 0.55, P9S, '彩虹吉祥羊', cont=True),
              hero('赤马红羊年', CHIMA, ZZ - 0.55, 1400, 230, 110, tone='red', anim='呐喊声波'),
              hero('抓准趋势', ZZ, P9S, 360, 460, 104, anim='呐喊声波'), hero('落实结果', LS, P9S, 360, 620, 104, anim='呐喊声波')]
@@ -94,10 +94,10 @@ def cta1(n):
 # ---------- 共用：CTA-1 短版（C0048 黄椅子，她本人讲）：三天免费 → 2027 奇门战略大会 → 马上报名 → 讲完挥手笑 2 秒收尾 ----------
 # 代替 CTA-2（C0039 是别人的声音，Reagan 10-31：「要一直是 Suyen 的声音，后面预留多 2 秒」）
 def cta1s(n):
-    P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, PMS = P[0]['start'], P[2]['start']; E = dur(n) + 0.6
+    P = [p for p in pieces(n)['pieces'] if p['src'] == 'C0048']; P7S, PMS = P[0]['start'], P[1]['start']; E = dur(n) + 0.6
     SAN, Y27, MS, JIAN = (t(n, 'C0048', x) for x in (6.08, 8.88, 27.92, 30.80))
     behind = [hero('3 天完全免费', SAN, PMS, 960, 150, 120, ls=0.1, glow=0.5), hero('2027 奇门战略大会', Y27, PMS, 420, 440, 84, ls=0.08, rule=True),
-              hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6)]
+              hero('马上报名', MS, E, 960, 160, 150, ls=0.2, glow=0.6), f'<EventLogo at={{{r(PMS)}}} until={{{r(E)}}} />']
     front = [f'<Flare at={{{r(SAN)}}} k={{0.45}} /><Flare at={{{r(MS)}}} k={{0.55}} />']
     fx = [sfx(P7S - 0.05, '闪回'), sfx(SAN - 0.03, '综艺咚'), sfx(Y27 - 0.03, '综艺咚咚两声鼓点转场音效'), sfx(MS - 0.03, '叮收银机提示音1'), sfx(JIAN, '亮一下')]
     T = lambda x: t(n, 'C0048', x)
@@ -108,7 +108,7 @@ def cta1s(n):
 def assemble(n, behind, front, fx, subs, hits, pushes, dust, origin='48% 30%', cta=None, grade='() => [1, 1, 0]'):
     if cta is None:   # 照 pieces.json 用的是哪个 CTA
         k = sum(p['src'] == 'C0048' for p in pieces(n)['pieces'])
-        cta = cta1 if k == 4 else cta1s if k == 3 else cta2
+        cta = cta1 if k >= 3 else cta1s if k == 2 else cta2   # k == 4：旧切法（还没重剪的集）
     c0 = starts(n, 'C0037')[0]
     nxt = next(p['start'] for p in pieces(n)['pieces'] if p['start'] > c0 and p['src'] != 'C0037')
     phdef, _, ifr, ifx, isub, _ = intro(n, nxt)
@@ -313,7 +313,7 @@ HEAD = '''// 广告第 2–14 集（16:9 · 每集 ≤60 秒 · 1.1 倍速）。
 // 结构照第 1 集：钩子 + 教方法 → 我们是谁（C0037 + 照片墙）→ CTA；只用 C0001–C0048；名字一律「林舒苑」
 import React from 'react';
 import { AbsoluteFill, OffthreadVideo, Sequence, staticFile } from 'remotion';
-import { Frame, Hero, Cutaway, NameTag, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, fastToSlow, useT, win, ease, eio, f, clamp, regEp, LTH, CREAM } from './SuyenHooksE';
+import { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, fastToSlow, useT, win, ease, eio, f, clamp, regEp, LTH, CREAM } from './SuyenHooksE';
 import { interpolate } from 'remotion';
 import type { Cam, Grade } from './SuyenHooksE';
 %IMPORTS%

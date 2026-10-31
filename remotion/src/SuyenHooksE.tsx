@@ -4,7 +4,7 @@
 //       镜头只做缓推 + 轻冲（不弹、不晃）；音效换颂钵、锣、鼓、毛笔、水滴、拔剑
 // 素材同 v2：public/suyenh/<id>.mp4 + pf/<id>.webm + src/suyenh-hooks.json；字体 public/ivyga/fonts/LantingheiSC-Heavy.ttf（从 macOS Lantinghei.ttc 导出）
 import React from 'react';
-import { AbsoluteFill, Audio, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame, Easing, delayRender, continueRender } from 'remotion';
+import { AbsoluteFill, Audio, Img, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame, Easing, delayRender, continueRender } from 'remotion';
 import META from './suyenh-hooks.json';
 import { depth } from './JyText';
 import FC_P1 from './suyenh-face-p1.json';
@@ -558,6 +558,13 @@ const House: React.FC<{ at: number; road: number; until: number; x: number; y: n
     </svg>
   );
 };
+// 活动 logo（最后「马上报名」那段，Reagan 10-31）：透明底、不加底色卡片（「background no need color, just transparent」）；放人后层，在她左边
+const EventLogo: React.FC<{ at: number; until: number; x?: number; y?: number; w?: number }> = ({ at, until, x = 380, y = 560, w = 620 }) => {
+  const t = useT();
+  if (t < at || t > until + 0.01) return null;
+  const p = ease(t, at, 0.5, Easing.out(Easing.back(1.4))), o = win(t, at, until, 0.25, 0.001), h = (w * 1161) / 1280;
+  return <Img src={staticFile('suyenph/event-logo.png')} style={{ position: 'absolute', left: x - w / 2, top: y - h / 2, width: w, height: h, opacity: o, transform: `scale(${0.85 + 0.15 * p})`, filter: 'drop-shadow(0 8px 18px rgba(0,0,0,0.35))' }} />;
+};
 // light：浅色墙用（墨色名字 + 深金头衔），不然米白字在米白墙上看不见
 const NameTag: React.FC<{ at: number; until: number; x: number; y: number; light?: boolean }> = ({ at, until, x, y, light }) => {
   const t = useT();
@@ -874,7 +881,7 @@ export const SuyenEP6: React.FC = () => {
   );
 };
 
-/* ================= 广告第一集（16:9 · 59.7 秒 · 1.1 倍速）================= */
+/* ================= 广告第一集（16:9 · 59.9 秒 · 1.1 倍速）================= */
 // 结构：钩子 P1 v9（时间 ÷1.1）→ 教方法（年盘 / 数字人）→ 我们是谁（真照片墙）→ 报名（火马火羊 → 彩虹吉祥羊）
 // 原片剪段见 suyen-ads/ep1/prep_ep1.py；只用 C0001–C0048
 // 真照片墙：landing page 的照片只有 600×400 → Real-ESRGAN 放大成 hd-*.jpg（1620 宽，Reagan 10-31：「照片很蒙」）；金框卡片 + 同一张大糊当底，不整张撑满
@@ -893,7 +900,7 @@ const PhotoWall: React.FC<{ shots: [string, number, number, string][]; base: num
 };
 const EP1_PH: [string, number, number, string][] = [['hd-suyen-1', 30.89, 32.32, '16 年'], ['hd-QiMen_Training1', 32.32, 34.58, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.58, 36.75, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.75, 38.24, '来自世界各地'], ['hd-family_group', 38.24, 40.9, '上市公司 大家族 小家庭']];
 export const SuyenEp1: React.FC = () => {
-  const cam: Cam = { hits: [0.78, 1.56, 2.65, 7.22, 11.45, 11.89, 12.69, 26.855, 42.52, 56.9], pushes: [[3.31, 6.86, 1.06], [8.51, 11.44, 1.04], [47.491, 49.81, 1.05]], origin: '46% 25%' };
+  const cam: Cam = { hits: [0.78, 1.56, 2.65, 7.22, 11.45, 11.89, 12.69, 26.855, 42.52, 57.173], pushes: [[3.31, 6.86, 1.06], [8.51, 11.44, 1.04], [47.764, 50.083, 1.05]], origin: '46% 25%' };
   const grade: Grade = (t) => {
     if (t >= 6.93) return [1, 1, 0];
     return [interpolate(t, [3.27, 6.36], [1, 0.72], clamp), 1, interpolate(t, [3.45, 6.55], [0, 0.9], clamp)];
@@ -911,9 +918,10 @@ export const SuyenEp1: React.FC = () => {
         <Hero text="倍" at={12.13} until={12.66} x={1220} y={230} size={360} dur={0.32} glow={0.6} />
       
         <Hero text="奇门遁甲战略大会" {...T(12.69, 15.445)} x={960} y={150} size={120} ls={0.12} glow={0.5} />
-        <Hero text="3 天完全免费" {...T(42.52, 47.491)} x={960} y={150} size={120} ls={0.1} glow={0.5} />
-        <Hero text="2027 奇门战略大会" {...T(44.79, 47.491)} x={560} y={440} size={84} ls={0.08} rule />
-        <Hero text="马上报名" {...T(56.9, 60.26)} x={960} y={160} size={150} ls={0.2} glow={0.6} />
+        <Hero text="3 天完全免费" {...T(42.52, 47.764)} x={960} y={150} size={120} ls={0.1} glow={0.5} />
+        <Hero text="2027 奇门战略大会" {...T(45.063, 47.764)} x={560} y={440} size={84} ls={0.08} rule />
+        <Hero text="马上报名" {...T(57.173, 60.533)} x={960} y={160} size={150} ls={0.2} glow={0.6} />
+        <EventLogo at={56.428} until={60.533} />
       </>}
       front={<>
         <Hero text="七位数" at={0.11} until={1.02} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
@@ -937,11 +945,11 @@ export const SuyenEp1: React.FC = () => {
         <NameTag at={27.85} until={30.79} x={1280} y={640} light />
         <Cutaway id="ep1" src="" from={30.889999999999997} to={40.9} focus={[990, 430]} bg={<PhotoWall shots={EP1_PH} base={30.889999999999997} />} />
         {EP1_PH.map(([, a, b, label]) => <Hero key={a} text={label} {...T(a + 0.15, b)} x={690} y={110} size={label.length > 6 ? 70 : 96} ls={0.12} anim="呐喊声波" />)}
-        <Cutaway id="ep1" src="ep1_horse_goat_h" from={49.86} to={52.24} focus={[990, 430]} last={false} />
-        <Cutaway id="ep1" src="goat_positive" from={52.24} to={56.155} focus={[990, 430]} cont />
-        <Hero text="赤马红羊年" {...T(50.21, 52.24)} x={1400} y={230} size={110} tone="red" anim="呐喊声波" />
-        <Hero text="抓准趋势" {...T(52.79, 56.155)} x={360} y={460} size={104} anim="呐喊声波" />
-        <Hero text="落实结果" {...T(54.46, 56.155)} x={360} y={620} size={104} anim="呐喊声波" />
+        <Cutaway id="ep1" src="ep1_horse_goat_h" from={50.133} to={52.513} focus={[990, 430]} last={false} />
+        <Cutaway id="ep1" src="goat_positive" from={52.513} to={56.428} focus={[990, 430]} cont />
+        <Hero text="赤马红羊年" {...T(50.483, 52.513)} x={1400} y={230} size={110} tone="red" anim="呐喊声波" />
+        <Hero text="抓准趋势" {...T(53.063, 56.428)} x={360} y={460} size={104} anim="呐喊声波" />
+        <Hero text="落实结果" {...T(54.733, 56.428)} x={360} y={620} size={104} anim="呐喊声波" />
       </>}
       sfx={<>
         {OPEN_DONG}
@@ -969,19 +977,19 @@ export const SuyenEp1: React.FC = () => {
         {EP1_PH.slice(1).map(([, a]) => <Sfx key={a} at={a - 0.03} s="扫光音效4" />)}
         <Sfx at={40.85} s="闪回" />
         <Sfx at={42.49} s="综艺咚" />
-        <Sfx at={44.76} s="综艺咚咚两声鼓点转场音效" />
-        <Sfx at={49.81} s="旋风" /><Sfx at={50.21} s="咚咚重音心头震" />
-        <Sfx at={52.21} s="亮一下" />
-        {[52.79, 54.46].map((x) => <Sfx key={x} at={x - 0.03} s="正确" />)}
-        <Sfx at={56.105000000000004} s="闪回" />
-        <Sfx at={56.87} s="综艺咚" /><Sfx at={58.199999999999996} s="亮一下" />
+        <Sfx at={45.033} s="综艺咚咚两声鼓点转场音效" />
+        <Sfx at={50.083} s="旋风" /><Sfx at={50.483} s="咚咚重音心头震" />
+        <Sfx at={52.483} s="亮一下" />
+        {[53.063, 54.733].map((x) => <Sfx key={x} at={x - 0.03} s="正确" />)}
+        <Sfx at={56.378} s="闪回" />
+        <Sfx at={57.143} s="综艺咚" /><Sfx at={58.473} s="亮一下" />
       </>}
-      subs={[['七位数 八位数的目标', 0.11, 2.24], ['还没达成', 2.25, 3.29], ['人却已经拼到精力耗尽', 3.31, 6.87], ['那 2027 年', 6.93, 8.49], ['你的力气该往哪里打', 8.51, 10.56], ['才有机会冲翻倍呢？', 10.58, 12.64], ['奇门遁甲战略大会', 12.69, 15.04], ['我将会用年度的年盘', 15.04, 18.43], ['拆解趋势、格局', 18.43, 20.09], ['以及对的宫位、方向、时间点', 20.09, 22.98], ['带你找准投入以及防守的重点', 22.98, 26.86], ['大家好，我是林舒苑', 26.86, 28.45], ['您的人生战略导师', 28.45, 30.08], ['我在过去 16 年培训超过千多场课程', 30.08, 33.81], ['也帮助过几万个学员', 33.81, 35.9], ['来自于世界各地', 35.9, 38.08], ['从上市公司、大家族到小家庭', 38.08, 40.9], ['我为大家准备了三天完全免费的', 40.9, 44.72], ['2027 年奇门战略大会', 44.72, 47.49], ['你在 2027 年那么混乱的', 47.49, 50.11], ['赤马红羊年的年代', 50.11, 52.2], ['依然抓准趋势', 52.2, 54.34], ['落实你想要的结果', 54.34, 56.16], ['那么马上报名', 56.16, 58.25], ['我们到时见！', 58.25, 60.26]]}
+      subs={[['七位数 八位数的目标', 0.11, 2.24], ['还没达成', 2.25, 3.29], ['人却已经拼到精力耗尽', 3.31, 6.87], ['那 2027 年', 6.93, 8.49], ['你的力气该往哪里打', 8.51, 10.56], ['才有机会冲翻倍呢？', 10.58, 12.64], ['奇门遁甲战略大会', 12.69, 15.04], ['我将会用年度的年盘', 15.04, 18.43], ['拆解趋势、格局', 18.43, 20.09], ['以及对的宫位、方向、时间点', 20.09, 22.98], ['带你找准投入以及防守的重点', 22.98, 26.86], ['大家好，我是林舒苑', 26.86, 28.45], ['您的人生战略导师', 28.45, 30.08], ['我在过去 16 年培训超过千多场课程', 30.08, 33.81], ['也帮助过几万个学员', 33.81, 35.9], ['来自于世界各地', 35.9, 38.08], ['从上市公司、大家族到小家庭', 38.08, 40.9], ['我为大家准备了三天完全免费的', 40.9, 44.993], ['2027 年奇门战略大会', 44.993, 47.763], ['你在 2027 年那么混乱的', 47.763, 50.383], ['赤马红羊年的年代', 50.383, 52.473], ['依然抓准趋势', 52.473, 54.613], ['落实你想要的结果', 54.613, 56.433], ['那么马上报名', 56.433, 58.523], ['我们到时见！', 58.523, 60.533]]}
     />
   );
 };
 
 /* ================= 第 2–14 集：合成在 SuyenEps.tsx（pipeline/gen_eps.py 产生），这里只登记时长 / 脸 / 圆框轨迹，并把元件借出去 ================= */
 export const regEp = (id: HookId, dur: number, face: { x: number[]; y: number[] }, track: { x: number[]; y: number[] }) => { M[id] = { dur }; FACE[id] = face; TRACK[id] = track; };
-export { Frame, Hero, Cutaway, NameTag, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
+export { Frame, Hero, Cutaway, NameTag, EventLogo, PhotoWall, Sfx, Seal, Luopan, Luoshu, Slip, Incense, House, InkVig, InkBrush, Flare, Embers, OPEN_DROP, OPEN_DONG, END, fastToSlow, useT, win, ease, eio, clamp, f, INK, LTH, CREAM, GOLD_GRAD };
 export type { Cam, Grade, HookId };
