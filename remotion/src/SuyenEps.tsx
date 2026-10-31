@@ -38,8 +38,8 @@ const Shot: React.FC<{ src: string; from: number; to: number; bg?: React.ReactNo
   );
 };
 
-/* ================= 第 2 集（54.38 秒）================= */
-regEp('ep2', 54.38, FC_EP2, TK_EP2);
+/* ================= 第 2 集（54.88 秒）================= */
+regEp('ep2', 54.88, FC_EP2, TK_EP2);
 const PH2: [string, number, number, string][] = [['hd-suyen-1', 31.87, 33.3, '16 年'], ['hd-QiMen_Training1', 33.3, 35.56, '千多场课程'], ['hd-fengshui_training-Qimen1', 35.56, 37.72, '几万个学员'], ['hd-masterSuyenLim_qm1', 37.72, 39.21, '来自世界各地'], ['hd-family_group', 39.21, 41.88, '上市公司 大家族 小家庭']];
 export const SuyenEp2: React.FC = () => {
   const cam: Cam = { hits: [1.07, 1.27, 2.85, 8.09, 8.36, 16.44, 27.83, 43.5, 49.49], pushes: [[7.98, 9.45, 1.05]], origin: '48% 30%' };
@@ -54,8 +54,8 @@ export const SuyenEp2: React.FC = () => {
         <Hero text="奇门遁甲战略大会" at={16.44} until={18.81} x={960} y={150} size={120} ls={0.12} glow={0.5} />
         <Hero text="3 天完全免费" at={43.5} until={48.74} x={960} y={150} size={120} ls={0.1} glow={0.5} />
         <Hero text="2027 奇门战略大会" at={46.04} until={48.74} x={420} y={440} size={84} ls={0.08} rule />
-        <Hero text="马上报名" at={49.49} until={54.98} x={960} y={160} size={150} ls={0.2} glow={0.6} />
-        <EventLogo at={48.74} until={54.98} />
+        <Hero text="马上报名" at={49.49} until={55.48} x={960} y={160} size={150} ls={0.2} glow={0.6} />
+        <EventLogo at={48.74} until={55.48} />
       </>}
       front={<>
         <Hero text="赔掉" at={2.85} until={5.15} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
