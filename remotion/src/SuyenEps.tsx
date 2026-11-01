@@ -337,13 +337,13 @@ export const SuyenEp5: React.FC = () => {
         <Hero text="奇门战略大会" at={8.27} until={9.47} x={960} y={150} size={130} ls={0.14} glow={0.5} />
       </>}
       front={<>
-        <Cutaway id="ep5" src="p5_plea" from={1.53} to={4.24} focus={[990, 430]} bg={<Ph label="p5_plea：昏暗走廊，男人抓住老板手臂求救，老板握着公司支票簿犹豫（演员）" />} />
+        <Cutaway id="ep5" src="p5_plea" from={1.53} to={4.24} focus={[990, 430]} />
         <InkVig from={1.53} to={4.24} />
         <Hero text="拿公司的钱？" at={2.11} until={4.24} x={470} y={520} size={120} tone="red" anim="呐喊声波" />
         <Hero text="赔上" at={5.22} until={7.67} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
         <Hero text="整个团队的薪水" at={6.16} until={7.67} x={960} y={790} size={120} ls={0.06} rotY={0} rotX={18} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep5" src="p5_line" from={9.52} to={11.7} focus={[990, 430]} bg={<Ph label="p5_line：一只手用金笔划一道发光金线，把金棋子和黑棋子分成两边（只拍手）" />} />
-        <Cutaway id="ep5" src="p5_line" from={12.5} to={14.67} focus={[990, 430]} bg={<Ph label="p5_line：一只手用金笔划一道发光金线，把金棋子和黑棋子分成两边（只拍手）" />} />
+        <Cutaway id="ep5" src="p5_line" from={9.52} to={11.7} focus={[990, 430]} />
+        <Cutaway id="ep5" src="p5_line" from={12.5} to={14.67} focus={[990, 430]} skip={2.28} />
         <Hero text="先看代价" at={10.58} until={14.67} x={430} y={420} size={120} anim="呐喊声波" />
         <Hero text="划清界限" at={11.43} until={14.67} x={430} y={600} size={120} anim="呐喊声波" />
         <Hero text="再决定出手" at={12.85} until={14.67} x={470} y={780} size={110} anim="呐喊声波" />
