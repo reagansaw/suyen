@@ -32,6 +32,12 @@ const LTH = '"LTH"';
 const INK = '#120E0A', CREAM = '#F6EEDC', CINNABAR = '#B8312F', GOLD_LINE = '#B07E2A';
 const GOLD_DEEP = 'linear-gradient(180deg, #F2D58E 0%, #C99A3E 50%, #8A5A16 100%)';
 const GOLD_GRAD = 'linear-gradient(180deg, #FFF4D6 0%, #E8C77E 48%, #B8893E 100%)';
+// 玫红模式（skills/suyen-content-rose 的 style 2 搬到横版；Reagan 11-01「玫红 skill 但改横版」）：Frame 传 rose 就整集换这套
+// 画面不压暗、不加金尘/颗粒；大字玫红/米黄/白、侧面玫红；字幕白色兰亭黑 + 柔阴影（不描边）；左上米黄斜角标题条、右上 logo；B-roll 小卡是圆角卡片（不要圆框）
+type RoseCfg = { kicker: string; title: string };
+const RoseCtx = React.createContext<RoseCfg | null>(null);
+const R_ROSE = '#D2405A', R_DEEP = '#A82745', R_CREAM = '#F3E6C4', R_NAVY = '#1F2B45';
+const R_FACE: Record<'gold' | 'cream' | 'red', [string, string, string]> = { gold: [R_ROSE, '#7A1A2E', '#2A0810'], cream: [R_CREAM, '#9A8556', '#3A2E14'], red: ['#FFFFFF', '#B9475E', '#4A0F1E'] };
 const useFonts = () => {
   const [h] = React.useState(() => delayRender('suyene-font'));
   React.useEffect(() => {
@@ -234,7 +240,7 @@ const Broll: React.FC<{ src: string; from: number; to: number; push?: number; bl
 // 圆框跟着人（Reagan：「圈圈永远要跟着人」）：suyen-ads/tools/facetrack 逐帧找她的脸（只跟离上一格最近的脸，避开海报上的人脸），对准脸中心往下 150px，平滑 7 格
 const TRACK: Partial<Record<HookId, { x: number[]; y: number[] }>> = { p1: TK_P1 as any, i2: TK_I2 as any, p6: TK_P6 as any, ep1: TK_EP1 as any };
 const Cutaway: React.FC<{ id: HookId; src: string; from: number; to: number; focus: [number, number]; zoom?: number; bg?: React.ReactNode; cont?: boolean; last?: boolean; skip?: number }> = ({ id, src, from, to, focus: focus0, zoom = 0.62, bg, cont, last = true, skip = 0 }) => {
-  const t = useT();
+  const t = useT(), rose = React.useContext(RoseCtx);
   const tk = TRACK[id], fi = tk ? Math.max(0, Math.min(tk.x.length - 1, Math.round(t * FPS))) : 0;
   const focus: [number, number] = tk ? [tk.x[fi], tk.y[fi]] : focus0;
   if (t < from - 0.01 || t > to) return null;
@@ -248,12 +254,20 @@ const Cutaway: React.FC<{ id: HookId; src: string; from: number; to: number; foc
         <AbsoluteFill style={{ transform: `scale(${k})` }}>{bg ?? <OffthreadVideo src={staticFile(`suyenbr/${src}.mp4`)} muted playbackRate={rate} startFrom={f(skip)} />}</AbsoluteFill>
       </Sequence>
       <AbsoluteFill style={{ background: 'radial-gradient(ellipse 75% 80% at 45% 45%, rgba(0,0,0,0) 55%, rgba(10,8,6,0.45) 100%)' }} />
+      {rose ? (
+        <div style={{ position: 'absolute', left: 1640 - 170, top: 560 - 225, width: 340, height: 450, transform: `scale(${pin}) rotate(-3deg)` }}>
+          <div style={{ position: 'absolute', inset: 0, borderRadius: 26, overflow: 'hidden', border: `8px solid ${R_CREAM}`, background: '#000', boxShadow: '0 18px 40px rgba(0,0,0,0.45)' }}>
+            <OffthreadVideo src={staticFile(`suyenh/${id}.mp4`)} muted style={{ position: 'absolute', width: W * 0.75, height: H * 0.75, left: 170 - 8 - (focus[0]) * 0.75, top: 450 * 0.36 - (focus[1] - 150) * 0.75 }} />
+          </div>
+          <div style={{ position: 'absolute', left: -8, right: -8, bottom: -8, height: 14, background: R_ROSE, borderRadius: '0 0 26px 26px' }} />
+        </div>
+      ) :
       <div style={{ position: 'absolute', left: cx - D / 2, top: cy - D / 2, width: D, height: D, transform: `scale(${pin})` }}>
         <div style={{ position: 'absolute', inset: -14, borderRadius: '50%', border: '2px solid rgba(232,199,126,0.7)' }} />
         <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', overflow: 'hidden', border: '5px solid #E8C77E', boxShadow: '0 18px 40px rgba(0,0,0,0.6)' }}>
           <OffthreadVideo src={staticFile(`suyenh/${id}.mp4`)} muted style={{ position: 'absolute', width: W * zoom, height: H * zoom, left: D / 2 - focus[0] * zoom, top: D / 2 - focus[1] * zoom }} />
         </div>
-      </div>
+      </div>}
     </AbsoluteFill>
   );
 };
@@ -261,8 +275,12 @@ const Cutaway: React.FC<{ id: HookId; src: string; from: number; to: number; foc
 /* ---------- 字 ---------- */
 type Sub = [string, number, number];
 const Subs: React.FC<{ subs: Sub[]; cx?: number }> = ({ subs, cx = 960 }) => {
-  const t = useT(), s = subs.find(([, a, b]) => t >= a && t < b);
+  const t = useT(), s = subs.find(([, a, b]) => t >= a && t < b), rose = React.useContext(RoseCtx);
   if (!s) return null;
+  if (rose) return (
+    <div style={{ position: 'absolute', left: cx - 900, width: 1800, top: 930, textAlign: 'center', fontFamily: LTH, fontSize: 62, lineHeight: 1.2, color: '#FFFFFF', letterSpacing: '0.04em',
+      transform: `scale(${interpolate(t, [s[1], s[1] + 0.08], [0.9, 1], clamp)})`, textShadow: '0 3px 6px rgba(0,0,0,0.55), 0 8px 26px rgba(0,0,0,0.45)' }}>{s[0]}</div>
+  );
   return (
     <div style={{ position: 'absolute', left: cx - 800, width: 1600, top: 958, textAlign: 'center', fontFamily: LTH, fontSize: 50, letterSpacing: 3, color: CREAM,
       opacity: interpolate(t, [s[1], s[1] + 0.1], [0, 1], clamp), filter: depth('cream', 50) }}>{s[0]}</div>
@@ -294,8 +312,10 @@ const jyIn = (a: JyIn, fr: number, size: number, wipe: number) => {
   }
 };
 const Hero: React.FC<{ text: string; at: number; until: number; x: number; y: number; size: number; tone?: Tone; ls?: number; rule?: boolean; vertical?: boolean; dur?: number; glow?: number; rotY?: number; rotX?: number; anim?: JyIn }> = ({ text, at, until, x, y, size, tone = 'gold', ls = 0.12, rule, vertical, dur = 0.55, glow = 0.35, rotY, rotX = 16, anim: jy = '缩小II' }) => {
-  const t = useT();
+  const t = useT(), rose = React.useContext(RoseCtx);
   if (t < at || t > until) return null;
+  if (rose && tone === 'gold' && y >= 560 && Math.abs(x - 960) < 350) tone = 'cream';   // 胸口的字：玫红叠在她的玫红外套上会看不见 → 米黄
+  if (rose && y < 330) { if (Math.abs(x - 960) > 200) y += 60; else x += 200; }   // 左上有标题条：两边的大字往下让一点、正中上方的往右让
   const e = jyIn(jy, (t - at) * FPS, size, ease(t, at, dur)), p = e.p, out = 1 - ease(t, until - 0.3, 0.3, Easing.in(Easing.quad));
   const sweep = interpolate(t, [at + dur * 0.7, at + dur * 0.7 + 0.9], [-20, 130], clamp);
   const m = p * 140 - 20;
@@ -304,7 +324,7 @@ const Hero: React.FC<{ text: string; at: number; until: number; x: number; y: nu
   const ry = ry0 * (1 + 0.6 * (1 - p)) + Math.sin((t - at) * 0.9) * 3, rx = rotX * (1 + 0.5 * (1 - p));
   const blur = e.blur + (1 - out) * 8, o = out * e.op;
   const n = Math.max(10, Math.round(size / 12)), step = size / 130;
-  const [s1, s2] = SIDE[tone];
+  const [s1, s2] = rose ? [R_FACE[tone][1], R_FACE[tone][2]] : SIDE[tone];
   // 只在入场/出场那一下加遮罩、模糊、透明（静止时一律不加，免得 3D 被压扁、字后面冒出方框）
   const moving = p < 0.999 || o < 0.999;
   const anim = (sh: string): React.CSSProperties => ({
@@ -321,7 +341,7 @@ const Hero: React.FC<{ text: string; at: number; until: number; x: number; y: nu
           {Array.from({ length: n }, (_, k) => n - k).map((k) => (
             <div key={k} style={leaf({ color: mix(s1, s2, k / n) }, { transform: `translateZ(${-k * step}px)`, ...anim('') })}>{text}</div>
           ))}
-          <div style={leaf(toneCss(tone, sweep), { transform: 'translateZ(1px)', ...anim('') })}>{text}</div>
+          <div style={leaf(rose ? { color: R_FACE[tone][0] } : toneCss(tone, sweep), { transform: 'translateZ(1px)', ...anim('') })}>{text}</div>
         </div>
       </div>
       {rule && <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: size * 0.06, opacity: ease(t, at + 0.2, 0.4) * out }}>
@@ -621,28 +641,48 @@ const Crackle: React.FC<{ at: number; until: number; cx: number; cy: number }> =
   );
 };
 
+// 玫红模式的顶部：左上米黄斜角标题条（kicker + 题目，像她海报）+ 右上 logo
+const RoseBanner: React.FC<RoseCfg & { at: number; until: number }> = ({ kicker, title, at, until }) => {
+  const t = useT();
+  if (t < at || t > until) return null;
+  const u = ease(t, at, 0.45), o = win(t, at, until, 0.01, 0.25);
+  return (
+    <>
+      <div style={{ position: 'absolute', left: 0, top: 40, opacity: o, transform: `translateX(${(u - 1) * 700}px)` }}>
+        <div style={{ background: R_CREAM, clipPath: 'polygon(0 0, 100% 0, 93% 100%, 0 100%)', padding: '12px 86px 14px 44px', boxShadow: '0 8px 24px rgba(0,0,0,0.25)' }}>
+          <div style={{ fontFamily: LTH, fontSize: 24, color: R_DEEP, letterSpacing: '0.12em' }}>{kicker}</div>
+          <div style={{ fontFamily: LTH, fontSize: 48, color: R_NAVY, letterSpacing: '0.04em', lineHeight: 1.15 }}>{title}</div>
+        </div>
+      </div>
+      <Img src={staticFile('suyenc/suyenlogo.png')} style={{ position: 'absolute', right: 44, top: 36, width: 104, height: 104, opacity: o * ease(t, at, 0.4) }} />
+    </>
+  );
+};
 /* ---------- 骨架：压暗底片 → 人后层 → 人像 → 前景 → 氛围 ---------- */
-const Frame: React.FC<{ id: HookId; cam: Cam; grade: Grade; behind?: React.ReactNode; front?: React.ReactNode; sfx: React.ReactNode; subs: Sub[]; subX?: number; stage?: React.ReactNode; dust?: number; asisFrom?: number }> = ({ id, cam, grade, behind, front, sfx, subs, subX, stage, dust, asisFrom }) => {
+const Frame: React.FC<{ id: HookId; cam: Cam; grade: Grade; behind?: React.ReactNode; front?: React.ReactNode; sfx: React.ReactNode; subs: Sub[]; subX?: number; stage?: React.ReactNode; dust?: number; asisFrom?: number; rose?: RoseCfg }> = ({ id, cam, grade, behind, front, sfx, subs, subX, stage, dust, asisFrom, rose }) => {
   useFonts();
   const t = useT();
   // asisFrom：后面接的是 Reagan 给的 intro+CTA 成片（IC2），照原样播 → 从这秒起只剩原片，不叠字、不加字幕、BGM 在接缝前收掉
   const end = asisFrom !== undefined ? f(asisFrom) : suyenEFrames(id), live = asisFrom === undefined || t < asisFrom;
   return (
+    <RoseCtx.Provider value={rose ?? null}>
     <AbsoluteFill style={{ background: INK }}>
-      <Audio src={staticFile('audio/bgm-zhushen-loop.mp3')} loop volume={(fr) => 0.3 * Math.min(1, fr / f(0.4)) * Math.max(0, Math.min(1, (end - fr) / f(0.6)))} />
+      <Audio src={staticFile('audio/bgm-zhushen-loop.mp3')} loop volume={(fr) => (rose ? 0.2 : 0.3) * Math.min(1, fr / f(0.4)) * Math.max(0, Math.min(1, (end - fr) / f(0.6)))} />
       {stage ?? <Plate id={id} cam={cam} grade={grade} />}
       {live && <>
         {behind}
         {!stage && <Plate id={id} cam={cam} grade={grade} person />}
         {!stage && <FaceGuard id={id} cam={cam} grade={grade} />}
         {front}
-        <GoldDust burst={dust} />
+        {!rose && <GoldDust burst={dust} />}
+        {rose && <RoseBanner {...rose} at={0.4} until={asisFrom ?? 1e9} />}
         <Subs subs={subs} cx={subX} />
-        <Grain />
+        {!rose && <Grain />}
       </>}
       <Flare at={0} dur={0.7} k={0.3} />
       {sfx}
     </AbsoluteFill>
+    </RoseCtx.Provider>
   );
 };
 // 开场只用一个音效（Reagan：「不是 +，水滴声或咚」）：S4、I2 用水滴，P1、P6 用咚

@@ -331,7 +331,7 @@ export const SuyenEp5: React.FC = () => {
   const cam: Cam = { hits: [0.18, 8.27], pushes: [[5.22, 7.72, 1.05]], origin: '48% 30%', shrink: [] };
   const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep5" cam={cam} grade={grade} dust={8.27} asisFrom={14.67}
+    <Frame id="ep5" cam={cam} grade={grade} dust={8.27} asisFrom={14.67} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '别人求救，你救不救？' }}
       behind={<>
         <Hero text="别人求救" at={0.18} until={1.48} x={960} y={170} size={190} ls={0.1} glow={0.5} />
         <Hero text="奇门战略大会" at={8.27} until={9.47} x={960} y={150} size={130} ls={0.14} glow={0.5} />
@@ -460,7 +460,7 @@ export const SuyenEp9: React.FC = () => {
   const cam: Cam = { hits: [1.92, 3.43, 8.58], pushes: [[6.05, 8.03, 1.05]], origin: '48% 30%', shrink: [] };
   const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep9" cam={cam} grade={grade} dust={8.58} asisFrom={14.11}
+    <Frame id="ep9" cam={cam} grade={grade} dust={8.58} asisFrom={14.11} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: 'AI 帮你赚钱还是花钱？' }}
       behind={<>
         <Hero text="AI" at={0.07} until={1.87} x={960} y={170} size={220} ls={0.1} glow={0.5} />
         <Hero text="赚钱？" at={1.92} until={4.13} x={520} y={230} size={220} glow={0.5} />
@@ -473,8 +473,8 @@ export const SuyenEp9: React.FC = () => {
         <Hero text="课程上了" at={4.95} until={6.05} x={430} y={600} size={120} anim="呐喊声波" />
         <Hero text="营业额" at={6.1} until={7.98} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
         <Hero text="没有动静" at={7.1} until={7.98} x={960} y={790} size={130} ls={0.06} rotY={0} rotX={18} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep9" src="p9_focus" from={9.7} to={11.5} focus={[990, 430]} bg={<Ph label="p9_focus：古铜金天平一边发光芯片、一边金币，慢慢平衡（没有人）" />} />
-        <Cutaway id="ep9" src="p9_focus" from={12.3} to={14.11} focus={[990, 430]} bg={<Ph label="p9_focus：古铜金天平一边发光芯片、一边金币，慢慢平衡（没有人）" />} />
+        <Cutaway id="ep9" src="p9_focus" from={9.7} to={11.5} focus={[990, 430]} />
+        <Cutaway id="ep9" src="p9_focus" from={12.3} to={14.11} focus={[990, 430]} skip={1.9} />
         <Hero text="下一笔投入" at={11.06} until={14.11} x={450} y={420} size={110} anim="呐喊声波" />
         <Hero text="值不值得？" at={12.5} until={14.11} x={450} y={610} size={120} tone="cream" anim="呐喊声波" />
         <Flare at={1.92} k={0.4} /><Flare at={6.05} /><Flare at={8.58} k={0.5} />
@@ -504,7 +504,7 @@ export const SuyenEp13: React.FC = () => {
   const cam: Cam = { hits: [1.2, 1.68, 2.53, 11.18], pushes: [[5.26, 7.79, 1.05]], origin: '48% 30%', shrink: [] };
   const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep13" cam={cam} grade={grade} dust={11.18} asisFrom={14.6}
+    <Frame id="ep13" cam={cam} grade={grade} dust={11.18} asisFrom={14.6} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '生肖牛鼠 · 第一次创业' }}
       behind={<>
         <Hero text="八字有" at={0.07} until={2.48} x={960} y={150} size={110} ls={0.2} />
         <Hero text="牛" at={1.2} until={2.48} x={560} y={300} size={300} glow={0.5} />
@@ -548,7 +548,7 @@ export const SuyenEp14: React.FC = () => {
   const cam: Cam = { hits: [0.07, 2.12, 3.65], pushes: [[6.98, 10.63, 1.05]], origin: '48% 30%', shrink: [] };
   const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep14" cam={cam} grade={grade} dust={10.63} asisFrom={15.05}
+    <Frame id="ep14" cam={cam} grade={grade} dust={10.63} asisFrom={15.05} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '35 岁以后 · 守业还是转型？' }}
       behind={<>
         <Hero text="35 岁以后" at={0.07} until={1.28} x={960} y={180} size={200} ls={0.08} glow={0.5} />
         <Hero text="守业？" at={2.12} until={4.32} x={520} y={240} size={200} tone="cream" glow={0.4} />
@@ -590,7 +590,7 @@ export const SuyenEp15: React.FC = () => {
   const cam: Cam = { hits: [1.43, 5.16, 5.54, 6.46, 7.06, 13.11], pushes: [[12.31, 15.43, 1.05]], origin: '48% 30%', shrink: [] };
   const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep15" cam={cam} grade={grade} dust={13.11} asisFrom={15.43}
+    <Frame id="ep15" cam={cam} grade={grade} dust={13.11} asisFrom={15.43} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '2027 做狼还是做羊？' }}
       behind={<>
         <Hero text="三只羊" at={1.43} until={2.42} x={1420} y={200} size={170} glow={0.5} />
         <Hero text="20" at={5.16} until={6.41} x={520} y={220} size={300} ls={0.06} glow={0.5} />
@@ -600,7 +600,7 @@ export const SuyenEp15: React.FC = () => {
         <Hero text="披着羊皮的狼" at={13.11} until={15.43} x={470} y={230} size={116} ls={0.06} glow={0.6} />
       </>}
       front={<>
-        <Cutaway id="ep15" src="s2_flock" from={2.47} to={5.02} focus={[990, 430]} bg={<Ph label="s2_flock：晨雾草坡三只羊，中间那只是披着羊皮的狼（没有人）" />} />
+        <Cutaway id="ep15" src="s2_flock" from={2.47} to={5.02} focus={[990, 430]} />
         <Hero text="其中一只" at={2.62} until={5.02} x={430} y={420} size={110} tone="cream" anim="呐喊声波" />
         <Hero text="是狼" at={3.91} until={5.02} x={400} y={600} size={160} tone="red" anim="呐喊声波" />
         <Cutaway id="ep15" src="s2_hunt" from={7.37} to={8.97} focus={[990, 430]} />

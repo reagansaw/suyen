@@ -293,8 +293,11 @@ def ep6():
 # ---------- IC2 集数：钩子（约 15 秒、1.2 倍速）+ Reagan 给的新 intro+CTA 成片（照原样，不叠字、不加字幕、不加 BGM）----------
 # 字、B-roll、音效只放在钩子里；IC2 一开始 Frame 的 asisFrom 就把人后层 / 抠像 / 前景 / 字幕全部关掉，只剩原片
 def ic2_start(n): return next(p['start'] for p in pieces(n)['pieces'] if p['src'] == 'IC2')
+# 玫红模式（Reagan 11-01：「玫红 skill 但改横版」）：左上标题条的 kicker + 题目
+ROSE = {5: '别人求救，你救不救？', 9: 'AI 帮你赚钱还是花钱？', 13: '生肖牛鼠 · 第一次创业', 14: '35 岁以后 · 守业还是转型？', 15: '2027 做狼还是做羊？'}
+ROSE_KICKER = '林舒苑老师 · 2027 奇门战略大会'
 def assemble_ic2(n, behind, front, fx, subs, hits, pushes, dust, origin='48% 30%', grade='() => [1, 1, 0]'):
-    return n, '', behind, front, fx, subs, dict(hits=hits, pushes=pushes, origin=origin, grade=grade, shrink=[], asis=ic2_start(n)), dust
+    return n, '', behind, front, fx, subs, dict(hits=hits, pushes=pushes, origin=origin, grade=grade, shrink=[], asis=ic2_start(n), rose=ROSE.get(n)), dust
 
 # ---------- 第 5 集 · P5 拿公司钱救人（C0027）----------
 def ep5():
@@ -452,7 +455,7 @@ export const SuyenEp{n}: React.FC = () => {{
   const cam: Cam = {{ hits: {[r(x) for x in cam['hits']]}, pushes: {[[r(a), r(b), z] for a, b, z in cam['pushes']]}, origin: '{cam['origin']}', shrink: {[[r(a), r(b), z] for a, b, z in cam.get('shrink', [])]} }};
   const grade: Grade = {cam['grade']};
   return (
-    <Frame id="ep{n}" cam={{cam}} grade={{grade}} dust={{{r(dust)}}}{f' asisFrom={{{r(cam["asis"])}}}' if cam.get('asis') else ''}
+    <Frame id="ep{n}" cam={{cam}} grade={{grade}} dust={{{r(dust)}}}{f' asisFrom={{{r(cam["asis"])}}}' if cam.get('asis') else ''}{f" rose={{{{ kicker: '{ROSE_KICKER}', title: '{cam['rose']}' }}}}" if cam.get('rose') else ''}
       behind={{<>
         {chr(10).join('        ' + x for x in behind).lstrip()}
       </>}}
