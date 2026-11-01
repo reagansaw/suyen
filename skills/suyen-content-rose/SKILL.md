@@ -178,10 +178,45 @@ cd remotion && CONCURRENCY=2 nice -n 19 node scripts/render.mjs SuyenC57 out/c57
 **内容② 年度关键字（C0057 → SuyenC57，57.5s）**
 访问员问「了解了，是不是就保证生意一定上？是不是就保证不会被人骗？」→ 她答「最起码你保本……不会踩坑」→ 2024 盲（盲盒）→ 2025 叛逆乱（故障）→ 2026 快狠暴（速度线）→ 罗盘「大局给予我们的指示」→ 火马火羊 B-roll + 真 / 假 / 混 印章 → 目录收掉、小卡右上 → 要不要学 / 听 / 了解更多 → 聚光灯「固执」→ 跟天动、跟磁场动 → 不可以踩坑 → 顺顺慢慢走到目的地 → CTA。剪段在 `content/prep_c57b.py`。
 
-## 6. 还没做 / 待定
+## 6. 内容③–⑮（11-01 夜写好，等渲染）
+
+13 集都照第 1–4 节的做法写好了：剪段表 `content/episodes.py`（每集一段，钩子放第一段、访问员的问题用 QuestionCard），合成 `remotion/src/suyenc/<id>.tsx`（共用外壳 + 新效果在 `suyenc/kit.tsx`），`Root.tsx` 已注册 `SuyenC51a` … `SuyenC60`。
+
+| id | 合成 | 内容 | 原片 | B-roll |
+|---|---|---|---|---|
+| c51a | SuyenC51a | 内容③ 真假混混在哪里（香港汇款骗局） | C0051 | p2_loss |
+| c51b | SuyenC51b | 内容④ 破解真假混 3 个方法 | C0051 | ep1_yearchart |
+| c53a | SuyenC53a | 内容⑤ 慢在哪一步 | C0053 | p2_fork |
+| c53b | SuyenC53b | 内容⑥ 生肖鼠连续四年 | C0053 | ep1_yearchart |
+| c54 | SuyenC54 | 内容⑦ 热锅上的蚂蚁（牛 · 狗 · 鼠） | C0054 | ep1_yearchart |
+| c56 | SuyenC56 | 内容⑧ 35 岁第二成长曲线 | C0056 | i2_team |
+| c57a | SuyenC57a | 内容⑨ 空亡：冲还是守 | C0057 | p2_loss |
+| c57c | SuyenC57c | 内容⑩ 最担心小孩和老人 | C0057 | 三只羊图 |
+| c57d | SuyenC57d | 内容⑪ 裁人还是请人 / 要不要扩充 | C0057 | i2_team |
+| c59a | SuyenC59a | 内容⑫ 我的初心（你的成功就是我的荣耀） | C0059 | intro_v2 |
+| c59b | SuyenC59b | 内容⑬ 3 种人一定要来 | C0059 | ep1_yearchart |
+| c59c | SuyenC59c | 内容⑭ 大会 4 大收获 | C0059 | intro_v2（小卡左上，因为右上有目录） |
+| c60 | SuyenC60 | 内容⑮ 美容院学生故事 | C0060 | p2_loss |
+
+**另一台电脑怎么剪：**
+```bash
+bash content/dl_raw.sh C0051 C0053 C0054 C0056 C0057 C0059 C0060
+STEP=cut bash content/render_eps.sh all      # 先剪片 + 抠像
+cd remotion && nice -n 19 node scripts/stills.mjs '[["SuyenC51a","c51a-03",3],["SuyenC51a","c51a-12",12]]'   # 分镜检查图 → 给 Reagan 看
+bash content/render_eps.sh c51a              # 点头后：渲染 + 母带 + 手机版 + QA，一集一集
+```
+新工具：`content/words.py <原片> <起> <止> [--subs]`（逐字时间 / 字幕草稿）；`R(原片秒, 1)` = 同一句第二次出现（冷开场钩子重复用的那句）。
+
+**写的时候已知、渲染前要看的：**
+- 时间点都照 whisper 逐字时间写，字幕已人工改字（奇门 / 天蓬 / 六害 / 凶星大耗 / 遍地黄金 / 微整 …）。「凶星大耗」「遍地黄金」「微整」「刷到傻掉」是照听的，Reagan 看时留意。
+- 每集正文要 ≤ 50 秒（+ CTA 9.3 秒 < 60）。剪完 `episodes.py` 会印出秒数，超过就删一段再剪。
+- 第一台电脑 11-01 已经全部剪片 + 抠像 + 出分镜检查图（`review/内容③…⑮-分镜.jpg`，每 4.5 秒一格）并修过：字体、两字印章、长字幕、⑬ B-roll 时间。**没有渲染整支**，等 Reagan 看分镜点头。
+- 剪好的长度（正文，+9.3 秒 CTA）：③48.8 ④40.9 ⑤42.2 ⑥49.8 ⑦45.2 ⑧49.9 ⑨48.3 ⑩48.0 ⑪48.9 ⑫49.0 ⑬44.8 ⑭49.1 ⑮49.8 秒——全部 < 60。
+
+## 6b. 还没做 / 待定
 - 内容② 的 style 1 / style 2 由 Reagan 选（模板默认 style 2 玫红）。
 - 内容② CTA 段峰值 −1.0（目标 −2），需要时把限幅调紧。
-- 其他片（C0051、C0053–C0056、C0058–C0060 的其他段）还没开始。
+- C0057 156–390（2026 赚钱方法能不能用在 2027 / 量子纠缠）、C0060 2024 扎根段 没剪（太长、太抽象），要的话再加。
 
 ## 7. 新电脑把这个 skill 装进 Claude Code
 ```bash

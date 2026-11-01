@@ -4,6 +4,19 @@ import { SuyenES4, SuyenEP1, SuyenEI2, SuyenEP6, SuyenEp1, suyenEFrames, withInt
 import * as EPS from './SuyenEps';
 import { SuyenEVS4, suyenEVFrames } from './SuyenHooksEV';
 import { SuyenC55, SuyenC57, SuyenC57S1, suyenCFrames } from './SuyenContent';
+import { SuyenC51a, framesC51a } from './suyenc/c51a';
+import { SuyenC51b, framesC51b } from './suyenc/c51b';
+import { SuyenC53a, framesC53a } from './suyenc/c53a';
+import { SuyenC53b, framesC53b } from './suyenc/c53b';
+import { SuyenC54, framesC54 } from './suyenc/c54';
+import { SuyenC56, framesC56 } from './suyenc/c56';
+import { SuyenC57a, framesC57a } from './suyenc/c57a';
+import { SuyenC57c, framesC57c } from './suyenc/c57c';
+import { SuyenC57d, framesC57d } from './suyenc/c57d';
+import { SuyenC59a, framesC59a } from './suyenc/c59a';
+import { SuyenC59b, framesC59b } from './suyenc/c59b';
+import { SuyenC59c, framesC59c } from './suyenc/c59c';
+import { SuyenC60, framesC60 } from './suyenc/c60';
 
 // 横版 16:9：钩子 P1 / I2 / P6 + 广告第一集；竖版 S4（C0057，广告不用，只留着参考）
 export const Root: React.FC = () => (
@@ -30,6 +43,19 @@ export const Root: React.FC = () => (
     {/* 内容片（竖版玫红模板，skills/suyen-content-rose）*/}
     <Composition id="SuyenC55" component={SuyenC55} durationInFrames={suyenCFrames('c55')} fps={30} width={1080} height={1920} />
     <Composition id="SuyenC57" component={SuyenC57} durationInFrames={suyenCFrames('c57')} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC51a" component={SuyenC51a} durationInFrames={framesC51a} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC51b" component={SuyenC51b} durationInFrames={framesC51b} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC53a" component={SuyenC53a} durationInFrames={framesC53a} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC53b" component={SuyenC53b} durationInFrames={framesC53b} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC54" component={SuyenC54} durationInFrames={framesC54} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC56" component={SuyenC56} durationInFrames={framesC56} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC57a" component={SuyenC57a} durationInFrames={framesC57a} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC57c" component={SuyenC57c} durationInFrames={framesC57c} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC57d" component={SuyenC57d} durationInFrames={framesC57d} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC59a" component={SuyenC59a} durationInFrames={framesC59a} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC59b" component={SuyenC59b} durationInFrames={framesC59b} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC59c" component={SuyenC59c} durationInFrames={framesC59c} fps={30} width={1080} height={1920} />
+    <Composition id="SuyenC60" component={SuyenC60} durationInFrames={framesC60} fps={30} width={1080} height={1920} />
     <Composition id="SuyenC57S1" component={SuyenC57S1} durationInFrames={suyenCFrames('c57')} fps={30} width={1080} height={1920} />
   </>
 );
