@@ -196,7 +196,7 @@ const IndexPanel: React.FC<{ at: number; until: number; slots: Slot[]; pulse?: [
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10, padding: '10px 16px', borderRadius: 12,
             background: open ? ROSE : PANEL, boxShadow: flash ? `0 0 0 ${6 * flash}px rgba(243,230,196,${flash})` : undefined, transform: `scale(${open ? k : 1})` }}>
             <div style={{ minWidth: 44, height: 44, padding: s.tag ? '0 10px' : 0, borderRadius: s.tag ? 10 : '50%', background: open ? CREAM : 'rgba(243,230,196,0.25)', color: open ? ROSE_DEEP : CREAM, fontFamily: LTH, fontSize: s.tag ? 26 : 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{s.tag ?? i + 1}</div>
-            <div style={{ fontFamily: LTH, fontSize: 40, color: open ? WHITE : 'rgba(243,230,196,0.55)', letterSpacing: '0.08em' }}>{open ? s.label : '？？'}</div>
+            <div style={{ fontFamily: LTH, fontSize: 40, color: open ? WHITE : 'rgba(243,230,196,0.55)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>{open ? s.label : '？？'}</div>
           </div>
         );
       })}
@@ -442,7 +442,7 @@ const EndCover: React.FC<{ ep: Ep; at: number; end: number }> = ({ ep, at, end }
       <div style={{ position: 'absolute', left: 60, top: 300, width: W - 120, height: 1180, borderRadius: 8, overflow: 'hidden', border: `8px solid ${CREAM}`, transform: `scale(${0.92 + 0.08 * u})` }}>
         <Sequence from={f(at)} layout="none"><OffthreadVideo src={staticFile(`suyenc/${ep.id}.mp4`)} muted startFrom={f(Math.min(at, ep.dur - 2))} style={{ position: 'absolute', width: W * zoom, height: H * zoom, left: Math.min(0, Math.max(W - 120 - W * zoom, (W - 120) / 2 - fx * zoom)), top: 420 - fy * zoom }} /></Sequence>
       </div>
-      <div style={{ position: 'absolute', left: 60, top: 140, fontFamily: LTH, fontSize: 70, color: CREAM, letterSpacing: '0.04em', lineHeight: 1 }}>MASTER SUYEN</div>
+      <div style={{ position: 'absolute', left: 60, top: 140, fontFamily: LTH, fontSize: 58, color: CREAM, letterSpacing: '0.04em', lineHeight: 1 }}>MASTER SUYEN LIM</div>
       <div style={{ position: 'absolute', left: 90, top: 1250, fontFamily: LTH, color: WHITE, transform: `translateY(${(1 - u) * 60}px)` }}>
         <div style={{ fontSize: 76, letterSpacing: '0.08em' }}>林舒苑老师</div>
         <div style={{ fontSize: 34, color: CREAM, letterSpacing: '0.1em', marginTop: 8 }}>人生战略导师 ·《运势大破解》2021–2027 作者</div>
@@ -451,7 +451,7 @@ const EndCover: React.FC<{ ep: Ep; at: number; end: number }> = ({ ep, at, end }
         <div style={{ fontFamily: LTH, fontSize: 40, color: ROSE_DEEP, letterSpacing: '0.06em' }}>3 天免费 · 2027 奇门战略大会</div>
         <div style={{ fontFamily: LTH, fontSize: 52, color: NAVY, marginTop: 6 }}>点主页链接 · 马上报名</div>
       </div>
-      <Img src={staticFile('suyenc/suyenlogo.png')} style={{ position: 'absolute', right: 40, top: 50, width: 190, height: 190, opacity: ease(t, at + 0.4, 0.4) }} />
+      <Img src={staticFile('suyenc/suyenlogo-light.png')} style={{ position: 'absolute', right: 40, top: 50, width: 190, height: 190, opacity: ease(t, at + 0.4, 0.4) }} />
     </AbsoluteFill>
   );
 };
@@ -656,7 +656,7 @@ const Road: React.FC<{ from: number; walk: [number, number]; until: number; y: n
 
 /* =================================================================================
    内容片②（C0057）v2：Reagan 10-31「用有男生访问的那里开始」
-   访问员问（了解了是不是就保证生意 / 不会被人骗）→ 她答（最起码保本、不会踩坑）→ 举例 2024 盲 / 2025 叛逆乱 / 2026 快狠暴 / 2027 真假混
+   访问员问（了解了是不是就保证生意 / 不会被人骗）→ 她答（最起码保本、不会踩坑）→ 举例 2024 盲 / 2025 叛逆乱 / 2026 快，狠，爆 / 2027 真假混
    → 要不要学听了解 → 不了解=固执 → 明年最重要：不可以踩坑 → 慢慢走到目的地 → CTA
    时间都写原片秒数 R(原片秒) → 自动换到剪好的时间轴（suyenc-c57-subs.json = ct/c57_pieces.json 的 subs）
    style 1（东方暗金）/ style 2（品牌玫红）同一套内容，给 Reagan 选
@@ -670,17 +670,24 @@ const mkR = (subs: SubSeg[]) => (r: number) => {
   return best;
 };
 const R57 = mkR((C57_CUT as any).subs);
-// 访问员不在镜头里：用「问题卡」把他的问题打出来（他讲第二句时第二行才出）
+// 提问的人不在镜头里：用「问题卡」把问题打出来（Reagan 11-02：标签写「学生问」，字一个一个打出来）
+const typeOut = (t: number, a: number, s: string, room: number) => {
+  const dur = Math.min(s.length * 0.07, Math.max(0.3, room * 0.75));
+  return s.slice(0, Math.max(0, Math.min(s.length, Math.ceil(((t - a) / dur) * s.length))));
+};
 const QuestionCard: React.FC<{ at: number; line2At: number; until: number; l1: string; l2: string }> = ({ at, line2At, until, l1, l2 }) => {
   const t = useT();
   if (t < at || t > until) return null;
-  const k = pop(t, at, 0.4), o = 1 - ease(t, until - 0.25, 0.25), k2 = pop(t, line2At, 0.35);
+  const k = pop(t, at, 0.4), o = 1 - ease(t, until - 0.25, 0.25);
+  const s1 = typeOut(t, at + 0.15, l1, line2At - at - 0.15), s2 = t >= line2At ? typeOut(t, line2At, l2, until - line2At) : '';
+  const on2 = t >= line2At, done = on2 ? s2.length === l2.length : s1.length === l1.length;
+  const caret = (!done || Math.floor(t * 3) % 2 === 0) && <span style={{ display: 'inline-block', width: 5, height: 52, background: CREAM, marginLeft: 6, verticalAlign: 'middle' }} />;
   return (
     <div style={{ position: 'absolute', left: 50, right: 50, top: 820, opacity: o, transform: `scale(${k})`, transformOrigin: 'left top' }}>
-      <div style={{ display: 'inline-block', background: CREAM, color: NAVY, fontFamily: LTH, fontSize: 34, padding: '6px 18px', borderRadius: '12px 12px 0 0', letterSpacing: '0.1em' }}>访问员问 ❓</div>
+      <div style={{ display: 'inline-block', background: CREAM, color: NAVY, fontFamily: LTH, fontSize: 34, padding: '6px 18px', borderRadius: '12px 12px 0 0', letterSpacing: '0.1em' }}>学生问 ❓</div>
       <div style={{ background: NAVY, borderRadius: '0 20px 20px 20px', padding: '22px 30px', border: `4px solid ${CREAM}` }}>
-        <div style={{ fontFamily: LTH, fontSize: 56, color: WHITE, lineHeight: 1.3 }}>{l1}</div>
-        {t >= line2At && <div style={{ fontFamily: LTH, fontSize: 56, color: CREAM, lineHeight: 1.3, marginTop: 8, transform: `scale(${k2})`, transformOrigin: 'left center' }}>{l2}</div>}
+        <div style={{ fontFamily: LTH, fontSize: 56, color: WHITE, lineHeight: 1.3, minHeight: 73 }}>{s1}{!on2 && caret}</div>
+        {on2 && <div style={{ fontFamily: LTH, fontSize: 56, color: CREAM, lineHeight: 1.3, marginTop: 8 }}>{s2}{caret}</div>}
       </div>
     </div>
   );
@@ -702,7 +709,7 @@ const GoldDust: React.FC<{ n?: number }> = ({ n = 46 }) => {
 const C57_SUBS_RAW: [string, number, number][] = [
   ['你了解了', 504.2, 505.95], ['最起码你保本', 505.95, 508.3], ['保本就算你安全', 508.3, 510.6], ['你不会踩坑', 510.6, 512.05],
   ['举例我给你了解一下', 391.5, 393.6], ['2024 年', 394.35, 395.95], ['我给大家的关键字', 396.45, 398.8], ['叫做盲', 398.8, 399.75], ['盲盒就爆了', 401.55, 403.2],
-  ['2025 年 叛逆乱', 437.62, 439.42], ['2026 年 快狠暴', 439.42, 442.1], ['所以你看今年的趋势', 442.1, 444.45], ['哇，真的什么都快', 444.45, 446.25],
+  ['2025 年 叛逆乱', 437.62, 439.42], ['2026 年 快，狠，爆', 439.42, 442.1], ['所以你看今年的趋势', 442.1, 444.45], ['哇，真的什么都快', 444.45, 446.25],
   ['所以你看', 477.45, 478.4], ['这个就是大局', 478.4, 479.65], ['给予我们的指示', 479.65, 481.45], ['那么来到 2027 年', 481.45, 483.38], ['真假混', 483.86, 485.15],
   ['那么这三个关键字', 485.15, 487.4], ['你要不要学', 487.4, 488.0], ['你要不要听', 488.0, 488.74], ['你要不要去了解更多', 488.74, 490.3],
   ['如果你不了解更多', 490.75, 492.6], ['你固执', 492.6, 493.65], ['你做你自己的战略', 493.65, 495.6], ['你怎样跟天动', 495.6, 496.9], ['你怎样跟这个磁场动', 496.9, 498.2],
@@ -726,7 +733,7 @@ const C57: React.FC<{ styleN: 1 | 2 }> = ({ styleN }) => {
       <Hero text="保本" at={R(507.88)} until={R(512.0)} x={420} y={480} size={220} tone="cream" anim="缩小II" />
       <Hero text="2024" at={R(394.42)} until={R(399.3)} x={460} y={420} size={250} tone="cream" anim="缩小II" />
       <Hero text="盲" at={R(399.38)} until={R(403.2)} x={430} y={490} size={240} tone="rose" anim="呐喊声波" shake={[R(399.38)]} />
-      <Hero text="快狠暴" at={R(440.92)} until={R(442.1)} x={420} y={480} size={190} tone="rose" anim="呐喊声波" shake={[R(440.92), R(441.36), R(441.8)]} />
+      <Hero text="快，狠，爆" at={R(440.92)} until={R(442.1)} x={350} y={372} size={104} tone="rose" anim="呐喊声波" shake={[R(440.92), R(441.36), R(441.8)]} />
       <Hero text="不可以踩坑" at={R(515.5)} until={R(518.5)} x={410} y={480} size={128} tone="rose" anim="呐喊声波" shake={[R(515.78), R(517.24)]} />
     </>
   );
@@ -759,7 +766,7 @@ const C57: React.FC<{ styleN: 1 | 2 }> = ({ styleN }) => {
       <Road from={R(519.1)} walk={[R(520.3), R(525.4)]} until={CUT} y={980} startLabel="顺顺慢慢走" endLabel="目的地" endAt={R(525.24)} />
       <TopBanner at={R(391.5)} until={IDX_OFF + 0.3} kicker="林舒苑老师 · 年度关键字" title="2027 关键字是？" />
       <TopBanner at={IDX_OFF + 0.3} until={CUT} kicker="林舒苑老师 · 2027 关键字" title="真 · 假 · 混" />
-      <IndexPanel at={R(391.6)} until={IDX_OFF} title="年度关键字" width={300} slots={[{ tag: '2024', label: '盲', at: R(399.38) }, { tag: '2025', label: '叛逆乱', at: R(438.62) }, { tag: '2026', label: '快狠暴', at: R(440.92) }, { tag: '2027', label: '真假混', at: KEY27 }]} pulse={[R(481.45), KEY27]} />
+      <IndexPanel at={R(391.6)} until={IDX_OFF} title="年度关键字" width={350} slots={[{ tag: '2024', label: '盲', at: R(399.38) }, { tag: '2025', label: '叛逆乱', at: R(438.62) }, { tag: '2026', label: '快，狠，爆', at: R(440.92) }, { tag: '2027', label: '真假混', at: KEY27 }]} pulse={[R(481.45), KEY27]} />
       <Bug until={CUT} />
       <Flash at={0} k={0.85} /><Flash at={R(504.2)} k={0.3} /><Flash at={KEY27} k={0.3} />
       <Subs subs={subs} hideFrom={CUT} yAt={(t) => {
@@ -805,8 +812,8 @@ const CtaEnd: React.FC<{ at: number }> = ({ at }) => {
   return (
     <AbsoluteFill style={{ opacity: u }}>
       <AbsoluteFill style={{ background: `linear-gradient(180deg, ${ROSE} 0%, ${ROSE_DEEP} 100%)` }}><Seigaiha o={0.12} /></AbsoluteFill>
-      <div style={{ position: 'absolute', left: 60, top: 110, fontFamily: LTH, fontSize: 70, color: CREAM, letterSpacing: '0.04em', lineHeight: 1 }}>MASTER SUYEN</div>
-      <Img src={staticFile('suyenc/suyenlogo.png')} style={{ position: 'absolute', right: 40, top: 40, width: 170, height: 170 }} />
+      <div style={{ position: 'absolute', left: 60, top: 110, fontFamily: LTH, fontSize: 58, color: CREAM, letterSpacing: '0.04em', lineHeight: 1 }}>MASTER SUYEN LIM</div>
+      <Img src={staticFile('suyenc/suyenlogo-light.png')} style={{ position: 'absolute', right: 40, top: 40, width: 170, height: 170 }} />
       <div style={{ position: 'absolute', left: 0, width: W, top: 330, textAlign: 'center', fontFamily: LTH, fontSize: (line[1] as number) === 2.15 ? 100 : 90, color: WHITE,
         textShadow: '0 4px 14px rgba(0,0,0,0.35)', transform: `scale(${lk})`, letterSpacing: '0.04em' }}>{line[0]}</div>
       {/* 中间一张现场卡（B-roll）*/}
