@@ -23,3 +23,4 @@ content/_*
 content/*_v1.json
 node_modules
 remotion/public/suyenc/*.sig
+review/logs/
