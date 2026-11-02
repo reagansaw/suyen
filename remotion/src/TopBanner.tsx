@@ -25,7 +25,8 @@ export const TopBanner: React.FC<TopBannerProps> = ({ pill, main, sub }) => {
           <rect x={1440} y={250} width={250} height={140} rx={30} />
         </g>
       </svg>
-      <div style={{ position: 'absolute', left: 300, width: 1400, top: 92, display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'LTH' }}>
+      {/* 整块缩到 0.86、以 1:1 版裁切的中线（y≈277）为中心，上下各留一点红色空隙 */}
+      <div style={{ position: 'absolute', left: 300, width: 1400, top: 92, display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'LTH', transform: 'scale(0.86)', transformOrigin: '700px 185px' }}>
         <div style={{ padding: '10px 70px 14px', borderRadius: 60, background: 'linear-gradient(180deg, #FFF3D0 0%, #F6D489 55%, #E2AE55 100%)',
           boxShadow: '0 6px 14px rgba(90,10,20,0.35), inset 0 2px 0 rgba(255,255,255,0.8)', transform: 'skewX(-8deg)' }}>
           <div style={{ fontSize: 84, color: '#8E1424', letterSpacing: '0.02em', lineHeight: 1.1, textShadow: '0 2px 0 rgba(255,255,255,0.35)' }}>{pill}</div>

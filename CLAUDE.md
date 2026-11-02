@@ -15,3 +15,6 @@
 - 不要圆框、不要瞄准框，改用聚光灯
 - 一支只用 1 个 B-roll
 - CTA 是 9.3 秒她的真声 +「正能量」，不提 Allianz
+
+## 1:1 上下 banner 版
+横版影片要出 1:1（1080×1080，上 banner 换字 + 中间影片不裁 + 下 banner 原图）时，先读 `docs/1比1-上下banner.md`，用 `pipeline/square_banner.py` 做。
