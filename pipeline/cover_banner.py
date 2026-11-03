@@ -9,6 +9,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('src'); ap.add_argument('poster'); ap.add_argument('out')
 ap.add_argument('--scale', type=float, default=1.22); ap.add_argument('--x', type=int, default=35)
 ap.add_argument('--phone', action='store_true')
+ap.add_argument('--ratio45', action='store_true', help='出 Instagram Feed 用的 4:5（1080×1350）版')
 a = ap.parse_args()
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 banner = f'{R}/remotion/public/suyenc/banner_bottom.webp'
@@ -27,6 +28,17 @@ enc = ['-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420
 subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', a.src, '-loop', '1', '-i', cover, '-loop', '1', '-i', banner,
                 '-filter_complex', fc, '-map', '[v]', '-map', '0:a', *enc, a.out], check=True)
 print('done', a.out)
+if a.ratio45:
+    # 4:5：第 1 帧海报铺满（宽 1080 高 1440，裁掉最下 90）；之后 上 1064 = 影片 598×1064 不裁、两边用影片暗色模糊补，下 286 = banner
+    c45 = os.path.join(tempfile.mkdtemp(), 'cover45.png')
+    subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', a.poster, '-vf', 'scale=1080:-2,crop=1080:1350:0:0', c45], check=True)
+    fc = ('[0:v]split[s1][s2];[s1]scale=1080:1064:force_original_aspect_ratio=increase,crop=1080:1064,gblur=sigma=30,eq=brightness=-0.25[bg];'
+          '[s2]scale=598:1064[fg];[bg][fg]overlay=(W-w)/2:0[top];[2]scale=1080:286[b];[top][b]vstack[m];[m][1]overlay=0:0:enable=\'lt(n,1)\':shortest=1[v]')
+    o45 = a.out.replace('.mp4', '-4比5.mp4')
+    subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', a.src, '-loop', '1', '-i', c45, '-loop', '1', '-i', banner,
+                    '-filter_complex', fc, '-map', '[v]', '-map', '0:a', '-c:v', 'libx264', '-crf', '23', '-maxrate', '6M', '-bufsize', '12M',
+                    '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'copy', '-movflags', '+faststart', '-shortest', o45], check=True)
+    print('done', o45)
 if a.phone:
     ph = a.out.replace('.mp4', '-手机.mp4')
     subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-y', '-i', a.out, '-c:v', 'libx264', '-crf', '25', '-maxrate', '6M',

@@ -6,16 +6,16 @@ import json, os, re, subprocess, sys
 H = os.path.dirname(os.path.abspath(__file__))
 RAW = os.environ.get('SUYEN_RAW', os.path.expanduser('~/Downloads/raw'))   # 原片 C0001–C0048 的资料夹
 OUT = os.path.join(H, '..', '..', 'remotion', 'public', 'suyenh', 'ep11.mp4')
-SPEED, GAP, PRE, POST = 1.1, 0.45, 0.08, 0.25
+SPEED, GAP, PRE, POST = 1.2, 0.45, 0.08, 0.25
 IC2 = os.path.join(RAW, 'IC2.MOV')   # 新 intro + CTA 成片：照原样接在最后，不加速
 NOISE = os.environ.get('NOISE', '-35dB')   # 静音门槛：吸附不到（印出 0 段静音）就改 -30dB 再跑
 PIECES = [  # (原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
-    ('C0019', 2.84, 29.52, 2.70, 29.63, True, '奇门讲究布局破局……真假混的局势'),
-    ('C0019', 31.86, 38.90, 31.36, 41.05, True, '带你领先审视方向，再聚焦团队的火力。你想要吗？'),
-    ('C0037', 3.65, 16.00, 3.65, 16.00, False, '大家好，我是林舒苑……来自于世界各地'),
-    ('C0037', 16.22, 19.32, 16.22, 19.32, False, '从上市公司大家族到小家庭'),
-    ('C0048', 4.30, 11.85, 4.30, 11.85, False, '我为大家准备了三天完全免费的 2027 年奇门战略大会'),
-    ('C0048', 27.10, 33.85, 27.10, 33.85, False, '那么马上报名，我们到时见（+ 讲完挥手笑到 33.85，再后面有杂音）'),
+    ('C0019', 16.16, 21.74, 15.78, 22.10, True, '方向一错，整年的薪水和士气一起烧掉'),
+    ('C0019', 5.72, 6.68, 5.54, 6.89, True, '做领导的你，'),
+    ('C0019', 9.76, 15.76, 9.26, 16.20, True, '那 2027 年你的一个决定，几十个人甚至几百个人跟着你就是冲'),
+    ('C0019', 22.54, 24.84, 22.56, 25.31, True, '这一次的奇门遁甲战略大会'),
+    ('C0019', 31.86, 37.52, 31.36, 37.87, True, '带你领先审视方向，再聚焦团队的火力'),
+    ('IC2', 0.00, 44.23, 0.00, 44.23, False, '新 intro + CTA 成片（照原样）'),
 ]
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -56,7 +56,7 @@ for (src, a, b, amin, bmax, auto, txt) in [p for p in PIECES if p[0] != 'IC2']:
 raw = sum(y - x for _, x, y, _ in cuts)
 tl = sum(p[2] - p[1] for p in tail)
 print(f'原片接起来 {raw:.2f} 秒 → 成片 {raw / SPEED + tl:.2f} 秒（{len(cuts)} 刀{"，加新 intro+CTA %.2f 秒" % tl if tl else ""}）')
-if raw / SPEED + tl > 60.0: print('⚠ 成片超过 60 秒：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
+if raw / SPEED + tl > 63.0: print('⚠ 成片超过 63 秒：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
 tmp = []
 for i, (src, a, b, _) in enumerate(cuts):
     p = f'{H}/_p{i}.mov'

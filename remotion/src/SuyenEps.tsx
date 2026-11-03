@@ -17,6 +17,12 @@ import FC_EP6 from './suyenh-face-ep6.json';
 import TK_EP6 from './suyenh-track-ep6.json';
 import FC_EP9 from './suyenh-face-ep9.json';
 import TK_EP9 from './suyenh-track-ep9.json';
+import FC_EP10 from './suyenh-face-ep10.json';
+import TK_EP10 from './suyenh-track-ep10.json';
+import FC_EP11 from './suyenh-face-ep11.json';
+import TK_EP11 from './suyenh-track-ep11.json';
+import FC_EP12 from './suyenh-face-ep12.json';
+import TK_EP12 from './suyenh-track-ep12.json';
 import FC_EP13 from './suyenh-face-ep13.json';
 import TK_EP13 from './suyenh-track-ep13.json';
 import FC_EP14 from './suyenh-face-ep14.json';
@@ -230,96 +236,53 @@ export const SuyenEp3: React.FC = () => {
   );
 };
 
-/* ================= 第 4 集（51.08 秒）================= */
-regEp('ep4', 51.08, FC_EP4, TK_EP4);
-const PH4: [string, number, number, string][] = [['hd-hall_seated', 30.51, 31.94, '16 年'], ['hd-QiMen_Training1', 31.94, 33.32, '千多场课程'], ['hd-fengshui_training-Qimen1', 34.2, 35.8, '几万个学员'], ['hd-masterSuyenLim_qm1', 36.36, 37.85, '来自世界各地'], ['hd-family_group', 37.85, 39.21, '上市公司 大家族 小家庭']];
+/* ================= 第 4 集（59.02 秒）================= */
+regEp('ep4', 59.02, FC_EP4, TK_EP4);
+
 export const SuyenEp4: React.FC = () => {
-  const cam: Cam = { hits: [0.07, 0.51, 3.69, 9.63, 13.92, 26.47, 40.52, 41.66, 49.45], pushes: [[9.63, 13.92, 1.05]], origin: '48% 30%', shrink: [[30.51, 33.32, 0], [34.2, 35.8, 0], [36.36, 39.21, 0]] };
+  const cam: Cam = { hits: [4.07, 5.27, 6.21], pushes: [[1.83, 3.97, 1.05]], origin: '48% 30%', shrink: [] };
   const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep4" cam={cam} grade={grade} dust={13.92}
+    <Frame id="ep4" cam={cam} grade={grade} dust={6.21} asisFrom={14.79} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '下一笔钱，该扎在哪里？' }}
       behind={<>
-        <Hero text="20" at={0.07} until={1.22} x={470} y={220} size={340} ls={0.06} glow={0.5} />
-        <Hero text="27" at={0.51} until={1.22} x={1310} y={220} size={340} ls={0.06} glow={0.5} />
-        <Hero text="攻？" at={3.69} until={5.15} x={430} y={260} size={220} glow={0.5} />
-        <Hero text="还是守？" at={4.56} until={5.15} x={1480} y={280} size={150} tone="cream" />
-        <Hero text="下一笔钱" at={9.63} until={13.87} x={1480} y={250} size={140} />
-        <Hero text="扎哪里？" at={12.48} until={13.87} x={1480} y={480} size={150} tone="red" />
-        <Hero text="奇门遁甲战略大会" at={13.92} until={15.27} x={960} y={150} size={120} ls={0.12} glow={0.5} />
-        <PhotoBG shots={PH4} />
-        {PH4.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
+        <Hero text="订单还没收到钱" at={0.07} until={1.68} x={960} y={170} size={140} ls={0.06} glow={0.5} />
+        <Hero text="下一笔钱" at={4.07} until={6.16} x={520} y={240} size={150} glow={0.4} />
+        <Hero text="还能不能扎？" at={5.27} until={6.16} x={1420} y={240} size={130} tone="red" glow={0.4} />
+        <Hero text="奇门遁甲战略大会" at={6.21} until={7.67} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+        <Luoshu at={7.72} shatter={999} until={10.23} x={1480} y={430} cell={120} />
+        <Hero text="投入的次序" at={9.13} until={10.23} x={960} y={150} size={140} ls={0.12} glow={0.5} />
       </>}
       front={<>
-        <Cutaway id="ep4" src="p4_bills" from={5.15} to={6.94} focus={[990, 430]} bg={<Ph label="p4_bills：小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）" />} />
-        <Cutaway id="ep4" src="p4_bills" from={7.74} to={9.53} focus={[990, 430]} bg={<Ph label="p4_bills：小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）" />} />
-        <InkVig from={5.15} to={9.53} />
-        <Hero text="薪水" at={7.18} until={9.51} x={380} y={400} size={130} tone="cream" anim="呐喊声波" />
-        <Hero text="租金" at={7.65} until={9.51} x={380} y={580} size={130} tone="cream" anim="呐喊声波" />
-        <Hero text="追到门口" at={8.4} until={9.51} x={440} y={770} size={120} tone="red" anim="呐喊声波" />
-        <Cutaway id="ep4" src="ep1_yearchart" from={15.27} to={16.82} focus={[990, 430]} />
-        <Cutaway id="ep4" src="ep1_yearchart" from={17.62} to={19.16} focus={[990, 430]} skip={1.65} />
-        <Cutaway id="ep4" src="ep1_yearchart" from={19.96} to={21.51} focus={[990, 430]} last={false} skip={3.29} />
-        <Cutaway id="ep4" src="p4_burn" from={21.51} to={23.59} focus={[990, 430]} bg={<Ph label="p4_burn：金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）" />} cont />
-        <Cutaway id="ep4" src="p4_burn" from={24.39} to={26.47} focus={[990, 430]} bg={<Ph label="p4_burn：金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）" />} />
-        <Hero text="年度趋势" at={17.41} until={18.58} x={420} y={430} size={130} anim="呐喊声波" />
-        <Luoshu at={18.63} shatter={999} until={21.51} x={420} y={470} cell={110} />
-        <Hero text="投入的次序" at={20.3} until={21.51} x={440} y={770} size={104} anim="呐喊声波" />
-        <Embers from={24.05} to={26.47} />
-        <Hero text="现金" at={24.35} until={26.47} x={380} y={460} size={150} tone="cream" anim="呐喊声波" />
-        <Hero text="被烧光" at={25.61} until={26.47} x={420} y={680} size={150} tone="red" anim="呐喊声波" />
-        <Flare at={0.07} k={0.5} /><Flare at={9.53} /><Flare at={13.92} k={0.5} />
-        <NameTag at={27.46} until={30.41} x={1280} y={640} light />
-        <Shot src="ep1_yearchart" from={40.52} to={42.59} last={false} />
-        <Shot src="ep1_horse_goat_h" from={42.59} to={45.26} cont last={false} />
-        <Shot src="goat_positive" from={45.26} to={48.95} cont last={false} />
-        <Shot src="ep1_dh_point" from={48.95} to={51.68} cont />
-        <Hero text="3 天完全免费" at={40.57} until={42.59} x={960} y={330} size={150} ls={0.1} glow={0.5} />
-        <Hero text="奇门战略大会" at={41.66} until={42.59} x={960} y={600} size={110} ls={0.14} rule />
-        <Hero text="看清 2027 趋势" at={43.83} until={45.26} x={1380} y={230} size={104} anim="呐喊声波" />
-        <Hero text="企业家" at={45.71} until={48.95} x={380} y={430} size={120} anim="呐喊声波" />
-        <Hero text="更精准的方向" at={48.05} until={48.95} x={470} y={620} size={100} anim="呐喊声波" />
-        <Hero text="马上报名" at={49.45} until={51.68} x={1380} y={800} size={150} ls={0.2} glow={0.6} />
-        <Flare at={40.52} k={0.5} /><Flare at={49.45} k={0.55} />
+        <Cutaway id="ep4" src="p4_bills" from={1.73} to={3.97} focus={[990, 430]} />
+        <InkVig from={1.73} to={3.97} />
+        <Hero text="薪水" at={1.83} until={3.95} x={380} y={400} size={130} tone="cream" anim="呐喊声波" />
+        <Hero text="租金" at={2.27} until={3.95} x={380} y={580} size={130} tone="cream" anim="呐喊声波" />
+        <Hero text="追到门口" at={2.95} until={3.95} x={440} y={770} size={120} tone="red" anim="呐喊声波" />
+        <Cutaway id="ep4" src="p4_burn" from={10.23} to={12.11} focus={[990, 430]} />
+        <Cutaway id="ep4" src="p4_burn" from={12.91} to={14.79} focus={[990, 430]} skip={1.98} />
+        <Embers from={12.55} to={14.79} />
+        <Hero text="现金" at={12.85} until={14.79} x={380} y={460} size={150} tone="cream" anim="呐喊声波" />
+        <Hero text="被烧光" at={14.0} until={14.79} x={420} y={680} size={150} tone="red" anim="呐喊声波" />
+        <Flare at={1.73} k={0.4} /><Flare at={3.97} /><Flare at={6.21} k={0.5} />
       </>}
       sfx={<>
         {OPEN_DROP}
-        <Sfx at={0.04} s="咚" />
-        <Sfx at={0.48} s="综艺咚咚两声鼓点转场音效" />
-        <Sfx at={3.66} s="咚" />
-        <Sfx at={4.53} s="综艺咚" />
-        <Sfx at={5.1} s="回忆-刷一下" />
-        <Sfx at={5.25} s="诡异的滴水声" />
-        <Sfx at={7.15} s="咚咚重音心头震" />
-        <Sfx at={7.62} s="咚咚重音心头震" />
-        <Sfx at={8.37} s="猛然一惊" />
-        <Sfx at={9.48} s="闪回" />
-        <Sfx at={9.6} s="综艺咚" />
-        <Sfx at={12.45} s="疑惑" />
-        <Sfx at={13.87} s="咚" />
-        <Sfx at={15.22} s="回忆-刷一下" />
-        <Sfx at={17.38} s="叮提示音4" />
-        <Sfx at={18.63} s="叮叮" />
-        <Sfx at={20.27} s="木鱼敲击回响音效" />
-        <Sfx at={21.46} s="旋风" />
-        <Sfx at={24.32} s="咚" />
-        <Sfx at={25.58} s="咚咚重音心头震" />
-        <Sfx at={26.42} s="闪回" />
-        <Sfx at={27.43} s="一声响铃" />
-        <Sfx at={30.46} s="回忆-刷一下" />
-        {PH4.slice(1).map(([, a]) => <Sfx key={a} at={a - 0.03} s="扫光音效4" />)}
-        <Sfx at={40.47} s="闪回" />
-        <Sfx at={40.54} s="综艺咚" />
-        <Sfx at={41.63} s="咚" />
-        <Sfx at={42.54} s="旋风" />
-        <Sfx at={43.8} s="综艺咚咚两声鼓点转场音效" />
-        <Sfx at={45.21} s="亮一下" />
-        <Sfx at={45.68} s="正确" />
-        <Sfx at={48.02} s="正确" />
-        <Sfx at={48.9} s="闪回" />
-        <Sfx at={49.42} s="叮收银机提示音1" />
-        <Sfx at={50.65} s="亮一下" />
+        <Sfx at={1.68} s="回忆-刷一下" />
+        <Sfx at={1.83} s="诡异的滴水声" />
+        <Sfx at={1.8} s="咚咚重音心头震" />
+        <Sfx at={2.24} s="咚咚重音心头震" />
+        <Sfx at={2.92} s="猛然一惊" />
+        <Sfx at={3.92} s="闪回" />
+        <Sfx at={4.04} s="综艺咚" />
+        <Sfx at={5.24} s="疑惑" />
+        <Sfx at={6.16} s="咚" />
+        <Sfx at={7.72} s="叮叮" />
+        <Sfx at={9.1} s="木鱼敲击回响音效" />
+        <Sfx at={10.18} s="旋风" />
+        <Sfx at={12.82} s="咚" />
+        <Sfx at={13.97} s="咚咚重音心头震" />
       </>}
-      subs={[['2027 年', 0.05, 1.22], ['从奇门角度', 1.22, 2.45], ['你的生意应该攻还是守？', 2.45, 5.15], ['订单还没收到钱', 5.15, 7.13], ['薪水租金已经追到门口', 7.13, 9.53], ['下一笔钱还能不能扎？', 9.53, 11.94], ['应该扎在哪里？', 11.94, 13.75], ['那奇门遁甲战略大会', 13.75, 15.52], ['我会用年盘来拆解年度的趋势', 15.52, 18.58], ['带你重新审视投入的次序', 18.58, 21.61], ['别让生意还没等到突破', 21.61, 24.3], ['现金已经被烧光', 24.3, 26.47], ['大家好，我是林舒苑', 26.47, 28.06], ['您的人生战略导师', 28.06, 29.7], ['我在过去 16 年培训超过千多场课程', 29.7, 33.43], ['也帮助过几万个学员', 33.43, 35.52], ['来自于世界各地', 35.52, 37.7], ['从上市公司、大家族到小家庭', 37.7, 40.52], ['三天完全免费的战略大会', 40.52, 42.69], ['如果你想要看清 2027 年趋势', 42.69, 44.91], ['你是一个企业家', 44.91, 46.45], ['你是一个要更精准的方向的人', 46.45, 49.05], ['你一定要马上报名', 49.05, 50.27], ['我们到时见！', 50.27, 51.68]]}
+      subs={[]}
     />
   );
 };
@@ -367,88 +330,48 @@ export const SuyenEp5: React.FC = () => {
   );
 };
 
-/* ================= 第 6 集（58.21 秒）================= */
-regEp('ep6', 58.21, FC_EP6, TK_EP6);
-const PH6: [string, number, number, string][] = [['hd-hall_seated', 29.45, 30.88, '16 年'], ['hd-QiMen_Training1', 30.88, 32.26, '千多场课程'], ['hd-fengshui_training-Qimen1', 33.14, 34.74, '几万个学员'], ['hd-masterSuyenLim_qm1', 35.3, 36.79, '来自世界各地'], ['hd-family_group', 36.79, 38.15, '上市公司 大家族 小家庭']];
+/* ================= 第 6 集（59.05 秒）================= */
+regEp('ep6', 59.05, FC_EP6, TK_EP6);
+
 export const SuyenEp6: React.FC = () => {
-  const cam: Cam = { hits: [0.58, 4.8, 7.78, 9.73, 10.96, 13.49, 14.11, 15.8, 25.41, 41.07, 55.45], pushes: [[1.45, 3.71, 1.08], [12.35, 14.06, 1.12]], origin: '48% 30%', shrink: [[29.45, 32.26, 0], [33.14, 34.74, 0], [35.3, 38.15, 0]] };
-  const grade: Grade = (t) => { const k = t < 14.67 ? interpolate(t, [14.11, 14.42], [0, 0.85], clamp) : interpolate(t, [14.67, 14.97], [0.85, 0], clamp); return [1 - 0.22 * k, 1, k]; };
+  const cam: Cam = { hits: [8.09, 9.98], pushes: [[2.45, 7.04, 1.05]], origin: '48% 30%', shrink: [] };
+  const grade: Grade = () => [1, 1, 0];
   return (
-    <Frame id="ep6" cam={cam} grade={grade} dust={15.8}
+    <Frame id="ep6" cam={cam} grade={grade} dust={9.98} asisFrom={14.82} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '你的布局，算进全家退路了吗？' }}
       behind={<>
-        <Hero text="20" at={0.07} until={1.45} x={630} y={220} size={340} ls={0.06} dur={0.4} glow={0.5} />
-        <Hero text="27" at={0.58} until={1.45} x={1350} y={220} size={340} ls={0.06} dur={0.35} glow={0.5} />
-        <Luopan at={1.38} until={3.73} x={1035} y={470} r={430} spin={fastToSlow(200, 8)} />
-        <Hero text="全家的退路" at={4.8} until={7.12} x={1520} y={290} size={120} rule />
-        <Hero text="一笔" at={7.15} until={9.7} x={1530} y={340} size={300} dur={0.4} glow={0.5} />
-        <Hero text="奇门战略大会" at={15.8} until={16.95} x={960} y={150} size={130} ls={0.14} glow={0.5} />
-        <PhotoBG shots={PH6} />
-        {PH6.map(([, a, b, label]) => <Hero key={a} text={label} at={a + 0.15} until={b} x={960} y={150} size={label.length > 6 ? 110 : 170} ls={0.12} anim="呐喊声波" />)}
-        <Hero text="3 天完全免费" at={41.07} until={42.27} x={960} y={150} size={120} ls={0.1} glow={0.5} />
-        <Hero text="2027 奇门战略大会" at={43.35} until={42.27} x={420} y={440} size={84} ls={0.08} rule />
-        <Hero text="马上报名" at={55.45} until={58.81} x={960} y={160} size={150} ls={0.2} glow={0.6} />
-        <EventLogo at={46.05} until={58.81} />
+        <Hero text="一笔的投入" at={0.07} until={1.43} x={960} y={170} size={170} ls={0.1} glow={0.5} />
+        <Hero text="全家的退路" at={8.09} until={9.93} x={960} y={170} size={160} ls={0.1} glow={0.5} />
+        <Hero text="算进去了吗？" at={9.01} until={9.93} x={1420} y={420} size={110} tone="red" glow={0.4} />
+        <Hero text="奇门战略大会" at={9.98} until={11.16} x={960} y={150} size={130} ls={0.14} glow={0.5} />
       </>}
       front={<>
-        <House at={3.76} road={5.55} until={7.12} x={560} y={300} />
-        <Cutaway id="ep6" src="p6_points" from={9.73} to={14.67} focus={[1035, 520]} />
-        <NameTag at={0.68} until={3.71} x={110} y={640} />
-        <Slip text="孩子学费" at={9.73} until={14.67} x={1460} y={30} fall={14.11} w={130} h={420} size={68} />
-        <Slip text="父母养老" at={10.96} until={14.67} x={1640} y={30} fall={14.17} w={130} h={420} size={68} />
-        <Slip text="十年储蓄" at={13.49} until={14.67} x={1820} y={30} fall={14.14} w={130} h={420} size={68} />
-        <InkVig from={8.76} to={9.75} k={0.7} />
-        <InkVig from={14.11} to={14.97} k={0.85} />
-        <Flare at={0.07} k={0.5} /><Flare at={7.15} k={0.45} />
-        <Cutaway id="ep6" src="p6_family" from={16.95} to={19.24} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
-        <Cutaway id="ep6" src="p6_family" from={20.04} to={22.32} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
-        <Cutaway id="ep6" src="p6_family" from={23.12} to={25.41} focus={[990, 430]} bg={<Ph label="p6_family：三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）" />} />
-        <Hero text="真假混的" at={19.07} until={22.98} x={420} y={430} size={110} anim="呐喊声波" />
-        <Hero text="年度趋势" at={20.55} until={22.98} x={420} y={610} size={120} anim="呐喊声波" />
-        <Hero text="提前思考" at={23.03} until={25.41} x={420} y={430} size={120} anim="呐喊声波" />
-        <Hero text="进退" at={24.4} until={25.41} x={380} y={620} size={150} anim="呐喊声波" />
-        <NameTag at={26.4} until={29.35} x={1280} y={640} light />
-        <Cutaway id="ep6" src="ep1_horse_goat_h" from={48.41} to={50.79} focus={[990, 430]} last={false} />
-        <Cutaway id="ep6" src="goat_positive" from={50.79} to={46.05} focus={[990, 430]} cont />
-        <Hero text="赤马红羊年" at={48.76} until={50.79} x={1400} y={230} size={110} tone="red" anim="呐喊声波" />
-        <Hero text="抓准趋势" at={51.34} until={46.05} x={360} y={460} size={104} anim="呐喊声波" />
-        <Hero text="落实结果" at={53.02} until={46.05} x={360} y={620} size={104} anim="呐喊声波" />
+        <Cutaway id="ep6" src="p6_points" from={1.48} to={3.86} focus={[990, 430]} />
+        <Cutaway id="ep6" src="p6_points" from={4.66} to={7.04} focus={[990, 430]} skip={2.48} />
+        <InkVig from={1.48} to={7.04} />
+        <Hero text="孩子的学费" at={2.45} until={7.04} x={430} y={400} size={110} tone="cream" anim="呐喊声波" />
+        <Hero text="父母的养老" at={3.53} until={7.04} x={430} y={580} size={110} tone="cream" anim="呐喊声波" />
+        <Hero text="十年的储蓄" at={5.87} until={7.04} x={450} y={760} size={120} tone="red" anim="呐喊声波" />
+        <Cutaway id="ep6" src="p6_family" from={11.21} to={12.61} focus={[990, 430]} />
+        <Cutaway id="ep6" src="p6_family" from={13.41} to={14.82} focus={[990, 430]} skip={1.5} />
+        <Hero text="提前思考" at={12.04} until={14.82} x={420} y={430} size={120} anim="呐喊声波" />
+        <Hero text="进退" at={13.92} until={14.82} x={380} y={620} size={150} anim="呐喊声波" />
+        <Flare at={1.48} k={0.4} /><Flare at={7.04} /><Flare at={9.98} k={0.5} />
       </>}
       sfx={<>
         {OPEN_DONG}
-        <Sfx at={0.56} s="综艺咚咚两声鼓点转场音效" />
-        <Sfx at={1.43} s="闪回" /><Sfx at={1.55} s="发条声" len={1.6} />
-        <Sfx at={3.74} s="回忆-刷一下" />
-        <Sfx at={4.78} s="呼2" />
-        <Sfx at={6.33} s="空灵的水滴声" />
-        <Sfx at={7.13} s="咚" />
-        <Sfx at={8.76} s="综艺悬疑沙锤长" />
-        {[9.73, 10.96, 13.49].map((x) => <Sfx key={x} at={x - 0.02} s="纸张抖动声" />)}
-        <Sfx at={12.31} s="旋风" />
-        <Sfx at={14.08} s="咚咚重音心头震" /><Sfx at={14.12} s="水滴回响声音效" />
-        <Sfx at={14.62} s="闪回" />
-        <Sfx at={15.75} s="咚" />
-        <Sfx at={16.9} s="亮一下" />
-        <Sfx at={19.04} s="叮提示音4" />
-        <Sfx at={20.52} s="叮提示音4" />
-        <Sfx at={23.0} s="正确" />
-        <Sfx at={24.37} s="木鱼敲击回响音效" />
-        <Sfx at={25.36} s="闪回" />
-        <Sfx at={26.37} s="一声响铃" />
-        <Sfx at={29.4} s="回忆-刷一下" />
-        {PH6.slice(1).map(([, a]) => <Sfx key={a} at={a - 0.03} s="扫光音效4" />)}
-        <Sfx at={39.41} s="闪回" />
-        <Sfx at={41.04} s="综艺咚" />
-        <Sfx at={43.32} s="综艺咚咚两声鼓点转场音效" />
-        <Sfx at={48.36} s="旋风" />
-        <Sfx at={48.76} s="咚咚重音心头震" />
-        <Sfx at={50.76} s="亮一下" />
-        <Sfx at={51.31} s="正确" />
-        <Sfx at={52.99} s="正确" />
-        <Sfx at={46.0} s="闪回" />
-        <Sfx at={55.42} s="综艺咚" />
-        <Sfx at={56.75} s="亮一下" />
+        <Sfx at={1.43} s="回忆-刷一下" />
+        <Sfx at={2.42} s="咚咚重音心头震" />
+        <Sfx at={3.5} s="咚咚重音心头震" />
+        <Sfx at={5.84} s="猛然一惊" />
+        <Sfx at={6.99} s="闪回" />
+        <Sfx at={8.06} s="综艺咚" />
+        <Sfx at={8.98} s="疑惑" />
+        <Sfx at={9.93} s="咚" />
+        <Sfx at={11.16} s="亮一下" />
+        <Sfx at={12.01} s="正确" />
+        <Sfx at={13.89} s="木鱼敲击回响音效" />
       </>}
-      subs={[['2027 年', 0.05, 1.38], ['你的奇门战略布局', 1.38, 3.7], ['有没有把全家的退路算进去？', 3.7, 7.06], ['一笔的投入', 7.06, 8.7], ['动的可能是', 8.7, 9.7], ['孩子的学费', 9.7, 10.88], ['父母的养老', 10.88, 12.29], ['还有可能是你十年的储蓄', 12.29, 14.67], ['这一次的奇门战略大会', 14.67, 17.2], ['我会从年盘来解读真假混的年度趋势', 17.2, 21.47], ['带你提前思考进退', 21.47, 25.41], ['大家好，我是林舒苑', 25.41, 27.0], ['您的人生战略导师', 27.0, 28.64], ['我在过去 16 年培训超过千多场课程', 28.64, 32.36], ['也帮助过几万个学员', 32.36, 34.45], ['来自于世界各地', 34.45, 36.64], ['从上市公司、大家族到小家庭', 36.64, 39.45], ['我为大家准备了三天完全免费的', 39.45, 43.27], ['2027 年奇门战略大会', 43.27, 42.27], ['你在 2027 年那么混乱的', 42.27, 48.66], ['赤马红羊年的年代', 48.66, 50.75], ['依然抓准趋势', 50.75, 52.89], ['落实你想要的结果', 52.89, 46.05], ['那么马上报名', 46.05, 56.8], ['我们到时见！', 56.8, 58.81]]}
+      subs={[]}
     />
   );
 };
@@ -493,6 +416,135 @@ export const SuyenEp9: React.FC = () => {
         <Sfx at={12.47} s="木鱼敲击回响音效" />
       </>}
       subs={[['你追的 AI 到底是在帮你赚钱', 0.05, 2.3], ['还是在帮你花钱？', 2.3, 4.18], ['系统买了，课程上了', 4.18, 6.05], ['营业额却没有动静', 6.05, 7.98], ['这一次的奇门战略大会', 7.98, 9.7], ['再决定下一笔的技术投入', 9.7, 12.4], ['到底值不值得', 12.4, 14.11]]}
+    />
+  );
+};
+
+/* ================= 第 10 集（63.35 秒）================= */
+regEp('ep10', 63.35, FC_EP10, TK_EP10);
+
+export const SuyenEp10: React.FC = () => {
+  const cam: Cam = { hits: [8.81, 11.23], pushes: [[4.17, 8.81, 1.05]], origin: '48% 30%', shrink: [] };
+  const grade: Grade = () => [1, 1, 0];
+  return (
+    <Frame id="ep10" cam={cam} grade={grade} dust={11.23} asisFrom={19.12} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '做了 20 年生意，守还是转型？' }}
+      behind={<>
+        <Hero text="老顾客越来越少" at={0.07} until={1.69} x={960} y={170} size={140} ls={0.06} glow={0.5} />
+        <Hero text="20 年的生意" at={4.17} until={6.85} x={960} y={170} size={160} ls={0.08} glow={0.5} />
+        <Hero text="你的位置？" at={6.9} until={8.76} x={960} y={170} size={160} ls={0.08} tone="cream" glow={0.5} />
+        <Hero text="守？" at={8.81} until={11.18} x={520} y={240} size={200} tone="cream" glow={0.4} />
+        <Hero text="还是转型？" at={9.09} until={11.18} x={1400} y={260} size={150} tone="red" glow={0.4} />
+        <Hero text="奇门遁甲战略大会" at={11.23} until={13.06} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+      </>}
+      front={<>
+        <Cutaway id="ep10" src="i1_shop" from={1.74} to={3.27} focus={[990, 430]} />
+        <InkVig from={1.74} to={3.27} />
+        <Hero text="利润" at={1.79} until={3.27} x={400} y={430} size={140} tone="cream" anim="呐喊声波" />
+        <Hero text="越来越薄" at={2.21} until={3.27} x={450} y={630} size={130} tone="red" anim="呐喊声波" />
+        <Cutaway id="ep10" src="i1_roots" from={13.11} to={15.71} focus={[990, 430]} />
+        <Cutaway id="ep10" src="i1_roots" from={16.51} to={19.12} focus={[990, 430]} skip={2.7} />
+        <Hero text="20 年的根基" at={14.98} until={19.12} x={450} y={420} size={110} anim="呐喊声波" />
+        <Hero text="下一步的突破" at={17.28} until={19.12} x={470} y={620} size={110} glow={0.5} anim="呐喊声波" />
+        <Flare at={1.74} k={0.4} /><Flare at={3.27} /><Flare at={11.23} k={0.5} />
+      </>}
+      sfx={<>
+        {OPEN_DROP}
+        <Sfx at={1.69} s="回忆-刷一下" />
+        <Sfx at={3.23} s="闪回" />
+        <Sfx at={8.78} s="咚" />
+        <Sfx at={11.18} s="咚" />
+        <Sfx at={13.06} s="亮一下" />
+      </>}
+      subs={[]}
+    />
+  );
+};
+
+/* ================= 第 11 集（62.15 秒）================= */
+regEp('ep11', 62.15, FC_EP11, TK_EP11);
+
+export const SuyenEp11: React.FC = () => {
+  const cam: Cam = { hits: [9.24, 11.95], pushes: [[0.07, 1.33, 1.04]], origin: '48% 30%', shrink: [] };
+  const grade: Grade = () => [1, 1, 0];
+  return (
+    <Frame id="ep11" cam={cam} grade={grade} dust={11.95} asisFrom={17.92} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '做领导的你 · 方向一错怎么办？' }}
+      behind={<>
+        <Hero text="做领导的你" at={5.19} until={8.19} x={960} y={160} size={130} ls={0.08} glow={0.5} />
+        <Hero text="几十个人" at={8.24} until={11.9} x={520} y={240} size={150} glow={0.4} />
+        <Hero text="几百个人" at={9.24} until={11.9} x={1400} y={240} size={150} tone="cream" glow={0.4} />
+        <Hero text="奇门遁甲战略大会" at={11.95} until={13.36} x={960} y={150} size={120} ls={0.12} glow={0.5} />
+      </>}
+      front={<>
+        <Hero text="方向一错" at={0.07} until={1.31} x={960} y={760} size={140} ls={0.06} rotY={0} rotX={18} tone="red" anim="呐喊声波" />
+        <Cutaway id="ep11" src="i2_team" from={1.33} to={2.77} focus={[990, 430]} />
+        <Cutaway id="ep11" src="i2_team" from={3.57} to={5.02} focus={[990, 430]} skip={1.54} />
+        <InkVig from={1.33} to={5.02} />
+        <Hero text="整年的薪水" at={1.55} until={5.02} x={430} y={400} size={110} tone="cream" anim="呐喊声波" />
+        <Hero text="士气" at={2.92} until={5.02} x={380} y={580} size={130} tone="cream" anim="呐喊声波" />
+        <Hero text="一起烧掉" at={3.28} until={5.02} x={450} y={770} size={130} tone="red" anim="呐喊声波" />
+        <Hero text="2027 一个决定" at={6.51} until={8.19} x={960} y={790} size={110} ls={0.06} rotY={0} rotX={18} anim="呐喊声波" />
+        <Hero text="跟着你冲" at={9.91} until={11.9} x={960} y={790} size={120} ls={0.06} rotY={0} rotX={18} anim="呐喊声波" />
+        <Cutaway id="ep11" src="i2_lead" from={13.41} to={15.26} focus={[990, 430]} />
+        <Cutaway id="ep11" src="i2_lead" from={16.06} to={17.92} focus={[990, 430]} skip={1.95} />
+        <Hero text="审视方向" at={13.8} until={17.92} x={430} y={420} size={120} anim="呐喊声波" />
+        <Hero text="聚焦团队火力" at={16.05} until={17.92} x={480} y={620} size={100} glow={0.5} anim="呐喊声波" />
+        <Flare at={1.33} k={0.4} /><Flare at={5.02} /><Flare at={11.95} k={0.5} />
+      </>}
+      sfx={<>
+        {OPEN_DONG}
+        <Sfx at={1.28} s="旋风" />
+        <Sfx at={3.25} s="咚咚重音心头震" />
+        <Sfx at={4.97} s="闪回" />
+        <Sfx at={9.21} s="咚" />
+        <Sfx at={11.9} s="咚" />
+        <Sfx at={13.36} s="亮一下" />
+      </>}
+      subs={[]}
+    />
+  );
+};
+
+/* ================= 第 12 集（65.02 秒）================= */
+regEp('ep12', 65.02, FC_EP12, TK_EP12);
+
+export const SuyenEp12: React.FC = () => {
+  const cam: Cam = { hits: [3.08, 14.97], pushes: [[2.58, 4.77, 1.05]], origin: '48% 30%', shrink: [] };
+  const grade: Grade = () => [1, 1, 0];
+  return (
+    <Frame id="ep12" cam={cam} grade={grade} dust={14.97} asisFrom={20.79} rose={{ kicker: '林舒苑老师 · 2027 奇门战略大会', title: '创业的女性 · 最怕人先倒下' }}
+      behind={<>
+        <Hero text="最怕的不是" at={0.07} until={2.53} x={470} y={150} size={100} ls={0.2} />
+        <Hero text="事业没做起来" at={1.25} until={2.53} x={500} y={380} size={120} ls={0.06} glow={0.5} />
+        <Hero text="创业的女性" at={4.88} until={9.79} x={960} y={160} size={130} ls={0.08} glow={0.5} />
+        <Hero text="奇门战略大会" at={14.97} until={16.05} x={960} y={150} size={130} ls={0.14} glow={0.5} />
+      </>}
+      front={<>
+        <Hero text="而是" at={2.58} until={4.77} x={960} y={640} size={64} ls={0.3} rotY={0} rotX={18} anim="呐喊声波" />
+        <Hero text="人先倒下去" at={3.08} until={4.77} x={960} y={790} size={130} ls={0.06} rotY={0} rotX={18} tone="red" anim="呐喊声波" />
+        <Hero text="太想做出成绩" at={8.12} until={9.79} x={960} y={790} size={110} ls={0.06} rotY={0} rotX={18} tone="red" anim="呐喊声波" />
+        <Cutaway id="ep12" src="i3_late" from={9.84} to={11.56} focus={[990, 430]} />
+        <Cutaway id="ep12" src="i3_late" from={12.37} to={14.09} focus={[990, 430]} skip={1.83} />
+        <InkVig from={9.84} to={14.09} />
+        <Hero text="储备金" at={10.17} until={14.09} x={380} y={400} size={120} tone="cream" anim="呐喊声波" />
+        <Hero text="时间" at={11.25} until={14.09} x={380} y={560} size={120} tone="cream" anim="呐喊声波" />
+        <Hero text="退路" at={12.17} until={14.09} x={380} y={720} size={120} tone="cream" anim="呐喊声波" />
+        <Hero text="全压进去" at={13.0} until={14.09} x={1450} y={760} size={120} tone="red" anim="呐喊声波" />
+        <Cutaway id="ep12" src="i3_step" from={16.1} to={18.04} focus={[990, 430]} />
+        <Cutaway id="ep12" src="i3_step" from={18.84} to={20.79} focus={[990, 430]} skip={2.04} />
+        <Hero text="看准进退" at={16.43} until={20.79} x={430} y={420} size={120} anim="呐喊声波" />
+        <Hero text="最关键的一步" at={18.92} until={20.79} x={480} y={620} size={110} glow={0.5} anim="呐喊声波" />
+        <Flare at={2.58} k={0.4} /><Flare at={14.09} /><Flare at={14.97} k={0.5} />
+      </>}
+      sfx={<>
+        {OPEN_DROP}
+        <Sfx at={3.05} s="咚咚重音心头震" />
+        <Sfx at={9.79} s="回忆-刷一下" />
+        <Sfx at={9.94} s="诡异的滴水声" />
+        <Sfx at={14.04} s="闪回" />
+        <Sfx at={14.92} s="咚" />
+        <Sfx at={16.05} s="亮一下" />
+      </>}
+      subs={[]}
     />
   );
 };

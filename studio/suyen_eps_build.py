@@ -60,7 +60,7 @@ SC = {
    "and draws a glowing gold line across the table, separating a neat group of gold chess pieces on one side from scattered dark pieces on the other; "
    "a faint glowing luopan pattern is engraved in the table. Only the hand and sleeve, no face.",
    "The hand slowly draws the glowing gold line from left to right; the line lights up as it is drawn. The chess pieces stay still. " + LOCK),
- 'p6_family': ('0:17.4「带你提前思考进退」（演员 · 正能量）', 6, None,
+ 'p6_family': ('新版 0:12「带你提前思考进退」（演员 · 正能量）', 6, None,
    "A warm Malaysian Chinese family home at night: three generations — grandparents, a couple in their 40s and two school-age children — share dinner "
    "around a round wooden table with dishes, warm pendant light, soft smiles, a window behind with golden city lights. Wide shot slightly from above. " + REAL,
    "The grandmother passes a dish to a child and everyone smiles gently; warm light slowly glows brighter. Only these small movements. " + LOCK),
@@ -88,23 +88,24 @@ SC = {
    "A large antique brass-and-gold balance scale on a dark stone desk in a quiet study at night: on the left pan a small glowing blue-gold microchip, "
    "on the right pan a neat stack of gold coins; a faint golden Qimen nine-palace pattern glows on the wall behind. Close-up, shallow depth of field.",
    "The two pans sway gently and settle perfectly level while the chip glows a little brighter. " + LOCK),
- 'i1_shop': ('0:07.5「老顾客越来越少，利润越来越薄」（负面 · 演员）', 6, None,
+ 'i1_shop': ('新版 0:00 开场「老顾客越来越少，利润越来越薄」（负面 · 演员）', 6, None,
    "Inside an old traditional Malaysian Chinese family shop with wooden shelves and faded goods, a Chinese shop owner in his 60s stands alone behind "
    "the counter looking out at an empty street through the shop front; late afternoon light, dust in the air, quiet and lonely. " + REAL,
    "He slowly wipes the counter with a cloth and looks out at the empty street; dust floats in the light beam. " + LOCK),
- 'i1_roots': ('0:17.1「把 20 年你累积下来的根基，用来争取下一步的突破」（没有人 · 正能量）', 6, None,
+ 'i1_roots': ('新版 0:09「把 20 年你累积下来的根基，用来争取下一步的突破」（没有人 · 正能量）', 6, None,
    "A giant ancient banyan tree on a hill at sunrise, its massive roots spreading over the ground; golden light glows along the roots, and a fresh "
    "bright green new branch rises from the top toward the rising sun; sea of clouds below.",
    "Golden light slowly travels up from the roots into the trunk and the new branch glows brighter in the sunrise. " + LOCK),
- 'i2_lead': ('0:26.7「带你领先审视方向，再聚焦团队的火力」（数字人 · 正能量）', 6, 'face',
-   DH + " She stands at the front of a modern open office at dawn, pointing forward toward a beam of golden light through a large window; a team of "
-   "about ten people seen from behind turn toward the light with her. Warm sunrise light.",
-   "She points forward and the golden light beam grows brighter; the team behind her steps forward together. Face consistent. " + LOCK),
- 'i3_late': ('0:05.6「你太想做出成绩，把储备金、时间、退路全压进去」（负面 · 演员，不是 Suyen）', 6, None,
+ 'i2_lead': ('新版 0:11「带你领先审视方向，再聚焦团队的火力」（演员 · 正能量，不用数字人）', 6, None,
+   "A confident Malaysian Chinese businesswoman in her 40s in a smart cream blazer stands at the front of a modern open office at dawn, seen from a "
+   "three-quarter back angle, pointing forward toward a beam of golden light through a large window; a team of about ten people seen from behind turn "
+   "toward the light with her. Warm sunrise light. " + REAL,
+   "She points forward and the golden light beam grows brighter; the team behind her steps forward together. " + LOCK),
+ 'i3_late': ('新版 0:04「把储备金、时间、退路全压进去」（负面 · 演员，不是 Suyen）', 6, None,
    "A Malaysian Chinese woman entrepreneur in her early 30s with long hair tied back sits alone late at night in her small studio workshop, slumped "
    "over a laptop with several empty coffee cups and boxes of products around her; a single desk lamp, dark windows. Medium shot. " + REAL,
    "She slowly rests her head on her arm next to the laptop, exhausted; the laptop light flickers on her face. " + LOCK),
- 'i3_step': ('0:20.3「带你看准进退，把力气集中在最关键的一步」（演员 · 正能量）', 6, None,
+ 'i3_step': ('新版 0:10「带你看准进退，集中在最关键的一步」（演员 · 正能量）', 6, None,
    "The same kind of young Malaysian Chinese woman entrepreneur in a smart cream blazer stands confidently on a flat stepping stone in a calm misty "
    "river at sunrise; only the next stepping stone ahead of her glows with warm golden light, the others are dim. Wide shot from the side. " + REAL,
    "She lifts her foot and steps onto the glowing stone; the golden light ripples across the water. " + LOCK),
@@ -139,10 +140,11 @@ EP_TITLE = {2: 'P2 翻身变赔钱', 3: 'P3 赚到的钱押错', 4: 'P4 现金�
 EP_SCENES = {2: ['p2_loss', 'p2_fork'], 3: ['p3_bet', 'p3_scale'], 4: ['p4_bills', 'p4_burn'], 5: ['p5_plea', 'p5_line'], 6: ['p6_family'],
              7: ['p7_ai', 'p7_chess'], 8: ['p8_sink', 'p8_map'], 9: ['p9_spend', 'p9_focus'], 10: ['i1_shop', 'i1_roots'], 11: ['i2_lead'],
              12: ['i3_late', 'i3_step'], 13: ['i4_reno', 'i4_oxrat'], 14: ['i5_box', 'i5_road'], 15: ['s2_flock', 's2_hunt']}
-REUSED = {2: '年盘、数字人指年盘、彩虹吉祥羊', 3: '彩虹吉祥羊', 4: '年盘、彩虹吉祥羊', 5: '彩虹吉祥羊', 6: '学费/账单/存款（p6_points）、火马火羊、彩虹吉祥羊',
-          7: '彩虹吉祥羊', 8: '彩虹吉祥羊', 9: '年盘、彩虹吉祥羊', 10: '彩虹吉祥羊', 11: '老板带队冲出门（i2_team）、年盘、彩虹吉祥羊',
-          12: '彩虹吉祥羊', 13: '（CTA 用她自己的 C0021，不用羊）', 14: '彩虹吉祥羊', 15: '火马火羊、彩虹吉祥羊（CTA）'}
-FRESH = {'p5_line', 'p9_focus'}   # 10-31 拿掉数字人，提示改了，旧结果不保留
+REUSED = {  # 11-02：第 4、6、10、11、12 集改成 IC2 新版，CTA 用新成片，不再用彩虹吉祥羊
+         2: '年盘、数字人指年盘、彩虹吉祥羊', 3: '彩虹吉祥羊', 4: '（两个都已经跑好）', 5: '彩虹吉祥羊', 6: '学费/账单/存款（p6_points）',
+          7: '彩虹吉祥羊', 8: '彩虹吉祥羊', 9: '年盘、彩虹吉祥羊', 10: '（没有）', 11: '老板带队冲出门（i2_team）',
+          12: '（没有）', 13: '（CTA 用她自己的 C0021，不用羊）', 14: '彩虹吉祥羊', 15: '火马火羊、彩虹吉祥羊（CTA）'}
+FRESH = {'p5_line', 'p9_focus', 'i2_lead'}   # 10-31 拿掉数字人，提示改了，旧结果不保留
 OUTH = {'aiImage': 'result', 'aiVideo': 'result', 'fileUpload': 'output'}
 
 def build(n):
@@ -158,7 +160,7 @@ def build(n):
     for k, sid in enumerate(scenes):
         lines.append(f'{"①②③"[k]} {SC[sid][0]}')
     lines += ['', '每个场景都先跑第一帧图，满意了再跑影片（grok-imagine-1.5 · 720p，跟第一集一样）。',
-              '负面场景用演员；不用数字人 Suyen（Reagan 10-31），要她就用原片的她本人。',
+              '负面场景用演员；不用数字人 Suyen（Reagan 10-31），要她就用原片的她本人。11-02 新版（接新 intro+CTA 成片）。',
               f'这一集直接重复用、不用再跑的：{REUSED[n]}。', '时间是成片时间，详见 pipeline/ep%d/第%d集-脚本.md' % (n, n)]
     node('note', 'stickyNote', 0, -480, '使用说明', {'text': '\n'.join(lines)}, 980, 330)
     kinds = {SC[s][2] for s in scenes}

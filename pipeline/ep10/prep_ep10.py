@@ -6,15 +6,16 @@ import json, os, re, subprocess, sys
 H = os.path.dirname(os.path.abspath(__file__))
 RAW = os.environ.get('SUYEN_RAW', os.path.expanduser('~/Downloads/raw'))   # 原片 C0001–C0048 的资料夹
 OUT = os.path.join(H, '..', '..', 'remotion', 'public', 'suyenh', 'ep10.mp4')
-SPEED, GAP, PRE, POST = 1.1, 0.45, 0.08, 0.25
+SPEED, GAP, PRE, POST = 1.2, 0.45, 0.08, 0.25
 IC2 = os.path.join(RAW, 'IC2.MOV')   # 新 intro + CTA 成片：照原样接在最后，不加速
 NOISE = os.environ.get('NOISE', '-35dB')   # 静音门槛：吸附不到（印出 0 段静音）就改 -30dB 再跑
 PIECES = [  # (原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
-    ('C0018', 8.60, 40.88, 8.28, 41.88, True, '企业家们你要注意啦……用来争取下一步的突破'),
-    ('C0037', 3.65, 16.00, 3.65, 16.00, False, '大家好，我是林舒苑……来自于世界各地'),
-    ('C0037', 16.22, 19.32, 16.22, 19.32, False, '从上市公司大家族到小家庭'),
-    ('C0048', 4.30, 11.85, 4.30, 11.85, False, '我为大家准备了三天完全免费的 2027 年奇门战略大会'),
-    ('C0048', 27.10, 33.85, 27.10, 33.85, False, '那么马上报名，我们到时见（+ 讲完挥手笑到 33.85，再后面有杂音）'),
+    ('C0018', 16.76, 20.52, 16.85, 20.85, True, '老顾客越来越少，利润越来越薄'),
+    ('C0018', 11.34, 16.26, 10.72, 16.50, True, '那你做了 20 年的生意，该怎么样重新找到你的位置？'),
+    ('C0018', 20.84, 23.64, 20.85, 24.00, True, '你应该继续守还是转型？'),
+    ('C0018', 24.46, 27.06, 24.28, 27.45, True, '这一次的奇门遁甲战略大会'),
+    ('C0018', 34.02, 40.88, 34.00, 41.30, True, '把 20 年你累积下来的根基，用来争取一下下一步的突破'),
+    ('IC2', 0.00, 44.23, 0.00, 44.23, False, '新 intro + CTA 成片（照原样）'),
 ]
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -55,7 +56,7 @@ for (src, a, b, amin, bmax, auto, txt) in [p for p in PIECES if p[0] != 'IC2']:
 raw = sum(y - x for _, x, y, _ in cuts)
 tl = sum(p[2] - p[1] for p in tail)
 print(f'原片接起来 {raw:.2f} 秒 → 成片 {raw / SPEED + tl:.2f} 秒（{len(cuts)} 刀{"，加新 intro+CTA %.2f 秒" % tl if tl else ""}）')
-if raw / SPEED + tl > 60.0: print('⚠ 成片超过 60 秒：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
+if raw / SPEED + tl > 65.5: print('⚠ 成片超过 65.5 秒：到 eps_plan.py 把这集 cta 改成 CTA1S，或删一句'); sys.exit(1)
 tmp = []
 for i, (src, a, b, _) in enumerate(cuts):
     p = f'{H}/_p{i}.mov'

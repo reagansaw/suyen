@@ -202,38 +202,6 @@ def ep3():
             ('守住你的成绩', SZ - 0.1, ZAI - 0.05), ('再争下一个高峰', ZAI - 0.05, INTRO0)]
     return assemble(n, behind, front, fx, subs, hits=[0.07, KZ, CP, RC, YC, Y20, Y27, QM, SZ], pushes=[[NA, Y20, 1.04]], dust=QM)
 
-# ---------- 第 4 集 · P4 现金被烧光（C0014）----------
-def ep4():
-    n = 4; T = lambda x: t(n, 'C0014', x)
-    Y20, Y27, CONG, GONG, SHOU, DD, XS, ZJ, ZHUI = (T(x) for x in (2.88, 3.36, 4.20, 6.86, 7.82, 8.58, 10.70, 11.22, 12.04))
-    XYB, YG, ZNL, QM, WO, ND, DAI, TR, BIE, XJ, SG = (T(x) for x in (19.26, 21.86, 22.40, 23.98, 25.80, 27.82, 29.16, 31.00, 32.50, 35.46, 36.84))
-    INTRO0 = starts(n, 'C0037')[0]
-    BILL0, BACK, YC0, BURN0 = DD - 0.1, XYB - 0.1, WO - 0.3, BIE - 0.15
-    behind = [hero('20', Y20, CONG - 0.05, 470, 220, 340, ls=0.06, glow=0.5), hero('27', Y27, CONG - 0.05, 1310, 220, 340, ls=0.06, glow=0.5),
-              hero('攻？', GONG, BILL0, 430, 260, 220, glow=0.5), hero('还是守？', SHOU, BILL0, 1480, 280, 150, tone='cream'),
-              hero('下一笔钱', XYB, QM - 0.05, 1480, 250, 140), hero('扎哪里？', ZNL, QM - 0.05, 1480, 480, 150, tone='red'),
-              hero('奇门遁甲战略大会', QM, YC0, 960, 150, 120, ls=0.12, glow=0.5)]
-    front = [cut(n, 'p4_bills', BILL0, BACK, '小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）'), f'<InkVig from={{{r(BILL0)}}} to={{{r(BACK)}}} />',
-             hero('薪水', XS, BACK - 0.02, 380, 400, 130, tone='cream', anim='呐喊声波'), hero('租金', ZJ, BACK - 0.02, 380, 580, 130, tone='cream', anim='呐喊声波'),
-             hero('追到门口', ZHUI, BACK - 0.02, 440, 770, 120, tone='red', anim='呐喊声波'),
-             cut(n, 'ep1_yearchart', YC0, BURN0, '奇门年盘', last=False), cut(n, 'p4_burn', BURN0, INTRO0, '金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）', cont=True),
-             hero('年度趋势', ND, DAI - 0.05, 420, 430, 130, anim='呐喊声波'),
-             f'<Luoshu at={{{r(DAI)}}} shatter={{999}} until={{{r(BURN0)}}} x={{420}} y={{470}} cell={{110}} />',
-             hero('投入的次序', TR, BURN0, 440, 770, 104, anim='呐喊声波'),
-             f'<Embers from={{{r(XJ - 0.3)}}} to={{{r(INTRO0)}}} />',
-             hero('现金', XJ, INTRO0, 380, 460, 150, tone='cream', anim='呐喊声波'), hero('被烧光', SG, INTRO0, 420, 680, 150, tone='red', anim='呐喊声波'),
-             f'<Flare at={{{r(Y20)}}} k={{0.5}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
-    fx = ['{OPEN_DROP}', sfx(Y20 - 0.03, '咚'), sfx(Y27 - 0.03, '综艺咚咚两声鼓点转场音效'), sfx(GONG - 0.03, '咚'), sfx(SHOU - 0.03, '综艺咚'),
-          sfx(BILL0 - 0.05, '回忆-刷一下'), sfx(BILL0 + 0.1, '诡异的滴水声'), *(sfx(x - 0.03, '咚咚重音心头震') for x in (XS, ZJ)), sfx(ZHUI - 0.03, '猛然一惊'),
-          sfx(BACK - 0.05, '闪回'), sfx(XYB - 0.03, '综艺咚'), sfx(ZNL - 0.03, '疑惑'), sfx(QM - 0.05, '咚'),
-          sfx(YC0 - 0.05, '回忆-刷一下'), sfx(ND - 0.03, '叮提示音4'), sfx(DAI, '叮叮'), sfx(TR - 0.03, '木鱼敲击回响音效'),
-          sfx(BURN0 - 0.05, '旋风'), sfx(XJ - 0.03, '咚'), sfx(SG - 0.03, '咚咚重音心头震')]
-    subs = [('2027 年', 0.05, CONG - 0.05), ('从奇门角度', CONG - 0.05, T(5.50)), ('你的生意应该攻还是守？', T(5.50), BILL0), ('订单还没收到钱', BILL0, XS - 0.05),
-            ('薪水租金已经追到门口', XS - 0.05, BACK), ('下一笔钱还能不能扎？', BACK, YG - 0.05), ('应该扎在哪里？', YG - 0.05, T(23.80)), ('那奇门遁甲战略大会', T(23.80), WO - 0.05),
-            ('我会用年盘来拆解年度的趋势', WO - 0.05, DAI - 0.05), ('带你重新审视投入的次序', DAI - 0.05, BIE - 0.05), ('别让生意还没等到突破', BIE - 0.05, XJ - 0.05),
-            ('现金已经被烧光', XJ - 0.05, INTRO0)]
-    return assemble(n, behind, front, fx, subs, hits=[Y20, Y27, GONG, XYB, QM], pushes=[[XYB, QM, 1.05]], dust=QM)
-
 # ---------- 第 6 集 · P6 全家的退路（C0029）：钩子照 SuyenEP6 v9 定稿 ----------
 # v9 钩子的时间是钩子短片（C0029 1.95 起、1 倍速、没剪停顿）的秒数；这集剪了停顿又加速，所以照逐字一一对齐再内插，不是单纯 ÷1.1
 import re as _re
@@ -268,35 +236,18 @@ def hookblocks(hookname, hid, endval, m):
     hits = [m(float(v)) for v in cam.group(1).split(',')]
     pushes = [[m(a), m(b), z] for a, b, z in json.loads(cam.group(2))]
     return sc(blk('behind', 'front')), sc(blk('front', 'sfx')), sc(blk('sfx', 'subs')), hits, pushes
-def ep6():
-    n = 6; T = lambda x: t(n, 'C0029', x)
-    import sys; sys.path.insert(0, H)
-    m, got, tot = hookmap(n, 'p6', 'C0029'); assert got == tot, (got, tot)
-    HEND = T(18.62)                                   # 「储蓄」讲完、「这一次」之前
-    hb, hf, hx, hits, pushes = hookblocks('SuyenEP6', 'p6', HEND, m)
-    ZYC, QM, WO, ZJ, TQ, JT = (T(x) for x in (18.76, 19.86, 21.46, 23.46, 27.96, 29.46))
-    INTRO0 = starts(n, 'C0037')[0]; FAM0 = WO - 0.3
-    behind = hb + [hero('奇门战略大会', QM, FAM0, 960, 150, 130, ls=0.14, glow=0.5)]
-    front = hf + [cut(n, 'p6_family', FAM0, INTRO0, '三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）'),
-                  hero('真假混的', ZJ, TQ - 0.05, 420, 430, 110, anim='呐喊声波'), hero('年度趋势', T(25.08), TQ - 0.05, 420, 610, 120, anim='呐喊声波'),
-                  hero('提前思考', TQ, INTRO0, 420, 430, 120, anim='呐喊声波'), hero('进退', JT, INTRO0, 380, 620, 150, anim='呐喊声波')]
-    fx = hx + [sfx(HEND - 0.05, '闪回'), sfx(QM - 0.05, '咚'), sfx(FAM0 - 0.05, '亮一下'), *(sfx(x - 0.03, '叮提示音4') for x in (ZJ, T(25.08))),
-               sfx(TQ - 0.03, '正确'), sfx(JT - 0.03, '木鱼敲击回响音效')]
-    subs = [('2027 年', 0.05, T(4.00)), ('你的奇门战略布局', T(4.00), T(6.55)), ('有没有把全家的退路算进去？', T(6.55), T(10.25)), ('一笔的投入', T(10.25), T(12.05)),
-            ('动的可能是', T(12.05), T(13.15)), ('孩子的学费', T(13.15), T(14.45)), ('父母的养老', T(14.45), T(16.0)), ('还有可能是你十年的储蓄', T(16.0), HEND),
-            ('这一次的奇门战略大会', HEND, WO - 0.05), ('我会从年盘来解读真假混的年度趋势', WO - 0.05, T(26.10)), ('带你提前思考进退', T(26.10), INTRO0)]
-    # v9：讲到「十年储蓄」那一下短暂变黑白（故事转折），之后回彩色
-    k0, k1, k2 = m(15.55), m(15.9), HEND
-    grade = f'(t) => {{ const k = t < {k2} ? interpolate(t, [{k0}, {k1}], [0, 0.85], clamp) : interpolate(t, [{k2}, {r(k2 + 0.3)}], [0.85, 0], clamp); return [1 - 0.22 * k, 1, k]; }}'
-    return assemble(n, behind, front, fx, subs, hits=hits + [QM], pushes=pushes, dust=QM, grade=grade)
-
 # ---------- IC2 集数：钩子（约 15 秒、1.2 倍速）+ Reagan 给的新 intro+CTA 成片（照原样，不叠字、不加字幕、不加 BGM）----------
 # 字、B-roll、音效只放在钩子里；IC2 一开始 Frame 的 asisFrom 就把人后层 / 抠像 / 前景 / 字幕全部关掉，只剩原片
 def ic2_start(n): return next(p['start'] for p in pieces(n)['pieces'] if p['src'] == 'IC2')
 # 玫红模式（Reagan 11-01：「玫红 skill 但改横版」）：左上标题条的 kicker + 题目
-ROSE = {5: '别人求救，你救不救？', 9: 'AI 帮你赚钱还是花钱？', 13: '生肖牛鼠 · 第一次创业', 14: '35 岁以后 · 守业还是转型？', 15: '2027 做狼还是做羊？'}
+ROSE = {5: '别人求救，你救不救？', 9: 'AI 帮你赚钱还是花钱？', 13: '生肖牛鼠 · 第一次创业', 14: '35 岁以后 · 守业还是转型？', 15: '2027 做狼还是做羊？',
+        4: '下一笔钱，该扎在哪里？', 6: '你的布局，算进全家退路了吗？', 10: '做了 20 年生意，守还是转型？', 11: '做领导的你 · 方向一错怎么办？', 12: '创业的女性 · 最怕人先倒下'}
 ROSE_KICKER = '林舒苑老师 · 2027 奇门战略大会'
+# 11-02 Reagan：钩子里下面的字幕跟大字重复 → 这几集钩子不放字幕（IC2 成片自带字幕不动）
+NOSUB = {4, 6, 10, 11, 12}
+
 def assemble_ic2(n, behind, front, fx, subs, hits, pushes, dust, origin='48% 30%', grade='() => [1, 1, 0]'):
+    if n in NOSUB: subs = []
     return n, '', behind, front, fx, subs, dict(hits=hits, pushes=pushes, origin=origin, grade=grade, shrink=[], asis=ic2_start(n), rose=ROSE.get(n)), dust
 
 # ---------- 第 5 集 · P5 拿公司钱救人（C0027）----------
@@ -408,7 +359,120 @@ def ep15():
             ('你要做狼还是做羊？', T(21.0), HT0), ('你做羊就被狼吃', HT0, U(5.30)), ('你做狼就被牧羊人杀', U(5.30), BACK2 + 0.3), ('就有了这一只披着羊皮的狼', BACK2 + 0.3, HE)]
     return assemble_ic2(n, behind, front, fx, subs, hits=[SZ, Y20, Y27, LANG, YANG, PY], pushes=[[YL, HE, 1.05]], dust=PY)
 
-EPS = [ep2, ep3, ep4, ep5, ep6, ep9, ep13, ep14, ep15]
+# ---------- 11-02 新版：第 4、6、10、11、12 集（IC2，痛点放第 0 秒）----------
+def ep4():
+    n = 4; T = lambda x: t(n, 'C0014', x); HE = ic2_start(n)
+    DD, XS, ZJ, ZHUI, XYB, NB, QM, DAI, TR, BIE, XJ, SG = (T(x) for x in (8.58, 10.70, 11.22, 12.04, 19.26, 20.70, 24.02, 29.30, 31.00, 32.50, 35.46, 36.84))
+    BILL0, BACK, BURN0 = XS - 0.1, XYB - 0.1, BIE - 0.15
+    behind = [hero('订单还没收到钱', 0.07, BILL0 - 0.05, 960, 170, 140, ls=0.06, glow=0.5),
+              hero('下一笔钱', XYB, QM - 0.05, 520, 240, 150, glow=0.4), hero('还能不能扎？', NB, QM - 0.05, 1420, 240, 130, tone='red', glow=0.4),
+              hero('奇门遁甲战略大会', QM, DAI - 0.05, 960, 150, 120, ls=0.12, glow=0.5),
+              f'<Luoshu at={{{r(DAI)}}} shatter={{999}} until={{{r(BURN0)}}} x={{1480}} y={{430}} cell={{120}} />',
+              hero('投入的次序', TR, BURN0, 960, 150, 140, ls=0.12, glow=0.5)]
+    front = [cut(n, 'p4_bills', BILL0, BACK, '小老板一个人坐在空办公室，桌上一叠催缴信封，手机一直亮（演员）'), f'<InkVig from={{{r(BILL0)}}} to={{{r(BACK)}}} />',
+             hero('薪水', XS, BACK - 0.02, 380, 400, 130, tone='cream', anim='呐喊声波'), hero('租金', ZJ, BACK - 0.02, 380, 580, 130, tone='cream', anim='呐喊声波'),
+             hero('追到门口', ZHUI, BACK - 0.02, 440, 770, 120, tone='red', anim='呐喊声波'),
+             cut(n, 'p4_burn', BURN0, HE, '金属盘里的钞票烧成灰，最后火被一只金色罗盘盖住熄掉（没有人）'),
+             f'<Embers from={{{r(XJ - 0.3)}}} to={{{r(HE)}}} />',
+             hero('现金', XJ, HE, 380, 460, 150, tone='cream', anim='呐喊声波'), hero('被烧光', SG, HE, 420, 680, 150, tone='red', anim='呐喊声波'),
+             f'<Flare at={{{r(BILL0)}}} k={{0.4}} /><Flare at={{{r(BACK)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DROP}', sfx(BILL0 - 0.05, '回忆-刷一下'), sfx(BILL0 + 0.1, '诡异的滴水声'), *(sfx(x - 0.03, '咚咚重音心头震') for x in (XS, ZJ)), sfx(ZHUI - 0.03, '猛然一惊'),
+          sfx(BACK - 0.05, '闪回'), sfx(XYB - 0.03, '综艺咚'), sfx(NB - 0.03, '疑惑'), sfx(QM - 0.05, '咚'), sfx(DAI, '叮叮'), sfx(TR - 0.03, '木鱼敲击回响音效'),
+          sfx(BURN0 - 0.05, '旋风'), sfx(XJ - 0.03, '咚'), sfx(SG - 0.03, '咚咚重音心头震')]
+    subs = [('订单还没收到钱', 0.05, XS - 0.05), ('薪水租金已经追到门口', XS - 0.05, BACK), ('下一笔钱还能不能扎？', BACK, QM - 0.05), ('奇门遁甲战略大会', QM - 0.05, DAI - 0.05),
+            ('带你重新审视投入的次序', DAI - 0.05, BIE - 0.05), ('别让生意还没等到突破', BIE - 0.05, XJ - 0.05), ('现金已经被烧光', XJ - 0.05, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[XYB, NB, QM], pushes=[[XS, BACK, 1.05]], dust=QM)
+
+def ep6():
+    n = 6; T = lambda x: t(n, 'C0029', x); HE = ic2_start(n)
+    DONG, XF, YL, CX, QJ, SJ, QM, DAI, TQ, JT = (T(x) for x in (12.10, 13.20, 14.50, 17.30, 7.80, 8.90, 19.86, 26.16, 27.10, 29.50))
+    END1, PT0 = ends(n, 'C0029')[0], DONG - 0.05
+    FAM0 = DAI - 0.05
+    behind = [hero('一笔的投入', 0.07, PT0 - 0.05, 960, 170, 170, ls=0.1, glow=0.5),
+              hero('全家的退路', QJ, QM - 0.05, 960, 170, 160, ls=0.1, glow=0.5),
+              hero('算进去了吗？', SJ, QM - 0.05, 1420, 420, 110, tone='red', glow=0.4),
+              hero('奇门战略大会', QM, FAM0 - 0.05, 960, 150, 130, ls=0.14, glow=0.5)]
+    front = [cut(n, 'p6_points', PT0, END1, '学费 / 医院账单 / 存款崩盘'), f'<InkVig from={{{r(PT0)}}} to={{{r(END1)}}} />',
+             hero('孩子的学费', XF, END1, 430, 400, 110, tone='cream', anim='呐喊声波'), hero('父母的养老', YL, END1, 430, 580, 110, tone='cream', anim='呐喊声波'),
+             hero('十年的储蓄', CX, END1, 450, 760, 120, tone='red', anim='呐喊声波'),
+             cut(n, 'p6_family', FAM0, HE, '三代同堂在温暖的家里吃饭，窗外是金色灯光（演员，正能量）'),
+             hero('提前思考', TQ, HE, 420, 430, 120, anim='呐喊声波'), hero('进退', JT, HE, 380, 620, 150, anim='呐喊声波'),
+             f'<Flare at={{{r(PT0)}}} k={{0.4}} /><Flare at={{{r(END1)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DONG}', sfx(PT0 - 0.05, '回忆-刷一下'), *(sfx(x - 0.03, '咚咚重音心头震') for x in (XF, YL)), sfx(CX - 0.03, '猛然一惊'), sfx(END1 - 0.05, '闪回'),
+          sfx(QJ - 0.03, '综艺咚'), sfx(SJ - 0.03, '疑惑'), sfx(QM - 0.05, '咚'), sfx(FAM0 - 0.05, '亮一下'), sfx(TQ - 0.03, '正确'), sfx(JT - 0.03, '木鱼敲击回响音效')]
+    subs = [('一笔的投入', 0.05, PT0), ('动的可能是孩子的学费', PT0, T(14.45)), ('父母的养老', T(14.45), T(16.0)), ('还有可能是你十年的储蓄', T(16.0), END1),
+            ('有没有把全家的退路算进去？', END1, QM - 0.05), ('奇门战略大会', QM - 0.05, FAM0), ('带你提前思考进退', FAM0, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[QJ, QM], pushes=[[XF, END1, 1.05]], dust=QM)
+
+def ep10():
+    # 11-02 Reagan：句子没讲完就跳走 → 钩子约 20 秒、每句讲完整；0:08 前后「很多爆炸声」→ 音效减到 6 个
+    n = 10; T = lambda x: t(n, 'C0018', x); HE = ic2_start(n)
+    LR, BO, ER, WZ, SHOU, HS, QM, GJ, XB = (T(x) for x in (19.00, 19.50, 12.04, 15.32, 21.96, 22.30, 25.24, 36.70, 39.10))
+    END1 = ends(n, 'C0018')[0]; SH0 = LR - 0.05; RT0 = T(34.15) - 0.05
+    behind = [hero('老顾客越来越少', 0.07, SH0 - 0.05, 960, 170, 140, ls=0.06, glow=0.5),
+              hero('20 年的生意', ER, WZ - 0.05, 960, 170, 160, ls=0.08, glow=0.5),
+              hero('你的位置？', WZ, SHOU - 0.05, 960, 170, 160, ls=0.08, tone='cream', glow=0.5),
+              hero('守？', SHOU, QM - 0.05, 520, 240, 200, tone='cream', glow=0.4), hero('还是转型？', HS, QM - 0.05, 1400, 260, 150, tone='red', glow=0.4),
+              hero('奇门遁甲战略大会', QM, RT0 - 0.05, 960, 150, 120, ls=0.12, glow=0.5)]
+    front = [cut(n, 'i1_shop', SH0, END1, '六十岁老板在老字号店里，店里冷清，他看着门外空荡的街（演员）'), f'<InkVig from={{{r(SH0)}}} to={{{r(END1)}}} />',
+             hero('利润', LR, END1, 400, 430, 140, tone='cream', anim='呐喊声波'), hero('越来越薄', BO, END1, 450, 630, 130, tone='red', anim='呐喊声波'),
+             cut(n, 'i1_roots', RT0, HE, '老榕树的树根亮起金光，一根新枝在日出里往上长（没有人，正能量）'),
+             hero('20 年的根基', GJ - 0.3, HE, 450, 420, 110, anim='呐喊声波'), hero('下一步的突破', XB, HE, 470, 620, 110, glow=0.5, anim='呐喊声波'),
+             f'<Flare at={{{r(SH0)}}} k={{0.4}} /><Flare at={{{r(END1)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DROP}', sfx(SH0 - 0.05, '回忆-刷一下'), sfx(END1 - 0.05, '闪回'), sfx(SHOU - 0.03, '咚'), sfx(QM - 0.05, '咚'), sfx(RT0 - 0.05, '亮一下')]
+    subs = []
+    return assemble_ic2(n, behind, front, fx, subs, hits=[SHOU, QM], pushes=[[ER, SHOU, 1.05]], dust=QM)
+
+def ep11():
+    # 11-02 Reagan：钩子可以到 0:18，每句讲完整；音效太多 → 减到 7 个
+    n = 11; T = lambda x: t(n, 'C0019', x); HE = ic2_start(n)
+    XS, SQ, SH, LD, Y27, JS, JB, GZ, QM, LX, ZJ = (T(x) for x in (17.94, 19.58, 20.02, 5.85, 10.22, 12.30, 13.50, 14.30, 23.30, 32.90, 35.60))
+    END1 = ends(n, 'C0019')[0]; TM0 = T(17.80) - 0.1; LD0 = T(32.50) - 0.05
+    behind = [hero('做领导的你', LD, JS - 0.05, 960, 160, 130, ls=0.08, glow=0.5),
+              hero('几十个人', JS, QM - 0.05, 520, 240, 150, glow=0.4), hero('几百个人', JB, QM - 0.05, 1400, 240, 150, tone='cream', glow=0.4),
+              hero('奇门遁甲战略大会', QM, LD0 - 0.05, 960, 150, 120, ls=0.12, glow=0.5)]
+    front = [hero('方向一错', 0.07, TM0 - 0.02, 960, 760, 140, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
+             cut(n, 'i2_team', TM0, END1, '老板带整队冲出门撞进雾里'), f'<InkVig from={{{r(TM0)}}} to={{{r(END1)}}} />',
+             hero('整年的薪水', XS, END1, 430, 400, 110, tone='cream', anim='呐喊声波'), hero('士气', SQ, END1, 380, 580, 130, tone='cream', anim='呐喊声波'),
+             hero('一起烧掉', SH, END1, 450, 770, 130, tone='red', anim='呐喊声波'),
+             hero('2027 一个决定', Y27, JS - 0.05, 960, 790, 110, ls=0.06, rotY=0, rotX=18, anim='呐喊声波'),
+             hero('跟着你冲', GZ, QM - 0.05, 960, 790, 120, ls=0.06, rotY=0, rotX=18, anim='呐喊声波'),
+             cut(n, 'i2_lead', LD0, HE, '女领导站在团队前面指向窗外一道金光，团队转向同一个方向（演员，正能量）'),
+             hero('审视方向', LX, HE, 430, 420, 120, anim='呐喊声波'), hero('聚焦团队火力', ZJ, HE, 480, 620, 100, glow=0.5, anim='呐喊声波'),
+             f'<Flare at={{{r(TM0)}}} k={{0.4}} /><Flare at={{{r(END1)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DONG}', sfx(TM0 - 0.05, '旋风'), sfx(SH - 0.03, '咚咚重音心头震'), sfx(END1 - 0.05, '闪回'),
+          sfx(JB - 0.03, '咚'), sfx(QM - 0.05, '咚'), sfx(LD0 - 0.05, '亮一下')]
+    subs = [('方向一错', 0.05, TM0), ('整年的薪水和士气一起烧掉', TM0, END1), ('做领导的你', END1, Y27 - 0.3), ('2027 年你的一个决定', Y27 - 0.3, JS - 0.1),
+            ('几十个人甚至几百个人', JS - 0.1, GZ - 0.1), ('跟着你就是冲', GZ - 0.1, T(22.56)),
+            ('这一次的奇门遁甲战略大会', T(22.56), LD0), ('带你领先审视方向', LD0, ZJ - 0.1), ('再聚焦团队的火力', ZJ - 0.1, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[JB, QM], pushes=[[0.07, TM0, 1.04]], dust=QM)
+
+def ep12():
+    # 11-02 Reagan：钩子可以到 0:20，每句讲完整（「全压进去」「倒下去」之前被切到）；音效减到 7 个
+    n = 12; T = lambda x: t(n, 'C0020', x); HE = ic2_start(n)
+    SY, EP, DX, CY, TX, CB, SJ, TL, YA, ZYC, QM, ST0, ZG = (T(x) for x in (27.10, 28.70, 29.30, 14.45, 18.34, 20.80, 22.10, 23.20, 24.20, 31.44, 32.50, 38.30, 44.50))
+    END1 = ends(n, 'C0020')[0]; LT0 = T(20.50) - 0.08; ST0 -= 0.08
+    behind = [hero('最怕的不是', 0.07, EP - 0.05, 470, 150, 100, ls=0.2),
+              hero('事业没做起来', SY, EP - 0.05, 500, 380, 120, ls=0.06, glow=0.5),
+              hero('创业的女性', CY, LT0 - 0.05, 960, 160, 130, ls=0.08, glow=0.5),
+              hero('奇门战略大会', QM, ST0 - 0.05, 960, 150, 130, ls=0.14, glow=0.5)]
+    front = [hero('而是', EP, END1, 960, 640, 64, ls=0.3, rotY=0, rotX=18, anim='呐喊声波'),
+             hero('人先倒下去', DX, END1, 960, 790, 130, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
+             hero('太想做出成绩', TX, LT0 - 0.05, 960, 790, 110, ls=0.06, rotY=0, rotX=18, tone='red', anim='呐喊声波'),
+             cut(n, 'i3_late', LT0, ZYC, '三十多岁的女老板深夜一个人在小工作室，趴在笔电旁（演员，不是 Suyen）'), f'<InkVig from={{{r(LT0)}}} to={{{r(ZYC)}}} />',
+             hero('储备金', CB, ZYC, 380, 400, 120, tone='cream', anim='呐喊声波'), hero('时间', SJ, ZYC, 380, 560, 120, tone='cream', anim='呐喊声波'),
+             hero('退路', TL, ZYC, 380, 720, 120, tone='cream', anim='呐喊声波'), hero('全压进去', YA, ZYC, 1450, 760, 120, tone='red', anim='呐喊声波'),
+             cut(n, 'i3_step', ST0, HE, '女老板站在河中发光的踏脚石上，日出金光（演员，正能量）'),
+             hero('看准进退', T(38.60), HE, 430, 420, 120, anim='呐喊声波'), hero('最关键的一步', ZG - 0.4, HE, 480, 620, 110, glow=0.5, anim='呐喊声波'),
+             f'<Flare at={{{r(EP)}}} k={{0.4}} /><Flare at={{{r(ZYC)}}} /><Flare at={{{r(QM)}}} k={{0.5}} />']
+    fx = ['{OPEN_DROP}', sfx(DX - 0.03, '咚咚重音心头震'), sfx(LT0 - 0.05, '回忆-刷一下'), sfx(LT0 + 0.1, '诡异的滴水声'),
+          sfx(ZYC - 0.05, '闪回'), sfx(QM - 0.05, '咚'), sfx(ST0 - 0.05, '亮一下')]
+    subs = [('最怕的不是事业没做起来', 0.05, EP - 0.05), ('而是人先倒下去', EP - 0.05, END1), ('创业的女性应该如何布局？', END1, T(17.90)),
+            ('你太想做出成绩', T(17.90), LT0), ('把储备金、时间、退路全压进去', LT0, ZYC),
+            ('这一次的奇门战略大会', ZYC, ST0), ('带你看准进退', ST0, T(43.10) - 0.1), ('集中在最关键的一步', T(43.10) - 0.1, HE)]
+    return assemble_ic2(n, behind, front, fx, subs, hits=[DX, QM], pushes=[[EP, END1, 1.05]], dust=QM)
+
+EPS = [ep2, ep3, ep4, ep5, ep6, ep9, ep10, ep11, ep12, ep13, ep14, ep15]
 
 HEAD = '''// 广告第 2–14 集（16:9 · 每集 ≤60 秒 · 1.1 倍速）。⚠ 这个档案是 pipeline/gen_eps.py 产生的，不要手改，改产生器再重跑
 // 结构照第 1 集：钩子 + 教方法 → 我们是谁（C0037 + 照片墙）→ CTA；只用 C0001–C0048；名字一律「林舒苑」

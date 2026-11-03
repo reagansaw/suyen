@@ -50,4 +50,5 @@ python3 pipeline/square_banner.py raw.mp4 输出-1比1.mp4 "…" "…" "…" --m
 
 - 先出一张 banner 图（`npx remotion still src/index.ts TopBanner x.png --props='{"pill":…,"main":…,"sub":…}'`）给 Reagan 看字，点头再渲染
 - 输出长度要跟原片一样；渲染完截一格看，确认三块都对、字没切到
+- 成片命名就叫「广告N.mp4」，放 `~/Downloads/Suyen-1比1-影片/`。目前：广告1–5 = 上表广告1–5，广告6 = 第5集，广告7 = 第9集，广告8 = 第13集，广告9 = 第14集，广告10 = 第15集
 - 只出单张 banner 图：上 banner 裁 `crop=2000:386:0:84`，下 banner 裁 `crop=2000:530:0:0`

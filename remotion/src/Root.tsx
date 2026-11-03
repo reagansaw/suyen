@@ -35,6 +35,9 @@ export const Root: React.FC = () => (
     <Composition id="SuyenEp5" component={EPS.SuyenEp5} durationInFrames={suyenEFrames('ep5')} fps={30} width={1920} height={1080} />
     <Composition id="SuyenEp6" component={EPS.SuyenEp6} durationInFrames={suyenEFrames('ep6')} fps={30} width={1920} height={1080} />
     <Composition id="SuyenEp9" component={EPS.SuyenEp9} durationInFrames={suyenEFrames('ep9')} fps={30} width={1920} height={1080} />
+    <Composition id="SuyenEp10" component={EPS.SuyenEp10} durationInFrames={suyenEFrames('ep10')} fps={30} width={1920} height={1080} />
+    <Composition id="SuyenEp11" component={EPS.SuyenEp11} durationInFrames={suyenEFrames('ep11')} fps={30} width={1920} height={1080} />
+    <Composition id="SuyenEp12" component={EPS.SuyenEp12} durationInFrames={suyenEFrames('ep12')} fps={30} width={1920} height={1080} />
     <Composition id="SuyenEp13" component={EPS.SuyenEp13} durationInFrames={suyenEFrames('ep13')} fps={30} width={1920} height={1080} />
     <Composition id="SuyenEp14" component={EPS.SuyenEp14} durationInFrames={suyenEFrames('ep14')} fps={30} width={1920} height={1080} />
     <Composition id="SuyenEp15" component={EPS.SuyenEp15} durationInFrames={suyenEFrames('ep15')} fps={30} width={1920} height={1080} />

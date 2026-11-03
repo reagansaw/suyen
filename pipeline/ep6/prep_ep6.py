@@ -6,15 +6,15 @@ import json, os, re, subprocess, sys
 H = os.path.dirname(os.path.abspath(__file__))
 RAW = os.environ.get('SUYEN_RAW', os.path.expanduser('~/Downloads/raw'))   # 原片 C0001–C0048 的资料夹
 OUT = os.path.join(H, '..', '..', 'remotion', 'public', 'suyenh', 'ep6.mp4')
-SPEED, GAP, PRE, POST = 1.1, 0.45, 0.08, 0.25
+SPEED, GAP, PRE, POST = 1.2, 0.45, 0.08, 0.25
 IC2 = os.path.join(RAW, 'IC2.MOV')   # 新 intro + CTA 成片：照原样接在最后，不加速
 NOISE = os.environ.get('NOISE', '-35dB')   # 静音门槛：吸附不到（印出 0 段静音）就改 -30dB 再跑
 PIECES = [  # (原片, 起点提示, 止点提示, 最早起点, 最晚止点, 自动剪停顿?, 内容)
-    ('C0029', 2.56, 30.10, 2.12, 31.10, True, '2027 年你的奇门战略布局……带你提前思考进退'),
-    ('C0037', 3.65, 16.00, 3.65, 16.00, False, '大家好，我是林舒苑……来自于世界各地'),
-    ('C0037', 16.22, 19.32, 16.22, 19.32, False, '从上市公司大家族到小家庭'),
-    ('C0048', 4.30, 11.85, 4.30, 11.85, False, '我为大家准备了三天完全免费的 2027 年奇门战略大会'),
-    ('C0048', 27.10, 33.85, 27.10, 33.85, False, '那么马上报名，我们到时见（+ 讲完挥手笑到 33.85，再后面有杂音）'),
+    ('C0029', 10.34, 18.50, 9.86, 18.71, True, '一笔的投入，动的可能是孩子的学费，父母的养老，还有可能是你十年的储蓄'),
+    ('C0029', 6.62, 9.84, 6.36, 10.29, True, '有没有把全家的退路算进去？'),
+    ('C0029', 19.86, 21.22, 19.88, 21.41, True, '奇门战略大会'),
+    ('C0029', 26.16, 30.10, 26.18, 31.10, True, '带你提前思考进退'),
+    ('IC2', 0.00, 44.23, 0.00, 44.23, False, '新 intro + CTA 成片（照原样）'),
 ]
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
