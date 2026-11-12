@@ -5,7 +5,7 @@
 # 用法：from cutlib import build; build('C0055', PIECES, 'c55', speed=1.15)
 import json, os, subprocess, sys, re
 H = os.path.dirname(os.path.abspath(__file__))
-RAWDIR = os.environ.get('SUYEN_RAW') or os.path.join(H, '..', 'raw')   # 原片 C00xx.MP4 放这里（或 export SUYEN_RAW）
+RAWDIR = os.environ.get('SUYEN_RAW') or os.path.join(H, '..', 'raw')   # 原片放这里（<编号>.MP4/.mov…，或 export SUYEN_RAW）
 PUB = os.path.join(H, '..', 'remotion', 'public', 'suyenc')
 SIL_DB, MIN_GAP, PAD = -30, 0.16, 0.06
 
@@ -32,13 +32,27 @@ def split(src, a, b):
     if b - cur > 0.05: keep.append((cur, b))
     return [(round(x, 3), round(y, 3)) for x, y in keep]
 
-def build(src_id, pieces, out_id, speed=1.15):
-    src = os.path.join(RAWDIR, f'{src_id}.MP4')
+def find_src(src_id):
+    """原片：raw/<编号>.<任何副档名>（MP4 / mov / mp4…）"""
+    for f in sorted(os.listdir(RAWDIR)):
+        if os.path.splitext(f)[0] == src_id and f.lower().endswith(('.mp4', '.mov', '.m4v', '.mkv')): return os.path.join(RAWDIR, f)
+    sys.exit(f'找不到原片 {src_id}.*（放进 {RAWDIR}，或 export SUYEN_RAW=资料夹）')
+
+def src_fps(src):
+    r = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=avg_frame_rate', '-of', 'csv=p=0', src], capture_output=True, text=True).stdout.strip()
+    n, d = (r.split('/') + ['1'])[:2]
+    return float(n) / float(d or 1) if float(n) else 60000 / 1001
+
+def build(src_id, pieces, out_id, speed=1.15, rot=None):
+    """rot：1 = 转正（Suyen 相机原片 C00xx：竖拍但存成横的，默认）；0 = 不转（手机竖拍、已经是竖的）。
+    不写就看 env CUT_ROT，再不然：档名 C00xx → 1，其他 → 0。画面一律填满 1080×1920（不是 9:16 的会从中间裁）。"""
+    src = find_src(src_id)
+    if rot is None: rot = int(os.environ.get('CUT_ROT', '1' if re.match(r'C\d{4}$', src_id) else '0'))
     subs = []   # (piece_idx, a, b)
     for i, p in enumerate(pieces):
         for a, b in split(src, p[0], p[1]): subs.append((i, a, b))
     # 每一段：select/aselect 只留没停顿的部分（对齐原片 59.94 格，音画不漂）→ 转正 → 30fps；段跟段再接起来 → 整支加速
-    FPS0 = 60000 / 1001
+    FPS0 = src_fps(src)
     snap = lambda x: round(round(x * FPS0) / FPS0, 4)
     subs = [(i, snap(a), snap(b)) for i, a, b in subs]
     tmp, pdur = [], {}
@@ -48,7 +62,7 @@ def build(src_id, pieces, out_id, speed=1.15):
         lo = rng[0][0]; hi = rng[-1][1]
         cond = '+'.join(f'gte(t\\,{a - lo:.4f})*lt(t\\,{b - lo:.4f})' for a, b in rng)
         o = f'{H}/_p{pi}.mov'
-        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,transpose=1,scale=1080:1920:flags=lanczos,setsar=1,fps=30[v];"
+        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,{'transpose=1,' if rot else ''}scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,fps=30[v];"
               f"[0:a]aselect='{cond}',asetpts=N/SR/TB,aresample=48000[a]")
         run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-ss', f'{lo}', '-to', f'{hi + 0.05}', '-i', src, '-filter_complex', fc,
              '-map', '[v]', '-map', '[a]', '-ac', '1', '-c:v', 'libx264', '-crf', '15', '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'pcm_s16le', '-ar', '48000', o])
