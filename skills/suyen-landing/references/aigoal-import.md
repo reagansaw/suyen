@@ -9,3 +9,10 @@
 5. **Thank you 页**：在 funnel 里设成「提交后跳转」的那一页。WhatsApp Community 链接：webinar funnel 用过 `{{community}}` 占位；lead magnet funnel 能不能用同一个占位**还没验证**——不确定就直接贴真的链接。
 6. **上线前**：手机打开 → 填一次真的资料 → 看有没有跳 Thank you 页 → 去 aigoal CRM 看名单有没有进来 → WhatsApp 有没有收到东西。
 7. 复制页面（copy）**不会**带过去：发布状态 / 网址、Google Sheet 绑定、form_tag、funnel 归属——新页要自己补这几样。
+
+## webinar 另外要注意（还没在平台上实测过这套模板）
+
+8. **3 页的跳转**：报名页设「提交后跳转」→ VIP 升级页；VIP 页的「不用了」链接和付款成功后都 → 登记成功页。
+9. **VIP 付款**：模板的升级按钮只是一个链接 `href="【付款链接】"`，要换成平台给的收款链接。线上 suyen2027 的 VIP 页是用平台自己的付款功能（有 JS），**这套不带 JS 的模板接不接得上同一个功能还没验证**——放之前先问 Reagan 用哪一种。
+10. **分类题**：表单多了 `joined_before`、`want`、`consent` 三栏。这三栏会不会进 CRM **还没验证**，上线前填一次真的看 CRM 有没有。
+11. **社群链接**：webinar funnel 用过 `{{community}}` 占位，登记成功页可以用它代替直接贴链接。

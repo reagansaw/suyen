@@ -1,6 +1,6 @@
 ---
 name: suyen-landing
-description: Master Suyen（林舒苑）落地页 / landing page / 报名页 / 领取页 做法——照 Reagan 的 Canva 文案模板写字、照 suyen2027.aigoal.ai 的排版（玫红、Noto Sans SC、字体大小量过）出 HTML，一次出 Opt-in 页 + Thank you 页，再放进 app.aigoal.ai。按 category 分：现在只有 lead-magnet（免费领取电子书 / 指南），webinar、活动报名还没做。做 Suyen 的落地页、领取页、lead magnet 页、opt-in、thank you 页、报名页时用。
+description: Master Suyen（林舒苑）落地页 / landing page / 报名页 / 领取页 做法——照 Reagan 的 Canva 文案模板写字、照 suyen2027.aigoal.ai 的排版（玫红、Noto Sans SC、字体大小量过）出 HTML，一次出 Opt-in 页 + Thank you 页，再放进 app.aigoal.ai。按 category 分：lead-magnet（免费领取电子书 / 指南，Opt-in + Thank you 两页）和 webinar（免费讲座 / 战略大会，报名 + VIP 升级 + 登记成功三页）。做 Suyen 的落地页、领取页、lead magnet 页、opt-in、thank you 页、报名页时用。
 ---
 
 # Suyen 落地页 · Landing page skill
@@ -13,12 +13,14 @@ description: Master Suyen（林舒苑）落地页 / landing page / 报名页 / �
 | category | 用在哪 | 状态 |
 |---|---|---|
 | **lead-magnet** | 免费领取一样东西（电子书、指南、清单），换名字 + WhatsApp + Email | ✅ 有模板：`templates/lead-magnet/`，范例 `examples/yunshi-guide/`（《1岁到100岁运势指南》） |
-| webinar / 活动报名 | 免费讲座、3 天战略大会 | ⏳ 还没做。参考线上 suyen2027.aigoal.ai（报名 → VIP 升级 → 登记成功），做的时候照这份的做法另开 `templates/webinar/` |
+| **webinar** | 免费讲座、几天的战略大会，报名后卖 VIP 升级 | ✅ 有模板：`templates/webinar/`（3 页：报名 → VIP 升级 → 登记成功），照线上 suyen2027.aigoal.ai。**还没有填好的范例**，线上那页就是范例 |
 
-一个 category = 两页：**Opt-in 页**（填资料）+ **Thank you 页**（领取成功，下一步）。两页一起出、一起交。
+lead-magnet = 两页：**Opt-in 页**（填资料）+ **Thank you 页**（领取成功，下一步）。
+webinar = 三页：**报名页** → **VIP 升级页**（没有 VIP 可以卖就跳过）→ **登记成功页**。几页一起出、一起交。
 
 ## 1. 做一组页的步骤
 
+0. **webinar 另外要问的 4 样**（lead magnet 跳过）：活动日期、每天时间、线上还是现场（Zoom / 地点）；每一天真的会讲什么；有没有 VIP（价钱、每样特权和真的定价、要不要收 SST、付款链接）；WhatsApp 社群链接。然后照 `references/copy-webinar.md` 和 `templates/webinar/` 做，下面第 2–6 步一样。
 1. **问清楚 5 样**（缺了就问，不要自己编）：
    - Lead magnet 叫什么、里面有什么（照封面 / 目录写，不要加没有的内容）
    - 给谁：目标人群 + 他最痛的 3 件事
@@ -64,6 +66,8 @@ description: Master Suyen（林舒苑）落地页 / landing page / 报名页 / �
 - [ ] 没有 `<script>`（平台会剥掉）；没有编出来的数字 / 见证 / 原价
 - [ ] Thank you 页：大大的「领取成功」+ 3 步下一步 + 真的链接
 - [ ] 图片都是真的、有 alt，老师的脸没有被字盖住
+- [ ] webinar：日期 / 时间 / 方式在首屏、表单旁边、底部固定条三处都一样；议程跟负责人对过
+- [ ] webinar VIP 页：每样价值加起来等于总价值；有「不用了」链接去登记成功页；付款链接是真的
 
 ## 5. 档案
 
@@ -71,10 +75,14 @@ description: Master Suyen（林舒苑）落地页 / landing page / 报名页 / �
 skills/suyen-landing/
   SKILL.md                         ← 这份
   references/copy-lead-magnet.md   ← Canva 文案模板 8 块 + Thank you 页，每块怎么填 + Suyen 范例句
+  references/copy-webinar.md       ← webinar 3 页每块怎么填 + 线上 suyen2027 的范例句
   references/design.md             ← 线上页量出来的颜色、字体大小、间距
   references/aigoal-import.md      ← 放进 app.aigoal.ai 的规矩
   templates/lead-magnet/optin.html ← 空白模板（改【】就好）
   templates/lead-magnet/thanks.html
+  templates/webinar/optin.html     ← 报名页（多了活动资料、适合对象、议程、FAQ）
+  templates/webinar/vip.html       ← VIP 升级页（进度条、价钱、特权清单、「不用了」链接）
+  templates/webinar/thanks.html    ← 登记成功页（加社群、记日历、当天准备）
   examples/yunshi-guide/           ← 填好的范例：《1岁到100岁运势指南》（文案是草稿，Community 链接未给）
                                       preview-*-mobile.jpg 是 390 宽手机截图
 ```
