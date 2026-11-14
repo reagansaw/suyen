@@ -10,8 +10,14 @@ __pycache__/
 # 版权字体
 remotion/public/ivyga/fonts/
 
-# 原片和成片（太大）
+# 素材不进 GitHub（太大，从 Drive 拉；只有声音留着）
 remotion/public/suyenh/
+remotion/public/suyenbr/
+remotion/public/suyenc/
+remotion/public/suyenph/
+studio/assets/
+raw/
+# 留着的：bgm/、remotion/public/audio/（BGM）、remotion/public/sfx22/（音效，3.9M）
 
 # 编译出来的 Swift 工具
 tools/subjectmatte
