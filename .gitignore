@@ -1,0 +1,22 @@
+# 钥匙（绝不 commit）
+.env
+
+# 依赖和暂存
+remotion/node_modules/
+remotion/out/
+__pycache__/
+*.pyc
+.DS_Store
+
+# 版权字体
+remotion/public/ivyga/fonts/
+
+# 原片和成片（太大）
+remotion/public/suyenh/
+
+# 编译出来的 Swift 工具
+tools/subjectmatte
+tools/facetrack
+
+# 编辑器状态
+.vscode/
