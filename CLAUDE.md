@@ -9,6 +9,8 @@
 | 横版 16:9 广告（C0001–C0048） | `project/suyen/HANDOFF.md`（301 行，全部是 Reagan 批注过的，是唯一的规则来源） |
 | 竖版内容片 / reels（C0049–C0060，玫红模板） | `project/suyen/skills/suyen-content-rose/SKILL.md` |
 | 1:1 上下 banner 版 | `project/suyen/docs/1比1-上下banner.md` |
+| 落地页 / lead magnet / webinar 报名页 | `project/suyen/skills/suyen-landing/SKILL.md` |
+| WhatsApp 预热 / 提醒讯息 | `project/suyen/skills/suyen-whatsapp/SKILL.md` |
 | 任何新片子要定结构／镜头／节奏（含 webinar、长片） | skill `selling-video-craft`（效果型三段框架、有效画面、赛马） |
 | 要写给模型的指令（口播、分镜、AI 生成画面、复刻爆款） | skill `ai-prompt-formula`（六要素公式、七大专家、Seedance 提示词） |
 | 这个 project 该用哪组导演／专家、素材在哪个 Drive | `project/<name>/EXPERTS.md`（索引 `project/INDEX.md`） |

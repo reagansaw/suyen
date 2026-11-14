@@ -161,6 +161,17 @@ nice -n 19 ffmpeg -threads 2 -i ~/Downloads/"Suyen-内容③-<题目>-竖版-v1.
 
 8GB Mac：重活一次一个、`nice -n 19`、ffmpeg `-threads 2`、渲染 `CONCURRENCY=2`；只删自己产生的档、只杀自己的 PID。
 
+## 4b. 用团队自己素材库的新片（不是 C0049–C0060）
+
+> 11-12 加（给 Suyen 团队内部培训用）。原片从团队的 Google Drive 素材库下载，**不用** `dl_raw.sh`。
+
+1. **原片放进 `raw/`**（或 `export SUYEN_RAW=<资料夹>`），**档名不要改**，用相机 / 手机原本的编号当 `<编号>`（例如 `C0061.MP4`、`IMG_4521.MOV`；MP4 / mov / m4v / mkv 都可以）。
+2. **转不转正**：`cutlib.build(..., rot=)` 不写就自动——档名像 `C0061`（Sony 相机竖拍、存成横的）→ 转正；其他（手机竖拍）→ 不转。看错了就 `CUT_ROT=1` 或 `CUT_ROT=0` 再剪一次。画面一律填满 1080×1920，不是 9:16 的从中间裁。帧率自动读。
+3. **新的一集 id**：小写、跟原片编号有关，例如 `t61a`（团队第 61 支的第 1 集）。照第 4 节步骤 1–6 做：逐字转写 → 写 `content/prep_t61a.py`（`build('C0061', PIECES, 't61a')`）→ `export_subs.py t61a` → `matte.sh t61a <脸x> <脸y>` → 合成 → **分镜检查图给负责人看，点头才渲染**。
+4. 合成照 `remotion/src/suyenc/<最像的一集>.tsx` 抄一份改（共用外壳在 `suyenc/kit.tsx`），记得在 `Root.tsx` 注册。
+5. 片尾 CTA 还是她的 9.3 秒真声（`cta_vo.wav`）。新活动换 CTA 时要她亲口录，不要 AI 克隆声。
+6. 想换别的剪辑风格：可以从 **video-craft**（`reagansaw/jingjian`，版式库 100 张 + 字幕样式 657 款）挑一张卡，跟 Claude 讲「把版式库的 X 照做进这一集」。玫红模板的铁律（字不盖脸、1 个 B-roll、真声 CTA、< 60 秒）照样要守。**（这一招还没实际做过一支，做完把结果写回这里）**
+
 ### 重现两支定稿（换电脑后）
 ```bash
 bash content/dl_raw.sh C0055 C0057

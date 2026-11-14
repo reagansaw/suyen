@@ -18,3 +18,9 @@
 
 ## 1:1 上下 banner 版
 横版影片要出 1:1（1080×1080，上 banner 换字 + 中间影片不裁 + 下 banner 原图）时，先读 `docs/1比1-上下banner.md`，用 `pipeline/square_banner.py` 做。
+
+## 落地页 / landing page
+做 Suyen 的落地页、lead magnet 领取页、webinar 报名页、opt-in / thank you 页时，先读 `skills/suyen-landing/SKILL.md`（照 Canva 文案模板 + suyen2027.aigoal.ai 排版，有 lead-magnet 和 webinar 两个 category）。
+
+## WhatsApp 讯息
+写 Suyen 的 WhatsApp 讯息、活动 / webinar 前的预热讯息、提醒讯息时，先读 `skills/suyen-whatsapp/SKILL.md`（7 条预热公式；老师故事和学员案例只用真的，没有就留【待补】）。
