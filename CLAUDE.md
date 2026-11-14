@@ -11,6 +11,8 @@
 | 1:1 上下 banner 版 | `project/suyen2027conference/docs/1比1-上下banner.md` |
 | 落地页 / lead magnet / webinar 报名页 | `project/suyen2027conference/skills/suyen-landing/SKILL.md` |
 | WhatsApp 预热 / 提醒讯息 | `project/suyen2027conference/skills/suyen-whatsapp/SKILL.md` |
+| 奇门解盘 1对1 上下格访谈片（4 个版本） | skill `qimen-jiepan-1on1`（`.claude/skills/qimen-jiepan-1on1/`） |
+| 竖版片尾 CTA（留言「正能量」，不带 BGM） | skill `suyen-cta`（`.claude/skills/suyen-cta/`） |
 | 任何新片子要定结构／镜头／节奏（含 webinar、长片） | skill `selling-video-craft`（效果型三段框架、有效画面、赛马） |
 | 要写给模型的指令（口播、分镜、AI 生成画面、复刻爆款） | skill `ai-prompt-formula`（六要素公式、七大专家、Seedance 提示词） |
 | Suyen 的素材 / 原片 / 品牌档在哪个 Drive | `project/suyen2027conference/DRIVE.md`（链接总表，新链接也贴这里） |
