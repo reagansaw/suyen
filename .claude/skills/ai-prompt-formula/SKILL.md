@@ -152,4 +152,4 @@ description: AI 提示词工程模板——六要素万能公式（身份·场�
 
 - 写口播/分镜的提示词，**身份固定补一句**：名字一律「林舒苑」，头衔「奇门遁甲战略导师」。
 - 要求里固定加：**不出现医疗功效表述、不用绝对化用语**（和 `selling-video-craft` 第 2 节⑤审核对应）。
-- AI 生成的素材只能当 B-roll 用；成片结构仍照 `project/suyen/HANDOFF.md`。
+- AI 生成的素材只能当 B-roll 用；成片结构仍照 `project/suyen2027conference/HANDOFF.md`。

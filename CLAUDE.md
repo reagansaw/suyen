@@ -6,13 +6,16 @@
 
 | 要做什么 | 先读 |
 |---|---|
-| 横版 16:9 广告（C0001–C0048） | `project/suyen/HANDOFF.md`（301 行，全部是 Reagan 批注过的，是唯一的规则来源） |
-| 竖版内容片 / reels（C0049–C0060，玫红模板） | `project/suyen/skills/suyen-content-rose/SKILL.md` |
-| 1:1 上下 banner 版 | `project/suyen/docs/1比1-上下banner.md` |
-| 落地页 / lead magnet / webinar 报名页 | `project/suyen/skills/suyen-landing/SKILL.md` |
-| WhatsApp 预热 / 提醒讯息 | `project/suyen/skills/suyen-whatsapp/SKILL.md` |
+| 横版 16:9 广告（C0001–C0048） | `project/suyen2027conference/HANDOFF.md`（301 行，全部是 Reagan 批注过的，是唯一的规则来源） |
+| 竖版内容片 / reels（C0049–C0060，玫红模板） | `project/suyen2027conference/skills/suyen-content-rose/SKILL.md` |
+| 1:1 上下 banner 版 | `project/suyen2027conference/docs/1比1-上下banner.md` |
+| 落地页 / lead magnet / webinar 报名页 | `project/suyen2027conference/skills/suyen-landing/SKILL.md` |
+| WhatsApp 预热 / 提醒讯息 | `project/suyen2027conference/skills/suyen-whatsapp/SKILL.md` |
 | 任何新片子要定结构／镜头／节奏（含 webinar、长片） | skill `selling-video-craft`（效果型三段框架、有效画面、赛马） |
 | 要写给模型的指令（口播、分镜、AI 生成画面、复刻爆款） | skill `ai-prompt-formula`（六要素公式、七大专家、Seedance 提示词） |
+| Suyen 的素材 / 原片 / 品牌档在哪个 Drive | `project/suyen2027conference/DRIVE.md`（链接总表，新链接也贴这里） |
+| 哪一支原片是什么（C0001…） | `project/suyen2027conference/原片目录.md`（写法 `[题目] (C0001)`） |
+| 这一支内容片用什么 style | `project/suyen2027conference/pipeline/内容片-style.md`（开工前先定，版式库插件 `reagansaw/jingjian`） |
 | 这个 project 该用哪组导演／专家、素材在哪个 Drive | `project/<name>/EXPERTS.md`（索引 `project/INDEX.md`） |
 | **开新 project / 新客户 / 没有 EXPERTS.md** | **先跑 skill `new-project-intake` 问卷，问清性质和 Drive 链接再动手** |
 
@@ -21,7 +24,7 @@
 ## 目录
 
 ```
-project/suyen/        手册、文案、分镜检查图、每一集的剪片产生器（pipeline/epN/、content/）
+project/suyen2027conference/        手册、文案、分镜检查图、每一集的剪片产生器（pipeline/epN/、content/）
 remotion/             Remotion 工程（真正的合成在这里）
   src/                *.tsx 合成 + *.json（逐帧脸位置 face、圆框轨迹 track、字幕 subs）
   public/             素材：suyenh(横版成片) suyenc(竖版) suyenbr(B-roll) suyenph(照片) sfx22(音效) audio(BGM) ivyga/fonts(兰亭黑)

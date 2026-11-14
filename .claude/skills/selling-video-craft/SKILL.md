@@ -8,7 +8,7 @@ description: 效果型影片方法论——带货短视频/内容片/webinar 都
 > 三条底层信念：**在成功的基础上复制成功 / 所有爆过的视频还会再爆 / 有效的事情重复做。**
 > 一句话总纲：**把能出单的片子往死里拍。**
 
-本技能只管「影片怎么想、怎么排」。具体工程（Remotion、渲染指令、字不盖脸等红线）照 `CLAUDE.md` → `project/suyen/HANDOFF.md`。
+本技能只管「影片怎么想、怎么排」。具体工程（Remotion、渲染指令、字不盖脸等红线）照 `CLAUDE.md` → `project/suyen2027conference/HANDOFF.md`。
 
 ---
 

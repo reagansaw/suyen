@@ -3,7 +3,7 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Easing, interpolate, staticFile } from 'remotion';
 import {
-  W, H, f, clamp, useT, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, Plate, Flash, Bug, Subs, CtaEnd, applyTheme, mkR, shakeAt,
+  W, H, f, clamp, useT, ease, win, pop, LTH, WHITE, Seigaiha, useFonts, Sfx, CTA_DUR, Plate, Flash, Bug, Subs, CtaEnd, CtaBehind, applyTheme, mkR, shakeAt,
   ROSE, ROSE_DEEP, CREAM, NAVY, BUTTERFLY,
 } from '../SuyenContent';
 import type { Ep, Cam, Sub, SubSeg } from '../SuyenContent';
@@ -38,6 +38,7 @@ export const EpShell: React.FC<{
     <AbsoluteFill style={{ background: '#000' }}>
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="bg" />
       {behind}
+      <CtaBehind until={CUT} />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="person" />
       <Plate ep={ep} cam={cam} shakes={shakes} gray={gray} layer="face" />
       {children}

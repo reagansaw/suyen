@@ -3,7 +3,6 @@
 
 # 依赖和暂存
 remotion/node_modules/
-remotion/out/
 __pycache__/
 *.pyc
 .DS_Store
@@ -20,3 +19,13 @@ tools/facetrack
 
 # 编辑器状态
 .vscode/
+
+# 样片 / 检查图 / 试看片（只留在本机，不要进 GitHub）
+remotion/out/
+project/*/review/
+project/*/docs/review/
+project/*/samples/
+*-试看*.mp4
+*-检查*.jpg
+*.mov
+*.MOV
