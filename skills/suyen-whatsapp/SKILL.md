@@ -1,30 +1,33 @@
 ---
 name: suyen-whatsapp
-description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，两种：(A) 活动前 7 条预热讯息（问痛 → 我的故事 → 学员案例 + 公布活动 → … → 开场前 1 小时），发给旧名单；(B) webinar 报名后的提醒 beats（报名当下要 YES → 回 YES 才发链接 + Community 小礼物 → 24 小时前「YES 我会出席」→ 3 小时前 → 开始了），用 aigoal 的 webinar 漏斗。也做每拍的配图（aigoal 生成），做完问要不要教拿 API key、直接放进 aigoal 系统。写 Suyen 的 WhatsApp 讯息、WhatsApp template、broadcast、群发、webinar 提醒、报名后跟进、提醒海报时用。
+description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，三种：(A) 活动前 7 条预热讯息（问痛 → 我的故事 → 学员案例 + 公布活动 → … → 开场前 1 小时），发给旧名单；(B) webinar 报名后的提醒 beats（报名当下要 YES → 回 YES 才发链接 + Community 小礼物 → 24 小时前「YES 我会出席」→ 3 小时前 → 开始了），用 aigoal 的 webinar 漏斗；(C) lead magnet 领取后（回 YES → 发资料链接 + 进 WhatsApp Community → +2 天推他去看 → +5 天软软带到下一步），用 aigoal 的 lead magnet 漏斗。也做每拍的配图（aigoal 生成），做完问要不要教拿 API key、直接放进 aigoal 系统。写 Suyen 的 WhatsApp 讯息、WhatsApp template、broadcast、群发、webinar 提醒、报名后跟进、lead magnet 发资料 / 领取后讯息、提醒海报时用。
 ---
 
 # Suyen WhatsApp 讯息
 
 > Reagan 11-13：给了一组 7 条的 WhatsApp 讯息（个人 IP 分享会，11-03 到 11-11）当公式，「做一个 skill 可以生成这个 WhatsApp template」。
-> Reagan 11-18：加 webinar 报名后提醒（aigoal beats）＋ 配图 ＋ 做完教拿 API key 放进系统。
+> Reagan 11-18：加 webinar 报名后提醒（aigoal beats）＋ 配图 ＋ 做完教拿 API key 放进系统；再加 lead magnet（发东西 ＋ 进群）。
 > 冲突时：Reagan 在对话里的最新指示 > 这份。
 
 这套讯息是发给**已经留了 WhatsApp 的人**（报名了、领过 lead magnet、旧名单），目的只有一个：**让他当天真的出现**。不在讯息里卖东西、不报价钱。
 
 ## 0. 先分清楚要做哪一种
 
-| | A · 预热 7 条 | B · webinar 报名后提醒 |
-|---|---|---|
-| 发给谁 | 旧名单、还没报名的人 | 在落地页报了名的人 |
-| 几时发 | 活动前 8 天开始 | 报名当下 → 24 小时前 → 3 小时前 → 开始了 |
-| 怎么发 | 群发（broadcast） | aigoal webinar 漏斗自动发 |
-| 照什么写 | 本页第 2–6 段 ＋ `references/formula.md` | `references/webinar-beats.md` |
+| | A · 预热 7 条 | B · webinar 报名后提醒 | C · lead magnet 领取后 |
+|---|---|---|---|
+| 发给谁 | 旧名单、还没报名的人 | 在落地页报了名的人 | 在领取页领了资料的人 |
+| 几时发 | 活动前 8 天开始 | 报名当下 → 24 小时前 → 3 小时前 → 开始了 | 领取当下 → 回 YES → +2 天 → +5 天 |
+| 怎么发 | 群发（broadcast） | aigoal webinar 漏斗自动发 | aigoal lead magnet 漏斗自动发 |
+| 照什么写 | 本页第 2–6 段 ＋ `references/formula.md` | `references/webinar-beats.md` | `references/lead-magnet.md` |
 
-用户说「报名后」「提醒」「reminder」「beats」「回 YES 才发链接」，就是 B。说「预热」「7 条」「旧名单」，就是 A。不清楚就问。两种可以一起做。
+- 用户说「预热」「7 条」「旧名单」：A。
+- 说「报名后」「提醒」「reminder」「beats」「回 YES 才发链接」：B。
+- 说「lead magnet」「发资料」「电子书 / 指南」「领取后」：C。
+- 不清楚就问。几种可以一起做。
 
-**做完的流程（两种都一样）：**
+**做完的流程（三种都一样）：**
 1. 写讯息 → 先交 1–2 条看口气 → 写完全部。
-2. 做配图：`references/photo.md`（B 一定要；A 要的话也可以）。
+2. 做配图：`references/photo.md`（B 一定要；C 放资料封面；A 要的话也可以）。
 3. 讯息和照片给负责人看，他说可以之后，问他：**「要我直接放进 aigoal 系统吗？要的话，我教你拿 API key。」**照 `references/aigoal-setup.md` 一步一步教，每一步写进系统之前都先讲给他听。
 
 ## 1. 先问清楚 6 样（缺了就问，不要自己编）
@@ -37,6 +40,8 @@ description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，两种：(
 6. **谁署名、用哪个号发**：署名默认两行，「—林舒苑」下一行「Master Suyen Lim」（Reagan 11-18）；官方号还是扫码号由负责人决定（见 `references/sending.md`）。
 
 B（webinar 提醒）另外要问：**进场链接**（Zoom / FB 群组）、**WhatsApp Community 链接**、**小礼物是什么**。第 3–5 项（老师故事、学员案例、影片）不用问。
+
+C（lead magnet）要问：**资料名和里面有什么**（最好给档案或落地页）、**资料链接**（打得开的 https）、**WhatsApp Community 链接**、**有没有下一步的活动**（M3 用，没有就关掉 M3）。不用问活动日期和第 3–5 项。
 
 ## 2. 7 条的日程（D = 活动当天）
 
@@ -103,11 +108,18 @@ B（webinar 提醒）另外检查：
 - [ ] 配图的 prompt 给负责人看过才生成；图上的字对过
 - [ ] 问过要不要放进系统；钥匙没有写进任何档案
 
+C（lead magnet）另外检查：
+- [ ] M1_GATE 没有 `{magnet}`；M1Y 有 `{magnet}` 和 `{community}`，资料在前、群在后
+- [ ] 资料链接自己用没登入的手机打开过
+- [ ] M2 讲的东西资料里真的有；M2、M3 没有价钱
+- [ ] 没有下一步活动就关掉 M3
+
 ## 档案
 
 - `references/formula.md` — 7 条逐条骨架（每段写什么 + 句型）
 - `references/sending.md` — 官方号 / 扫码号怎么发、【名字】怎么换、回 YES 之后
 - `references/webinar-beats.md` — B：报名后 5 拍（A_GATE / AY / B / C / C2）的日程、变量、骨架、Meta 规则
+- `references/lead-magnet.md` — C：领取后 4 拍（M1_GATE / M1Y / M2 / M3），大多数 lead magnet 怎么做、骨架、系统限制
 - `references/photo.md` — 每拍配图：用 aigoal 生成海报（先看 prompt 再花额度）
 - `references/aigoal-setup.md` — 做完问要不要放进系统；教拿 API key；接口一步一步
 - `examples/xuanxue-qunyinghui-beats/` — 《玄学群英会》12-01 的 5 拍（小礼物、链接还是【待补】）
