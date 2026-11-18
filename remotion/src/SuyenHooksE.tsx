@@ -662,12 +662,14 @@ const RoseBanner: React.FC<RoseCfg & { at: number; until: number }> = ({ kicker,
 const Frame: React.FC<{ id: HookId; cam: Cam; grade: Grade; behind?: React.ReactNode; front?: React.ReactNode; sfx: React.ReactNode; subs: Sub[]; subX?: number; stage?: React.ReactNode; dust?: number; asisFrom?: number; rose?: RoseCfg }> = ({ id, cam, grade, behind, front, sfx, subs, subX, stage, dust, asisFrom, rose }) => {
   useFonts();
   const t = useT();
-  // asisFrom：后面接的是 Reagan 给的 intro+CTA 成片（IC2），照原样播 → 从这秒起只剩原片，不叠字、不加字幕、BGM 在接缝前收掉
-  const end = asisFrom !== undefined ? f(asisFrom) : suyenEFrames(id), live = asisFrom === undefined || t < asisFrom;
+  // asisFrom：后面接的是 Reagan 给的 intro+CTA 成片（IC2），照原样播 → 从这秒起只剩原片，不叠字、不加字幕
+  // 11-04 Reagan：IC2 那段也要有 BGM（跟广告1 一样）→ BGM 不收，接缝前 0.6 秒起 1.6 秒拉到 0.85（IC2 原片比较大声，母带后跟广告1 的比例差不多）
+  const end = suyenEFrames(id), live = asisFrom === undefined || t < asisFrom;
+  const bgm = (fr: number) => asisFrom === undefined ? (rose ? 0.2 : 0.3) : (rose ? 0.2 : 0.3) + (0.85 - (rose ? 0.2 : 0.3)) * Math.max(0, Math.min(1, (fr - f(asisFrom - 0.6)) / f(1.6)));
   return (
     <RoseCtx.Provider value={rose ?? null}>
     <AbsoluteFill style={{ background: INK }}>
-      <Audio src={staticFile('audio/bgm-zhushen-loop.mp3')} loop volume={(fr) => (rose ? 0.2 : 0.3) * Math.min(1, fr / f(0.4)) * Math.max(0, Math.min(1, (end - fr) / f(0.6)))} />
+      <Audio src={staticFile('audio/bgm-zhushen-loop.mp3')} loop volume={(fr) => bgm(fr) * Math.min(1, fr / f(0.4)) * Math.max(0, Math.min(1, (end - fr) / f(1.2)))} />
       {stage ?? <Plate id={id} cam={cam} grade={grade} />}
       {live && <>
         {behind}

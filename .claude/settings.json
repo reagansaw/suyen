@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(sed -n:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(file:*)",
+      "Bash(du:*)",
+      "Bash(df:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(ffprobe:*)",
+      "Bash(nice -n 19 ffmpeg:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(node scripts/stills.mjs:*)",
+      "Bash(nice -n 19 node scripts/stills.mjs:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(python3:*)",
+      "Bash(uvx:*)",
+      "Bash(tools/subjectmatte:*)",
+      "Bash(tools/facetrack:*)",
+      "Bash(swiftc:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./**/.env)"
+    ]
+  }
+}

@@ -46,7 +46,7 @@ export const SuyenC54: React.FC = () => {
       </>}>
       <Flash at={R(44.00)} color="#C8202E" k={0.35} />
       <SpeedLines ep={ep} from={R(43.28)} to={R(46.45)} />
-      <QuestionCard at={R(14.76)} line2At={R(17.86)} until={R(21.20)} l1="什么样的八字、什么盘的人" l2="明年很容易错失机会？" />
+      <QuestionCard at={R(18.86)} line2At={R(19.9)} until={R(21.20)} l1="什么样的八字、什么盘的人" l2="明年很容易错失机会？" />
       <TopBanner at={R(28.62)} until={R(51.40)} kicker="林舒苑老师 · 2027 丁未年" title="热锅上的蚂蚁" />
       <Seal text="火" at={R(33.78)} until={R(35.30)} x={190} y={900} size={190} />
       <Seal text="土" at={R(35.20)} until={R(35.40)} x={190} y={1130} size={190} rot={4} />
