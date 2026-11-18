@@ -1,14 +1,31 @@
 ---
 name: suyen-whatsapp
-description: Master Suyen（林舒苑）WhatsApp 讯息模板做法——活动 / webinar 前的 7 条预热讯息（问痛 → 我的故事 → 学员案例 + 公布活动 → 比喻破误会 → 前一晚 → 当天早上 → 开场前 1 小时），一句一行、每条只叫他做一件事、回 YES / JOIN / Ready。写 Suyen 的 WhatsApp 讯息、WhatsApp template、broadcast、群发、webinar 提醒、预热讯息、报名后跟进讯息时用。
+description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，两种：(A) 活动前 7 条预热讯息（问痛 → 我的故事 → 学员案例 + 公布活动 → … → 开场前 1 小时），发给旧名单；(B) webinar 报名后的提醒 beats（报名当下要 YES → 回 YES 才发链接 + Community 小礼物 → 24 小时前「YES 我会出席」→ 3 小时前 → 开始了），用 aigoal 的 webinar 漏斗。也做每拍的配图（aigoal 生成），做完问要不要教拿 API key、直接放进 aigoal 系统。写 Suyen 的 WhatsApp 讯息、WhatsApp template、broadcast、群发、webinar 提醒、报名后跟进、提醒海报时用。
 ---
 
-# Suyen WhatsApp 讯息 · 7 条预热公式
+# Suyen WhatsApp 讯息
 
 > Reagan 11-13：给了一组 7 条的 WhatsApp 讯息（个人 IP 分享会，11-03 到 11-11）当公式，「做一个 skill 可以生成这个 WhatsApp template」。
+> Reagan 11-18：加 webinar 报名后提醒（aigoal beats）＋ 配图 ＋ 做完教拿 API key 放进系统。
 > 冲突时：Reagan 在对话里的最新指示 > 这份。
 
 这套讯息是发给**已经留了 WhatsApp 的人**（报名了、领过 lead magnet、旧名单），目的只有一个：**让他当天真的出现**。不在讯息里卖东西、不报价钱。
+
+## 0. 先分清楚要做哪一种
+
+| | A · 预热 7 条 | B · webinar 报名后提醒 |
+|---|---|---|
+| 发给谁 | 旧名单、还没报名的人 | 在落地页报了名的人 |
+| 几时发 | 活动前 8 天开始 | 报名当下 → 24 小时前 → 3 小时前 → 开始了 |
+| 怎么发 | 群发（broadcast） | aigoal webinar 漏斗自动发 |
+| 照什么写 | 本页第 2–6 段 ＋ `references/formula.md` | `references/webinar-beats.md` |
+
+用户说「报名后」「提醒」「reminder」「beats」「回 YES 才发链接」，就是 B。说「预热」「7 条」「旧名单」，就是 A。不清楚就问。两种可以一起做。
+
+**做完的流程（两种都一样）：**
+1. 写讯息 → 先交 1–2 条看口气 → 写完全部。
+2. 做配图：`references/photo.md`（B 一定要；A 要的话也可以）。
+3. 讯息和照片给负责人看，他说可以之后，问他：**「要我直接放进 aigoal 系统吗？要的话，我教你拿 API key。」**照 `references/aigoal-setup.md` 一步一步教，每一步写进系统之前都先讲给他听。
 
 ## 1. 先问清楚 6 样（缺了就问，不要自己编）
 
@@ -17,7 +34,9 @@ description: Master Suyen（林舒苑）WhatsApp 讯息模板做法——活动 
 3. **老师自己的故事**（第 2 条用）：她当年为什么开始、有哪一幕很难受。**一定要她真的发生过的**，没有就留【待补：老师的故事】。
 4. **1 个真学员 / 真客人的案例**（第 3 条用）：谁、什么行业、原本怎样、后来怎样。要本人同意。没有就留【待补：案例】。
 5. **有没有影片可以放**（第 2 条的链接）：没有就不放链接，只叫他回 OK。
-6. **谁署名、用哪个号发**：署名默认「—林舒苑 Master Suyen」；官方号还是扫码号由负责人决定（见 `references/sending.md`）。
+6. **谁署名、用哪个号发**：署名默认两行，「—林舒苑」下一行「Master Suyen Lim」（Reagan 11-18）；官方号还是扫码号由负责人决定（见 `references/sending.md`）。
+
+B（webinar 提醒）另外要问：**进场链接**（Zoom / FB 群组）、**WhatsApp Community 链接**、**小礼物是什么**。第 3–5 项（老师故事、学员案例、影片）不用问。
 
 ## 2. 7 条的日程（D = 活动当天）
 
@@ -77,8 +96,19 @@ description: Master Suyen（林舒苑）WhatsApp 讯息模板做法——活动 
 - [ ] 第 6、7 条有进场链接（或【待补】）
 - [ ] README 里列了所有【待补】
 
+B（webinar 提醒）另外检查：
+- [ ] A_GATE 没有 `{zoom}`；AY 有 `{zoom}` 和 `{community}`
+- [ ] 没有一条用变量开头或结尾，没有两个变量连在一起
+- [ ] 小礼物写的是真的东西（或【待补】）
+- [ ] 配图的 prompt 给负责人看过才生成；图上的字对过
+- [ ] 问过要不要放进系统；钥匙没有写进任何档案
+
 ## 档案
 
 - `references/formula.md` — 7 条逐条骨架（每段写什么 + 句型）
 - `references/sending.md` — 官方号 / 扫码号怎么发、【名字】怎么换、回 YES 之后
+- `references/webinar-beats.md` — B：报名后 5 拍（A_GATE / AY / B / C / C2）的日程、变量、骨架、Meta 规则
+- `references/photo.md` — 每拍配图：用 aigoal 生成海报（先看 prompt 再花额度）
+- `references/aigoal-setup.md` — 做完问要不要放进系统；教拿 API key；接口一步一步
+- `examples/xuanxue-qunyinghui-beats/` — 《玄学群英会》12-01 的 5 拍（小礼物、链接还是【待补】）
 - `examples/2027-qimen/` — 2027 奇门战略大会的 7 条（活动资料是真的；老师故事和学员案例是【待补】）
