@@ -1,6 +1,6 @@
 ---
 name: suyen-whatsapp
-description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，三种：(A) 活动前 7 条预热讯息（问痛 → 我的故事 → 学员案例 + 公布活动 → … → 开场前 1 小时），发给旧名单；(B) webinar 报名后的提醒 beats（报名当下要 YES → 回 YES 才发链接 + Community 小礼物 → 24 小时前「YES 我会出席」→ 3 小时前 → 开始了），用 aigoal 的 webinar 漏斗；(C) lead magnet 领取后（回 YES → 发资料链接 + 进 WhatsApp Community → +2 天推他去看 → +5 天软软带到下一步），用 aigoal 的 lead magnet 漏斗。也做每拍的配图（aigoal 生成），做完问要不要教拿 API key、直接放进 aigoal 系统。写 Suyen 的 WhatsApp 讯息、WhatsApp template、broadcast、群发、webinar 提醒、报名后跟进、lead magnet 发资料 / 领取后讯息、提醒海报时用。
+description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，三种：(A) 活动前 7 条预热讯息（问痛 → 我的故事 → 学员案例 + 公布活动 → … → 开场前 1 小时），发给旧名单；(B) webinar 报名后的提醒 beats（报名当下要 YES → 回 YES 才发链接 + Community 小礼物 → 24 小时前「YES 我会出席」→ 3 小时前 → 开始了），用 aigoal 的 webinar 漏斗；(C) lead magnet 领取后（回 YES → 发资料链接 + 进 WhatsApp Community → 推他去看 → 软软带到下一步，follow up 时间由用户定，WABA 建议 24 小时内），用 aigoal 的 lead magnet 漏斗。也做每拍的配图（aigoal 生成），做完问要不要教拿 API key、直接放进 aigoal 系统。写 Suyen 的 WhatsApp 讯息、WhatsApp template、broadcast、群发、webinar 提醒、报名后跟进、lead magnet 发资料 / 领取后讯息、提醒海报时用。
 ---
 
 # Suyen WhatsApp 讯息
@@ -16,7 +16,7 @@ description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，三种：(
 | | A · 预热 7 条 | B · webinar 报名后提醒 | C · lead magnet 领取后 |
 |---|---|---|---|
 | 发给谁 | 旧名单、还没报名的人 | 在落地页报了名的人 | 在领取页领了资料的人 |
-| 几时发 | 活动前 8 天开始 | 报名当下 → 24 小时前 → 3 小时前 → 开始了 | 领取当下 → 回 YES → +2 天 → +5 天 |
+| 几时发 | 活动前 8 天开始 | 报名当下 → 24 小时前 → 3 小时前 → 开始了 | 领取当下 → 回 YES → 用户定几时 follow up（WABA 建议 24 小时内） |
 | 怎么发 | 群发（broadcast） | aigoal webinar 漏斗自动发 | aigoal lead magnet 漏斗自动发 |
 | 照什么写 | 本页第 2–6 段 ＋ `references/formula.md` | `references/webinar-beats.md` | `references/lead-magnet.md` |
 
@@ -41,7 +41,7 @@ description: Master Suyen（林舒苑）WhatsApp 讯息模板做法，三种：(
 
 B（webinar 提醒）另外要问：**进场链接**（Zoom / FB 群组）、**WhatsApp Community 链接**、**小礼物是什么**。第 3–5 项（老师故事、学员案例、影片）不用问。
 
-C（lead magnet）要问：**资料名和里面有什么**（最好给档案或落地页）、**资料链接**（打得开的 https）、**WhatsApp Community 链接**、**有没有下一步的活动**（M3 用，没有就关掉 M3）。不用问活动日期和第 3–5 项。
+C（lead magnet）要问：**资料名和里面有什么**（最好给档案或落地页）、**资料链接**（打得开的 https）、**WhatsApp Community 链接**、**有没有下一步的活动**（M3 用，没有就关掉 M3）、**官方号还是扫码号**、**M2、M3 要几时发**（官方号建议 M2 在 24 小时内，原因见 `references/lead-magnet.md`）。不用问活动日期和第 3–5 项。
 
 ## 2. 7 条的日程（D = 活动当天）
 
