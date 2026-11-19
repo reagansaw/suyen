@@ -1,0 +1,58 @@
+{
+  "id": "yunshiguide",
+  "name": "留言『指南』→ 私讯发运势指南",
+  "enabled": true,
+  "action": {
+    "type": "flow"
+  },
+  "trigger": {
+    "type": "social_comment",
+    "match": "contains",
+    "keywords": [
+      "指南",
+      "zhinan"
+    ],
+    "posts": {
+      "【待补：post_id】": true
+    }
+  },
+  "flow": [
+    {
+      "kind": "social_reply",
+      "text": "私讯你了，记得看看 Requests 📩\n已经发给你啦，去私讯看看 🙏\n发了！没看到就去讯息请求找找 😊\n收到～指南在你的私讯里了 📥"
+    },
+    {
+      "kind": "social_dm",
+      "text": "嗨 {name} 🙏\n你要的《1岁到100岁运势指南》准备好了。\n点下面的按钮，我马上发给你 👇\n\n—林舒苑\nMaster Suyen Lim",
+      "branch_style": "button",
+      "branches": [
+        {
+          "id": "get",
+          "label": "发给我 📩",
+          "flow": [
+            {
+              "kind": "social_dm",
+              "text": "来了 {name} 🙌\n\n先找你自己出生年份的那一页。\n\n老师的 Live 和每月提醒，\n都先在 WhatsApp 公布 👇\n\n—林舒苑\nMaster Suyen Lim",
+              "buttons": [
+                {
+                  "text": "📥 领取指南",
+                  "kind": "url",
+                  "value": "<资料链接>"
+                },
+                {
+                  "text": "💬 加入 WhatsApp",
+                  "kind": "url",
+                  "value": "<WhatsApp Community 链接>"
+                }
+              ]
+            },
+            {
+              "kind": "tag",
+              "tag": "ig_yunshi_guide"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

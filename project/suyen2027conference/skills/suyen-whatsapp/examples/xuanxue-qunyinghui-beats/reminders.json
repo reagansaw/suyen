@@ -1,0 +1,30 @@
+{
+  "reply_gate": true,
+  "community_url": "【待补：WhatsApp Community 链接】",
+  "overrides": {
+    "A_GATE": "嗨 {name}，收到你的报名了 🙏\n\n《玄学群英会》线上特别分享\n12月1日（星期二）晚上 9:00\n位置帮你留好了。\n\n12 月天冲地克，\n要防什么、怎么保护自己和家人，\n那天晚上我会用白话讲清楚。\n\n回我一个 YES，\n我马上把直播链接发给你，\n还有一份小礼物要送你 🎁\n\n（你回了我才知道号码是通的，\n当天的提醒你才收得到。）\n\n—林舒苑\nMaster Suyen Lim",
+    "AY": "太好了 {name} 🙌\n\n📍 直播在 FB 私人群组，\n先点进去申请加入：\n{zoom}\n\n🎁 小礼物在 WhatsApp Community 领，\n直播前的提醒也都发在里面：\n{community}\n\n12月1日（星期二）晚上 9:00 见。\n准备好纸笔，\n还有你现在最担心的 1 件事。\n\n—林舒苑\nMaster Suyen Lim",
+    "B": "嗨 {name}，明天晚上就是了。\n\n《玄学群英会》线上特别分享\n12月1日（星期二）晚上 9:00\n\n12 月上面在变、下面在摇，\n最难防的是两样一起来。\n明天我会讲，\n先看清什么、先准备什么。\n\n不是理论，\n是你听完就可以做的东西。\n\n会来的话，按下面「YES 我会出席」👇\n我把进场链接再发你一次。\n\n—林舒苑\nMaster Suyen Lim",
+    "C": "嗨 {name}，再过 3 个小时，\n《玄学群英会》就开始了。\n\n今晚来的人，\n会知道 12 月要防什么、\n怎么保护自己和家人，\n还有 2027 的先机在哪里。\n\n现在先把 FB 群组打开，\n晚上 9 点直接进来 👇\n{zoom}\n\n里面见！\n—林舒苑\nMaster Suyen Lim",
+    "C2": "嗨 {name}，我们开始了 🔥\n\n《玄学群英会》现在直播中。\n天冲地克的白话解释，\n就是一开场讲的。\n\n还没进来的话，现在点 👇\n{zoom}\n\n里面见。\n—林舒苑\nMaster Suyen Lim"
+  },
+  "beats": {
+    "C": {
+      "h": -3
+    },
+    "C2": {
+      "h": 0
+    },
+    "F1": false,
+    "F2": false,
+    "F3": false
+  },
+  "reminder_buttons": {
+    "A_GATE": "quick",
+    "B": "quick"
+  },
+  "reminder_btn_text": {
+    "A_GATE": "YES",
+    "B": "YES 我会出席"
+  }
+}
