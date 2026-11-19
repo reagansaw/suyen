@@ -16,6 +16,7 @@
 | 竖版片尾 CTA（留言「正能量」，不带 BGM） | skill `suyen-cta`（`.claude/skills/suyen-cta/`） |
 | 任何新片子要定结构／镜头／节奏（含 webinar、长片） | skill `selling-video-craft`（效果型三段框架、有效画面、赛马） |
 | 要写给模型的指令（口播、分镜、AI 生成画面、复刻爆款） | skill `ai-prompt-formula`（六要素公式、七大专家、Seedance 提示词） |
+| 给一条参考视频，反推成 Suyen 或学员自己的同款 Seedance 2.0 提示词、搭 studio 画布 | skill `seedance-reverse`（`.claude/skills/seedance-reverse/`；逐镜头拆解、换人物 / 产品 / 场景、导演运镜逻辑、studio 大脑快照。示范素材有 Suyen 真声和照片，不进 git） |
 | Suyen 的素材 / 原片 / 品牌档在哪个 Drive | `project/suyen2027conference/DRIVE.md`（链接总表，新链接也贴这里） |
 | 哪一支原片是什么（C0001…） | `project/suyen2027conference/原片目录.md`（写法 `[题目] (C0001)`） |
 | 这一支内容片用什么 style | `project/suyen2027conference/pipeline/内容片-style.md`（开工前先定，版式库插件 `reagansaw/jingjian`） |
