@@ -50,7 +50,7 @@ export const SuyenC53b: React.FC = () => {
         <Sfx at={R(182.94)} s="猛然一惊" /><Sfx at={R(187.78)} s="回忆-刷一下" /><Sfx at={R(216.80)} s="木鱼敲击回响音效" />
       </>}>
       <Flash at={R(157.60)} color="#C8202E" k={0.4} />
-      <QuestionCard at={R(74.24)} line2At={R(79.46)} until={R(82.10)} l1="什么样的八字、什么样的盘" l2="明年只要一快，一定出事情？" />
+      <QuestionCard at={R(74.24)} line2At={R(80.85)} until={R(82.10)} l1="什么样的八字、什么样的盘" l2="明年只要一快，一定出事情？" />
       <TopBanner at={R(85.70)} until={CUTT} kicker="林舒苑老师 · 2027 生肖提醒" title="鼠 · 牛 · 羊 要稳住" />
       <ZodiacTiles at={R(85.70)} until={R(93.00)} y={830} size={190} items={[{ ch: '鼠', zhi: '子', at: R(86.60) }, { ch: '牛', zhi: '丑', at: R(91.22) }, { ch: '羊', zhi: '未', at: R(92.50) }]} />
       <IndexPanel at={R(109.60)} until={IDX_OFF} title="生肖鼠 · 4 年" width={300} slots={[{ tag: '2026', label: '冲太岁', at: R(113.28) }, { tag: '2027', label: '六害', at: R(133.34) }, { tag: '2028', label: '水局', at: R(168.40) }, { tag: '2029', label: '破', at: R(179.92) }]} pulse={[R(162.08), R(163.40)]} />

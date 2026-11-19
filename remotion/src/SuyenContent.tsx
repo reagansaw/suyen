@@ -82,7 +82,7 @@ const Sfx: React.FC<{ at: number; s: string; vol?: number; len?: number }> = ({ 
 /* ---------- 每支的设定 ---------- */
 type Face = { x: number[]; y: number[] };
 type Ep = { id: string; dur: number; face: Face; tail: number };   // tail = 讲完后接的 CTA 长度
-const CTA_DUR = 9.3;
+const CTA_DUR = 10.0;   // 9.3 → 11.0 → 10.0：Reagan 11-14「CTA 剪成 10 秒就好」（语音 8.76s，留言气泡「正能量 ✦」发出后多停 1.5 秒）
 const CTA_CLONE = false; // Reagan 10-31：克隆声「不像」→ CTA 全用她自己的声音（cta_vo.wav）   // 克隆声「想参加的，马上在留言打上正能量」做好后改 true（public/suyenc/cta_clone.wav）
 const EPS: Record<string, Ep> = {
   c55: { id: 'c55', dur: 45.95, face: FC_C55 as any, tail: CTA_DUR },
@@ -801,27 +801,28 @@ const CtaEnd: React.FC<{ at: number }> = ({ at }) => {
   // Reagan 10-31：只要一张卡放中间；不提 Allianz（卡上没标签，也不用有 Allianz 字样的镜头）
   const t = useT();
   if (t < at) return null;
-  const lt = t - at, u = ease(t, at, 0.35);
+  const lt = t - at;   // Reagan 11-14：CTA 一开始直接硬切（不要淡入把她的脸盖成半透明 + 卡片从脸上弹出来）
   const line = lt < 2.15 ? ['3 天完全免费', 0] : lt < 5.15 ? ['2027 奇门战略大会', 2.15] : lt < 7.1 ? ['马上报名', 5.15] : ['留言打上「正能量」', 7.1];
   const lk = pop(t, at + (line[1] as number), 0.3);
   const word = '正能量', typeA = 7.2, typeB = 8.25, sent = 8.5;
   const typed = word.slice(0, Math.max(0, Math.min(3, Math.floor(((lt - typeA) / (typeB - typeA)) * 3 + 0.001))));
   const caret = lt < sent && Math.floor(lt * 3) % 2 === 0;
   const bub = lt >= sent ? pop(t, at + sent, 0.35) : 0;
-  const clips = ['s_teach', 'a_phones', 's_class'], seg = 3.1;
+  // s_teach 2.8 秒之后镜头摇到穿浅蓝衬衫的男生（Reagan 11-14 不要）→ 第一段只播到 2.75 秒就切下一段
+  const clips = ['s_teach', 'a_phones', 's_class'], starts = [0, 2.6, 5.7];   // s_teach 只播 0–2.78 秒；下一段 2.6 起淡入 0.18 秒（到 2.78 完成），男生 2.82 秒才出现
   return (
-    <AbsoluteFill style={{ opacity: u }}>
+    <AbsoluteFill>
       <AbsoluteFill style={{ background: `linear-gradient(180deg, ${ROSE} 0%, ${ROSE_DEEP} 100%)` }}><Seigaiha o={0.12} /></AbsoluteFill>
       <div style={{ position: 'absolute', left: 60, top: 110, fontFamily: LTH, fontSize: 58, color: CREAM, letterSpacing: '0.04em', lineHeight: 1 }}>MASTER SUYEN LIM</div>
       <Img src={staticFile('suyenc/suyenlogo-light.png')} style={{ position: 'absolute', right: 40, top: 40, width: 170, height: 170 }} />
       <div style={{ position: 'absolute', left: 0, width: W, top: 330, textAlign: 'center', fontFamily: LTH, fontSize: (line[1] as number) === 2.15 ? 100 : 90, color: WHITE,
         textShadow: '0 4px 14px rgba(0,0,0,0.35)', transform: `scale(${lk})`, letterSpacing: '0.04em' }}>{line[0]}</div>
       {/* 中间一张现场卡（B-roll）*/}
-      <div style={{ position: 'absolute', left: 40, top: 520, width: 1000, height: 560, transform: `scale(${pop(t, at, 0.45)}) rotate(-1.2deg)`, borderRadius: 24, overflow: 'hidden', border: `8px solid ${CREAM}`, background: '#000' }}>
+      <div style={{ position: 'absolute', left: 40, top: 520, width: 1000, height: 560, transform: 'rotate(-1.2deg)', borderRadius: 24, overflow: 'hidden', border: `8px solid ${CREAM}`, background: '#000' }}>
         {clips.map((c, i) => (
-          <Sequence key={c} from={f(at + i * seg)} durationInFrames={f(i === clips.length - 1 ? 30 : seg)} layout="none">
+          <Sequence key={c} from={f(at + starts[i])} durationInFrames={f(i === clips.length - 1 ? 30 : Math.min(3.2, starts[i + 1] - starts[i] + 0.18))} layout="none">
             <OffthreadVideo src={staticFile(`suyenc/ev/${c}.mp4`)} muted style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
-              opacity: interpolate(lt - i * seg, [0, 0.18], [i ? 0 : 1, 1], clamp) }} />
+              opacity: interpolate(lt - starts[i], [0, 0.18], [i ? 0 : 1, 1], clamp) }} />
           </Sequence>
         ))}
       </div>

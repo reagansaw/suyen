@@ -45,7 +45,7 @@ export const SuyenC56: React.FC = () => {
         <Sfx at={R(122.64)} s="猛然一惊" /><Sfx at={R(127.52)} s="正确" /><Sfx at={R(130.84)} s="正确" /><Sfx at={R(131.54)} s="拍照声2" />
       </>}>
       <GrowthCurves at={R(33.30)} second={R(36.86)} until={R(39.60)} y={980} l1="现在的你" l2="第二曲线" />
-      <QuestionCard at={R(22.14)} line2At={R(23.94)} until={R(28.70)} l1="中年人来到 40 岁" l2="盘和八字出现什么，明年可以冲？" />
+      <QuestionCard at={R(25.96)} line2At={R(26.9)} until={R(28.70)} l1="中年人来到 40 岁" l2="盘和八字出现什么，明年可以冲？" />
       <TopBanner at={R(40.48)} until={CUTT} kicker="林舒苑老师 · 35 岁以上" title="第二道成长曲线" />
       <Seal text="生门" at={R(45.72)} until={R(49.70)} x={190} y={760} size={190} />
       <Seal text="开门" at={R(46.76)} until={R(49.70)} x={190} y={980} size={190} rot={4} />

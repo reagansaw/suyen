@@ -236,7 +236,7 @@ def hookblocks(hookname, hid, endval, m):
     hits = [m(float(v)) for v in cam.group(1).split(',')]
     pushes = [[m(a), m(b), z] for a, b, z in json.loads(cam.group(2))]
     return sc(blk('behind', 'front')), sc(blk('front', 'sfx')), sc(blk('sfx', 'subs')), hits, pushes
-# ---------- IC2 集数：钩子（约 15 秒、1.2 倍速）+ Reagan 给的新 intro+CTA 成片（照原样，不叠字、不加字幕、不加 BGM）----------
+# ---------- IC2 集数：钩子（约 15 秒、1.2 倍速）+ Reagan 给的新 intro+CTA 成片（照原样，不叠字、不加字幕；11-04 起 BGM 一路放到底）----------
 # 字、B-roll、音效只放在钩子里；IC2 一开始 Frame 的 asisFrom 就把人后层 / 抠像 / 前景 / 字幕全部关掉，只剩原片
 def ic2_start(n): return next(p['start'] for p in pieces(n)['pieces'] if p['src'] == 'IC2')
 # 玫红模式（Reagan 11-01：「玫红 skill 但改横版」）：左上标题条的 kicker + 题目

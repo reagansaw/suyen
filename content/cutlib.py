@@ -7,7 +7,7 @@ import json, os, subprocess, sys, re
 H = os.path.dirname(os.path.abspath(__file__))
 RAWDIR = os.environ.get('SUYEN_RAW') or os.path.join(H, '..', 'raw')   # 原片 C00xx.MP4 放这里（或 export SUYEN_RAW）
 PUB = os.path.join(H, '..', 'remotion', 'public', 'suyenc')
-SIL_DB, MIN_GAP, PAD = -30, 0.16, 0.06
+SIL_DB, MIN_GAP, PAD = float(os.environ.get('SUYEN_SIL_DB', -30)), 0.16, 0.06   # 安静的原片（底噪高）用 SUYEN_SIL_DB=-26
 
 def run(cmd):
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -36,9 +36,14 @@ def build(src_id, pieces, out_id, speed=1.15):
     src = os.path.join(RAWDIR, f'{src_id}.MP4')
     subs = []   # (piece_idx, a, b)
     for i, p in enumerate(pieces):
-        for a, b in split(src, p[0], p[1]): subs.append((i, a, b))
+        if p[2].startswith('【访问员】'): subs.append((i, p[0], p[1]))   # 访问员提问：不删停顿（她在听、画面几乎不动，切碎了就像卡住）
+        else:
+            for a, b in split(src, p[0], p[1]): subs.append((i, a, b))
     # 每一段：select/aselect 只留没停顿的部分（对齐原片 59.94 格，音画不漂）→ 转正 → 30fps；段跟段再接起来 → 整支加速
-    FPS0 = 60000 / 1001
+    # 原片规格：C00xx 是横存 59.94fps（要 transpose=1 转正）；已经竖存的（宽<高，例如 D2027）不转、用它自己的帧率
+    pr = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,r_frame_rate', '-of', 'csv=p=0', src], capture_output=True, text=True).stdout.strip().split(',')
+    portrait = int(pr[0]) < int(pr[1]); fn, fd = pr[2].split('/'); FPS0 = int(fn) / int(fd)
+    TR = '' if portrait else 'transpose=1,'
     snap = lambda x: round(round(x * FPS0) / FPS0, 4)
     subs = [(i, snap(a), snap(b)) for i, a, b in subs]
     tmp, pdur = [], {}
@@ -48,7 +53,7 @@ def build(src_id, pieces, out_id, speed=1.15):
         lo = rng[0][0]; hi = rng[-1][1]
         cond = '+'.join(f'gte(t\\,{a - lo:.4f})*lt(t\\,{b - lo:.4f})' for a, b in rng)
         o = f'{H}/_p{pi}.mov'
-        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,transpose=1,scale=1080:1920:flags=lanczos,setsar=1,fps=30[v];"
+        fc = (f"[0:v]select='{cond}',setpts=N/({FPS0:.6f})/TB,{TR}scale=1080:1920:flags=lanczos,setsar=1,fps=30[v];"
               f"[0:a]aselect='{cond}',asetpts=N/SR/TB,aresample=48000[a]")
         run(['nice', '-n', '10', 'ffmpeg', '-v', 'error', '-y', '-threads', '2', '-ss', f'{lo}', '-to', f'{hi + 0.05}', '-i', src, '-filter_complex', fc,
              '-map', '[v]', '-map', '[a]', '-ac', '1', '-c:v', 'libx264', '-crf', '15', '-preset', 'fast', '-pix_fmt', 'yuv420p', '-c:a', 'pcm_s16le', '-ar', '48000', o])
